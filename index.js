@@ -34,12 +34,13 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 
 // Router
-const authRouter = require('./src/routes/authRouters')
-app.use('/auth', authRouter)
-
 app.get('/', (req, res) => {
     res.send('ok')
 })
+
+const authRouter = require('./src/routes/authRouters')
+app.use('/auth', authRouter)
+
 
 // Running test
 app.listen(portServer,() => {
