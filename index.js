@@ -1,5 +1,4 @@
 // Call all library
-const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
@@ -29,18 +28,20 @@ app.use(cors({
     credentials: true,
     allowedHeaders: ['Content-Type', 'Autorization']
 }))
-app.use(express.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(express.json());
+
+// Gunakan express.urlencoded() sebagai middleware untuk mengurai data x-www-form-urlencoded dari body permintaan
+app.use(express.urlencoded({ extended: true }));
 
 
 // Router
-app.get('/', (req, res) => {
-    res.send('ok')
-})
-
 const authRouter = require('./src/routes/authRouters')
 app.use('/auth', authRouter)
 
+app.get('/', (req, res) => {
+    res.send('ok')
+})
 
 // Running test
 app.listen(portServer,() => {

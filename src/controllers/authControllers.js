@@ -3,6 +3,7 @@ const bcyrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const signUp = async (req, res) => {
+    console.log('1')
     const { email_consumer, consumer_name, gender, telephone_consumer, password, consumer_id} = req.body
     try {
         const register = await Consumer.findOne({ email_consumer })
