@@ -37,6 +37,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const authRouter = require('./src/routes/authRouters')
 app.use('/auth', authRouter)
 
+app.get('/', (req, res) => {
+    res.send('ok')
+})
 
 // Running test
 app.listen(portServer,() => {
