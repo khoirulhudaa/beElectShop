@@ -11,9 +11,9 @@ const ConsumerSchema = new mongoose.Schema({
         unique: true,
         validate: {
             validator: function(value) {
-            // Use a regular expression to validate the email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(value);
+                // Use a regular expression to validate the email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(value);
             },
             message: 'Invalid email format',
         }
@@ -33,4 +33,5 @@ const ConsumerSchema = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('consumer', ConsumerSchema)
+const consumerModel = mongoose.model('consumer', ConsumerSchema)
+module.exports = consumerModel

@@ -27,10 +27,10 @@ const signUp = async (req, res) => {
 }
 
 const signIn = async (req, res) => {
-    const {email_consumer, password} = req.body
     try {
+        const {email_consumer, password} = req.body
         const consumer = Consumer.findOne({ email_consumer })
-        if(!emailConsumer)return res.json({ status: 404, message: 'User not found!' })
+        if(!consumer) return res.json({ status: 404, message: 'User not found!' })
 
         bcrpt.compare(password, consumer.password, (err, isMatch) => {
             if(err) return res.json({ status: 500, message: 'Internal server error!' })
@@ -45,6 +45,6 @@ const signIn = async (req, res) => {
 } 
 
 module.exports = {
-    signUp,
-    signIn
+    signIn,
+    signUp
 }

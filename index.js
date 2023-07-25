@@ -29,19 +29,29 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Autorization']
 }))
 
-app.use(express.json());
 
 // Gunakan express.urlencoded() sebagai middleware untuk mengurai data x-www-form-urlencoded dari body permintaan
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// Router
+// Custom routes
 const authRouter = require('./src/routes/authRouters')
-app.use('/auth', authRouter)
+const productRouter = require('./src/routes/productRouters')
+const shopRouter = require('./src/routes/shopRouters')
+const historyRouter = require('./src/routes/historyRouters')
 
+app.use('/auth', authRouter)
+app.use('/product', productRouter)
+app.use('/shop', shopRouter)
+app.use('/history', historyRouter)
+
+
+// Default route
 app.get('/', (req, res) => {
     res.send('ok')
 })
+
 
 // Running test
 app.listen(portServer,() => {
