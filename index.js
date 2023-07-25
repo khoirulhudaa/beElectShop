@@ -35,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// Custom routes
+// Routers
 const authRouter = require('./src/routes/authRouters')
 const productRouter = require('./src/routes/productRouters')
 const shopRouter = require('./src/routes/shopRouters')

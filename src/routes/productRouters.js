@@ -1,8 +1,8 @@
 const express = require('express')
-const { getAllProducts, removeProducts } = require('../handlers/product/productHandler')
+const { getAllProducts, removeProductById } = require('../controllers/productControllers')
 const router = express.Router()
 
 router.get('/', getAllProducts)
-router.delete('/:id', removeProducts)
+router.delete('/:id', removeProductById)
 
 module.exports = router

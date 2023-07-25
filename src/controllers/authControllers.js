@@ -46,7 +46,18 @@ const signIn = async (req, res) => {
     }
 } 
 
+// Mengambil daftar semua pengguna
+const getAllUsers = async (req, res) => {
+    try {
+      const users = await User.find();
+      return res.json({users});
+    } catch (error) {
+      return res.json({ message: error, status: 500 });
+    }
+  };
+
 module.exports = {
     signIn,
-    signUp
+    signUp,
+    getAllUsers
 }
