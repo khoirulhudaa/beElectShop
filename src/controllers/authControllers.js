@@ -5,12 +5,13 @@ const jwt = require('jsonwebtoken')
 const signUp = async (req, res) => {
     try {
         const { email_consumer, consumer_name, gender, telephone_consumer, password, consumer_id} = req.body
+       
         const register = await Consumer.findOne({ email_consumer })
         if(register) return res.json({ status: 400, message: 'Email alredy exist!' })
 
         const salt = await bcyrpt.genSalt(10)
         const passwordHashGenerate = await bcyrpt.hash(password, salt)
-        const newConsumer = new Consumer.create({
+        const newConsumer = new Consumer({
             consumer_name,
             email_consumer,
             password: passwordHashGenerate,
@@ -18,7 +19,7 @@ const signUp = async (req, res) => {
             consumer_id,
             telephone_consumer
         })
-        
+
         await newConsumer.save()
         return res.json({ status: 200, message: 'Success signup!' })
     } catch (error) {
