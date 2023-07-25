@@ -2,6 +2,7 @@ const Consumer = require('../models/userModel')
 const bcyrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+
 const signUp = async (req, res) => {
     try {
         const { email_consumer, consumer_name, gender, telephone_consumer, password, consumer_id} = req.body

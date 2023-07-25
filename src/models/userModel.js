@@ -33,5 +33,4 @@ const ConsumerSchema = new mongoose.Schema({
     },
 })
 
-const consumerModel = mongoose.model('consumer', ConsumerSchema)
-module.exports = consumerModel
+module.exports = mongoose.model('consumer', ConsumerSchema)

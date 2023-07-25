@@ -3,6 +3,7 @@ const consumerModel = require("../../models/userModel")
 const bcyrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const getById = require("../../services/getById")
+const User = require('../models/User');
 
 const signUp = async (req, res) => {
     try {
@@ -54,7 +55,17 @@ const signIn = async (req, res) => {
     }
 }
 
+const getAllUsers = async (req, res) => {
+    try {
+      const users = await User.find();
+      return res.json({users});
+    } catch (error) {
+      return res.json({ message: error, status: 500 });
+    }
+};
+
 module.exports = {
     signUp,
-    signIn
+    signIn,
+    getAllUsers
 }
