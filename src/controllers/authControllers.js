@@ -1,6 +1,7 @@
 const Consumer = require('../models/userModel')
 const bcyrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const User = require('../models/User')
 
 
 const signUp = async (req, res) => {
