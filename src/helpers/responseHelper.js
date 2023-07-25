@@ -1,5 +1,5 @@
-const sendResponse = (res, status, data) => {
-    return res.status(status).json(data)
+const sendResponse = (res, status, data, message) => {
+    return res.status(status).json({data, message})
 }
 
 const sendError = (res, status, error, message) => {
