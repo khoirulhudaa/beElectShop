@@ -3,7 +3,7 @@ const consumerModel = require("../../models/userModel")
 const bcyrpt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const getById = require("../../services/getById")
-const User = require('../models/User');
+const User = require('../../models/User');
 
 const signUp = async (req, res) => {
     try {
