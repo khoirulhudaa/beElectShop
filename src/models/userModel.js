@@ -34,7 +34,7 @@ const ConsumerSchema = new mongoose.Schema({
     telephone_consumer: {
         type: String,
         required: true,
-        maxLe
+        maxLength: 13
     }
 })
 
