@@ -31,6 +31,11 @@ const ConsumerSchema = new mongoose.Schema({
         required: true,
         default: 'Male'
     },
+    telephone_consumer: {
+        type: String,
+        required: true,
+        maxLe
+    }
 })
 
 module.exports = mongoose.model('consumer', ConsumerSchema)

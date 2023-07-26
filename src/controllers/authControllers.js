@@ -1,5 +1,5 @@
 const Consumer = require('../models/userModel')
-const bcyrpt = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
@@ -9,10 +9,10 @@ const signUp = async (req, res) => {
         const { email_consumer, consumer_name, gender, telephone_consumer, password, consumer_id} = req.body
        
         const register = await Consumer.findOne({ email_consumer })
-        if(register) return res.json({ status: 400, message: 'Email alredy exist!' })
+        if(register) return res.json({ status: 400, message: 'Email already exist!' })
 
-        const salt = await bcyrpt.genSalt(10)
-        const passwordHashGenerate = await bcyrpt.hash(password, salt)
+        const salt = await bcrypt.genSalt(10)
+        const passwordHashGenerate = await bcrypt.hash(password, salt)
         const newConsumer = new Consumer({
             consumer_name,
             email_consumer,
