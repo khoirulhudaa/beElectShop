@@ -10,7 +10,7 @@ app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Autorization']
+    allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
 // Get variable environment
