@@ -1,7 +1,7 @@
 const shopModel = require('../models/shopModel')
 const bcrypt = require('bcryptjs')
 
-const createShop = async (res, req) => {
+const createShop = async (req, res) => {
     try {
         // Ambil semua data yang dikirim oleh client
         const { seller_name, email_seller, password, telephone_seller } = req.body 
