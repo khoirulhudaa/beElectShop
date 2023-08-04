@@ -7,7 +7,8 @@ const ShopSchema = new mongoose.Schema({
     },
     shop_name: {
         type: String,
-        required: true
+        required: true,
+        default: ''
     },
     email_seller: {
         type: String,
@@ -28,7 +29,8 @@ const ShopSchema = new mongoose.Schema({
     },
     shop_address: {
         type: String,
-        required: true
+        required: true,
+        default: ''
     },
     foto_shop: {
         type: String,
@@ -37,11 +39,13 @@ const ShopSchema = new mongoose.Schema({
     },
     motto_shop: {
         type: String,
-        required: true
+        required: true,
+        default: ''
     },
     description_shop: {
         type: String,
-        required: true
+        required: true,
+        default: ''
     },
     telephone_seller: {
         type: String,

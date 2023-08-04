@@ -8,8 +8,8 @@ const app = express()
 // 3 on use start (cors, express.json(), bodyParser.urlencoded)
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST', 'OPTIONS'],
     credentials: true,
+    methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
