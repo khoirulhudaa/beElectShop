@@ -5,11 +5,17 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 const app = express()
 
+// 3 on use start (cors, express.json(), bodyParser.urlencoded)
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Autorization']
+}))
 
 // Get variable environment
 const portServer = process.env.PORT_SERVER_RUNNING
 const urlMongose = process.env.URL_MONGOOSE
-
 
 // Connected on database ft mongodb
 mongoose.connect(urlMongose, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,16 +25,6 @@ mongoose.connect(urlMongose, { useNewUrlParser: true, useUnifiedTopology: true }
 .catch((error) => {
     console.log(error)
 })
-
-
-// 3 on use start (cors, express.json(), bodyParser.urlencoded)
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST'],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Autorization']
-}))
-
 
 // Gunakan express.urlencoded() sebagai middleware untuk mengurai data x-www-form-urlencoded dari body permintaan
 app.use(express.json());
