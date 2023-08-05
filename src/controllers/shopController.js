@@ -8,7 +8,7 @@ const createShop = async (req, res) => {
         const { seller_name, email_seller, password, telephone_seller } = req.body 
         
         // Cek email apakah sudah ada ?
-        const equalEmail = await shopModel.findOne({email})
+        const equalEmail = await shopModel.findOne({email_seller})
 
         if(equalEmail) return res.json({ status: 401, message: 'Email already exist!' })
         if(password.length < 5) return res.json({ status: 500, message: 'Min character length is 6' })

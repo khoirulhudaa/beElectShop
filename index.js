@@ -8,19 +8,19 @@ const app = express()
 // 3 on use start (cors, express.json(), bodyParser.urlencoded)
 app.use(cors({
     origin: '*',
-    credentials: true,
     methods: ['GET', 'POST'],
+    credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
 // Get variable environment
 const portServer = process.env.PORT_SERVER_RUNNING
-const urlMongose = process.env.URL_MONGOOSE
+const urlMongoose = process.env.URL_MONGOOSE
 
 // Connected on database ft mongodb
-mongoose.connect(urlMongose, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(urlMongoose, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
-    console.log('Successfuly connect on database')
+    console.log('Successfully connect on database')
 })
 .catch((error) => {
     console.log(error)
