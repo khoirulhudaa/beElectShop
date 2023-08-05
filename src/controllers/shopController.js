@@ -1,5 +1,6 @@
 const shopModel = require('../models/shopModel')
 const bcrypt = require('bcryptjs')
+const crypto = require('crypto');
 
 const createShop = async (req, res) => {
     try {
@@ -16,15 +17,37 @@ const createShop = async (req, res) => {
         const hash = await bcrypt.genSalt(10)
         const newPasswordGenerate =  await bcrypt.hash(password, hash)
 
+        // Mendapatkan karakter acak untuk shop_id
+        function generateRandomDifficultString(length) {
+            const difficultCharacters = "qzxyj23456789!@#$%^&*()_+[]{}|;:,.<>?";
+            const randomBytes = crypto.randomBytes(length);
+            const result = new Array(length);
+          
+            for (let i = 0; i < length; i++) {
+              result[i] = difficultCharacters[randomBytes[i] % difficultCharacters.length];
+            }
+          
+            return result.join('');
+          }
+          
+          const randomDifficultString = generateRandomDifficultString(6);
+
+        const equalId = await shopModel.findOne({ shop_id: randomDifficultString })
+        if(equalId) {
+            const newRandom = generateRandomDifficultString(6)
+            return newRandom
+        }
+
         // Kirim data ke schema mongodb/database
         const create = await new shopModel({
+            shop_id: randomDifficultString,
             seller_name,
             email_seller,
             password: newPasswordGenerate,
             telephone_seller
         })
 
-        if(create) return res.josn({ status: 200, message: 'Successfully', data: create })
+        if(create) return res.json({ status: 200, message: 'Successfully', data: create })
         
     } catch (error) {
         return res.json({ status: 500, mesage: error.message })
