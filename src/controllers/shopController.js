@@ -14,8 +14,8 @@ const createShop = async (req, res) => {
         if(password.length < 5) return res.json({ status: 500, message: 'Min character length is 6' })
 
         // Mengubah password menjadi character random
-        const hash = await bcrypt.genSalt(10)
-        const newPasswordGenerate =  await bcrypt.hash(password, hash)
+        const salt = await bcrypt.genSalt(10)
+        const newPasswordGenerate =  await bcrypt.hash(password, salt)
 
         // Mendapatkan karakter acak untuk shop_id
         function generateRandomDifficultString(length) {

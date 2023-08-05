@@ -6,12 +6,7 @@ require('dotenv').config()
 const app = express()
 
 // 3 on use start (cors, express.json(), bodyParser.urlencoded)
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST'],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))
+app.use(cors())
 
 // Get variable environment
 const portServer = process.env.PORT_SERVER_RUNNING
@@ -26,10 +21,8 @@ mongoose.connect(urlMongoose, { useNewUrlParser: true, useUnifiedTopology: true 
     console.log(error)
 })
 
-// Gunakan express.urlencoded() sebagai middleware untuk mengurai data x-www-form-urlencoded dari body permintaan
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 // Routers
 const authRouter = require('./src/routes/authRouters')
