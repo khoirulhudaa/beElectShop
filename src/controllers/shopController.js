@@ -39,18 +39,19 @@ const createShop = async (req, res) => {
         }
 
         // Kirim data ke schema mongodb/database
-        const create = await new shopModel({
+        const create = new shopModel({
             shop_id: randomDifficultString,
             seller_name,
             email_seller,
             password: newPasswordGenerate,
             telephone_seller
         })
+        await create.save()
 
         if(create) return res.json({ status: 200, message: 'Successfully', data: create })
         
     } catch (error) {
-        return res.json({ status: 500, mesage: error.message })
+        return res.json({ status: 500, message: error })
     }
 }
 
@@ -58,7 +59,7 @@ const getAllShop = async (req, res) => {
     try {
         const { id_shop } = req.params
         const filter = {}
-        if(id_shop) filter.id_shop = id_shop 
+        if(id_shop) filter.shop_id = shop_id 
         
         const dataShop = await shopModel.find(filter)
         if(!dataShop) return res.json({ status: 404, message: 'Shop not found!' })
@@ -72,8 +73,8 @@ const getAllShop = async (req, res) => {
 
 const removeShopById = async (req, res) => {
     try {
-        const { id_shop } = req.query
-        const dataShopDelete = await shopModel.findByIdAndRemove(id_shop)
+        const { shop_id } = req.query
+        const dataShopDelete = await shopModel.findByIdAndRemove(shop_id)
 
         if(!dataShopDelete) return res.json({ status: 404, message: 'Shop not found!' })
 
