@@ -18,30 +18,23 @@ const createShop = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const newPasswordGenerate =  await bcrypt.hash(password, salt)
 
-        // Mendapatkan karakter acak untuk shop_id
-        function generateRandomDifficultString(length) {
-            const difficultCharacters = "qzxyj23456789!@#$%^&*()_+[]{}|;:,.<>?";
-            const randomBytes = crypto.randomBytes(length);
-            const result = new Array(length);
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
           
             for (let i = 0; i < length; i++) {
-              result[i] = difficultCharacters[randomBytes[i] % difficultCharacters.length];
+              const randomIndex = Math.floor(Math.random() * characters.length);
+              result += characters.charAt(randomIndex);
             }
           
-            return result.join('');
-          }
-          
-          const randomDifficultString = generateRandomDifficultString(6);
-
-        const equalId = await shopModel.findOne({ shop_id: randomDifficultString })
-        if(equalId) {
-            const newRandom = generateRandomDifficultString(6)
-            return newRandom
+            return result;
         }
+          
+          const randomString = generateRandomString(5);
 
         // Kirim data ke schema mongodb/database
         const create = new shopModel({
-            shop_id: randomDifficultString,
+            shop_id: randomString,
             seller_name,
             email_seller,
             password: newPasswordGenerate,
