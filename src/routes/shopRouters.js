@@ -1,9 +1,9 @@
 const express = require('express')
-const { removeShopById, getAllShop, createShop } = require('../controllers/shopController')
 const router = express.Router()
+const shopController = require('../controllers/shopController')
 
-router.post('/', createShop)
-router.get('/', getAllShop)
-router.delete('/:id', removeShopById)
+router.post('/', shopController.createShop)
+router.get('/', shopController.getAllShop)
+router.delete('/:id', shopController.removeShopById)
 
 module.exports = router

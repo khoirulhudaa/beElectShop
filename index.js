@@ -10,10 +10,10 @@ app.use(cors())
 
 // Get variable environment
 const portServer = process.env.PORT_SERVER_RUNNING
-const urlMongoose = process.env.URL_MONGOOSE
+// const urlMongoose = process.env.URL_MONGOOSE
 
 // Connected on database ft mongodb
-mongoose.connect(urlMongoose, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://dragme:HBXrSHZaJqemsDtW@cluster0.oadoa02.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log('Successfully connect on database')
 })

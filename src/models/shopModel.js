@@ -36,7 +36,7 @@ const ShopSchema = new mongoose.Schema({
         required: true,
         default: ''
     },
-    foto_shop: {
+    image_shop: {
         type: String,
         required: true,
         default: 'defaultShop.jpg'
