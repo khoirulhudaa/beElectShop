@@ -31,7 +31,7 @@ app.use('/shop', shopRouter)
 
 // Default route
 app.get('/', (req, res) => {
-    res.send('ok')
+    res.
 })
 
 
