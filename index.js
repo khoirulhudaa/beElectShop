@@ -25,21 +25,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routers
-const authRouter = require('./src/routes/authRouters')
-const productRouter = require('./src/routes/productRouters')
 const shopRouter = require('./src/routes/shopRouters')
-const historyRouter = require('./src/routes/historyRouters')
 
-app.use('/auth', authRouter)
-app.use('/product', productRouter)
 app.use('/shop', shopRouter)
-app.use('/history', historyRouter)
-
 
 // Default route
 app.get('/', (req, res) => {
     res.send('ok')
 })
+
 
 
 // Running test
