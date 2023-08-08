@@ -4,6 +4,6 @@ const shopController = require('../controllers/shopController')
 
 router.post('/', shopController.createShop)
 router.get('/', shopController.getAllShop)
-router.delete('/:id', shopController.removeShopById)
+router.post('/:id', shopController.removeShopById)
 
 module.exports = router

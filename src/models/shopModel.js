@@ -11,7 +11,6 @@ const ShopSchema = new mongoose.Schema({
     },
     shop_name: {
         type: String,
-        required: true,
         default: ''
     },
     email_seller: {
@@ -33,22 +32,18 @@ const ShopSchema = new mongoose.Schema({
     },
     shop_address: {
         type: String,
-        required: true,
         default: ''
     },
     image_shop: {
         type: String,
-        required: true,
         default: 'defaultShop.jpg'
     },
     motto_shop: {
         type: String,
-        required: true,
         default: ''
     },
     description_shop: {
         type: String,
-        required: true,
         default: ''
     },
     telephone_seller: {

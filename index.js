@@ -4,7 +4,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const app = express()
-const bodyParser = require('body-parser');
 
 // 3 on use start (cors, express.json(), bodyParser.urlencoded)
 app.use(cors())
@@ -22,8 +21,9 @@ mongoose.connect('mongodb+srv://dragme:HBXrSHZaJqemsDtW@cluster0.oadoa02.mongodb
     console.log(error)
 })
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 // Routers
 const shopRouter = require('./src/routes/shopRouters')
@@ -32,7 +32,7 @@ app.use('/shop', shopRouter)
 
 // Default route
 app.get('/', (req, res) => {
-    console.log('ok')
+    res.json({message: 'ok'})
 })
 
 // Running test

@@ -1,6 +1,5 @@
 const shopModel = require('../models/shopModel')
 const bcrypt = require('bcryptjs')
-const crypto = require('crypto');
 
 const createShop = async (req, res) => {
     try {
