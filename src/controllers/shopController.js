@@ -13,7 +13,7 @@ const createShop = async (req, res) => {
 
         if(equalEmail) return res.json({ status: 401, message: 'Email already exist!' })
         if(password.length < 5) return res.json({ status: 500, message: 'Min character length is 6' })
-        
+
         // Mengubah password menjadi character random
         const salt = await bcrypt.genSalt(10)
         const newPasswordGenerate =  await bcrypt.hash(password, salt)
@@ -55,7 +55,7 @@ const getAllShop = async (req, res) => {
         const filter = {}
         if(id_shop) filter.shop_id = shop_id 
         
-        const dataShop = await shopModel.find(filter)
+        const dataShop = await shopModel.find({filter})
         if(!dataShop) return res.json({ status: 404, message: 'Shop not found!' })
 
         return res.json({ status: 200, data: dataShop })
