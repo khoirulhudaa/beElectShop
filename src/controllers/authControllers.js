@@ -1,9 +1,10 @@
 const Consumer = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const shopModel = require('../models/shopModel')
 
 
-const signUp = async (req, res) => {
+const signUpConsumer = async (req, res) => {
     try {
         const { email_consumer, consumer_name, gender, telephone_consumer, password, consumer_id} = req.body
        
@@ -22,14 +23,14 @@ const signUp = async (req, res) => {
         })
 
         await newConsumer.save()
-        return res.json({ status: 200, message: 'Success signup!' })
+        return res.json({ status: 200, message: 'Success User!' })
 
     } catch (error) {
-        return res.json({ status: 500, message: error.message })
+        return res.json({ status: 500, message: 'Failed to signUp', error: error.message });
     }
 }
 
-const signIn = async (req, res) => {
+const signInConsumer = async (req, res) => {
     try {
         const {email_consumer, password} = req.body
         const consumer = Consumer.findOne({ email_consumer })
@@ -44,11 +45,31 @@ const signIn = async (req, res) => {
         })
         
     } catch (error) {
-        return res.json({ status: 500, message: error.message })
+        return res.json({ status: 500, message: 'Failed to signIn', error: error.message });
+    }
+} 
+
+const signInSeller = async (req, res) => {
+    try {
+        const {email_seller, password} = req.body
+        const seller = await shopModel.findOne({ email_seller })
+        if(!seller) return res.json({ status: 404, message: 'Seller not found!' })
+
+        bcrypt.compare(password, seller.password, (err, isMatch) => {
+            if(err) return res.json({ status: 500, message: 'Internal server error!' })
+            if(!isMatch) return res.json({ status: 401, message: 'Wrong password' })
+
+            const token = jwt.sign({ shop_id: seller.shop_id }, 'ElectShop', { expired: '1h' })
+            return res.json({ status: 200, token, data: seller })
+        })
+        
+    } catch (error) {
+        return res.json({ status: 500, message: 'Failed to signIn', error: error.message });
     }
 } 
 
 module.exports = {
-    signIn,
-    signUp,
+    signUpConsumer,
+    signUpConsumer,
+    signInSeller
 }
