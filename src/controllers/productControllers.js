@@ -2,10 +2,10 @@ const productModel = require("../models/productModel")
 
 const getAllProducts = async (req, res) => {
     try {
-        const { id_shop, product_size, product_brand, product_price, product_name } = req.query    
+        const { shop_id, product_size, product_brand, product_price, product_name } = req.query    
         let filter = {}
 
-        if(id_shop) filter.id_shop = id_shop
+        if(shop_id) filter.shop_id = shop_id
         if(product_size) filter.product_size = product_size
         if(product_brand) filter.product_brand = product_brand
         if(product_name) filter.product_name = { $regex: new RegExp(product_name, 'i') }
@@ -24,7 +24,7 @@ const getAllProducts = async (req, res) => {
 
 const removeProductById = async (req, res) => {
     try {
-        const { id_product } = req.query
+        const { product_id } = req.params
         const productDelete = await productModel.findByIdAndRemove(id_product)
 
         if(!productDelete) return res.json({ status: 404, message: 'Product not found!' })

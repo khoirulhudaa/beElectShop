@@ -66,7 +66,7 @@ const getAllShop = async (req, res) => {
 
 const removeShopById = async (req, res) => {
     try {
-        const { shop_id } = req.query
+        const { shop_id } = req.params
         const dataShopDelete = await shopModel.findByIdAndRemove(shop_id)
 
         if(!dataShopDelete) return res.json({ status: 404, message: 'Shop not found!' })
