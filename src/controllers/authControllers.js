@@ -23,6 +23,7 @@ const signUp = async (req, res) => {
 
         await newConsumer.save()
         return res.json({ status: 200, message: 'Success signup!' })
+
     } catch (error) {
         return res.json({ status: 500, message: error.message })
     }
@@ -41,6 +42,7 @@ const signIn = async (req, res) => {
             const token = jwt.sign({ consumer_id: consumer.consumer_id }, 'ElectShop', { expired: '1h' })
             return res.json({ status: 200, token, data: consumer })
         })
+        
     } catch (error) {
         return res.json({ status: 500, message: error.message })
     }
