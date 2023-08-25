@@ -15,7 +15,7 @@ const getAllProducts = async (req, res) => {
         if(product_price === 'asc') productResult = productResult.sort((a, b) => a.product_price - b.product_price)
         if(product_price === 'desc') productResult = productModel.sort((a, b) => b.product_price - a.product_price)
 
-        return res.json({ status: 200, data: productResult })
+        return res.json({ status: 200, data: productResult, message: 'Data semua produk' })
 
     } catch (error) {
         return res.json({ status: 500, message: error.message })
@@ -25,9 +25,9 @@ const getAllProducts = async (req, res) => {
 const removeProductById = async (req, res) => {
     try {
         const { product_id } = req.params
-        const productDelete = await productModel.findByIdAndRemove(id_product)
+        const productDelete = await productModel.findByIdAndRemove(product_id)
 
-        if(!productDelete) return res.json({ status: 404, message: 'Product not found!' })
+        if(!productDelete) return res.json({ status: 404, message:'Product not found!' })
 
         return res.json({ status: 200, message: 'Successfully delete product' })
         
@@ -38,7 +38,7 @@ const removeProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
     try {
-        const { product_name, shop_id, product_type, product_color, product_desc, product_foto, product_price, product_size, product_brand, quantity } = req.body  
+        const { product_name, shop_id, product_type, product_color, product_desc, product_image, product_price, product_size, product_brand, quantity } = req.body  
         
         // Periksa apakah sudah ada data dengan spesifikasi yang sama
         const equalProduct = await productModel.findOne({
@@ -70,22 +70,56 @@ const createProduct = async (req, res) => {
             product_type,
             product_color,
             product_desc,
-            product_img,
+            product_image,
             product_price,
             product_size,
             product_brand,
-            quantity
+            quantity,
+            product_image
+            
         })
         await createNewProduct.save()
         
         return res.json({ status: 200, message: 'Successfully add new product!' })
 
     } catch (error) {
-        return res.json({ sratus: 500, message: error })
+        return res.json({ status: 500, message: error })
+    }
+}
+
+const updateProduct = async (req, res) => {
+    try {
+        const { product_id } = req.params
+        const equalProduct = await productModel.findOne(product_id)
+
+        if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
+
+        const filter = { product_id }
+        const set = { 
+            product_name,
+            product_type,
+            product_color,
+            product_desc,
+            product_image,
+            product_price,
+            product_size,
+            product_brand,
+            quantity,
+            product_image
+         }
+        const update = await productModel.updateOne(filter, set)
+        if(!update) return res.json({ status: 500, message: 'Failed to update product!' })
+
+        return res.json({ status: 200, message: 'Successfully to update product!' })
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Failed to update product', error })
     }
 }
 
 module.exports = {
     getAllProducts,
-    removeProductById
+    createProduct,
+    removeProductById,
+    updateProduct
 }

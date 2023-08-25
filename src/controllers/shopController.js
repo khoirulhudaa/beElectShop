@@ -77,8 +77,40 @@ const removeShopById = async (req, res) => {
     }
 }
 
+const updateShop = async (req, res) => {
+    try {
+        const { shop_id } = req.params
+        const equalProduct = await productModel.findOne(shop_id)
+
+        if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
+
+        const filter = { shop_id }
+        const set = { 
+            shop_id,
+            seller_name,
+            shop_name,
+            email_seller,
+            password,
+            shop_address,
+            image_shop,
+            motto_shop,
+            description_shop,
+            telephone_seller,
+            followers
+         }
+        const update = await shopMOdel.updateOne(filter, set)
+        if(!update) return res.json({ status: 500, message: 'Failed to update product!' })
+
+        return res.json({ status: 200, message: 'Successfully to update product!' })
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Failed to update product', error })
+    }
+}
+
 module.exports = {
     getAllShop,
     removeShopById,
-    createShop
+    createShop,
+    updateShop
 }

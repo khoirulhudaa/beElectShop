@@ -5,6 +5,10 @@ const HistorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    email_consumer: {
+        type: String,
+        required: true
+    },
     seller_name: {
         type: String,
         required: true
@@ -13,19 +17,19 @@ const HistorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    id_shop: {
+    shop_id: {
         type: String,
         required: true
     },
-    id_consumer: {
+    consumer_id: {
         type: String,
         required: true
     },
-    id_product: {
+    product_id: {
         type: String,
         required: true
     },
-    rpoduct_price: {
+    product_price: {
         type: Number,
         required: true
     },
@@ -48,6 +52,10 @@ const HistorySchema = new mongoose.Schema({
     product_color: {
         type: String,
         required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now()
     }
 })
 
