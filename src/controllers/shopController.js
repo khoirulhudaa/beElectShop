@@ -117,6 +117,7 @@ const removeShopById = async (req, res) => {
 const updateShop = async (req, res) => {
     try {
         const { shop_id } = req.params
+        const { seller_name, shop_name, email_seller, password, shop_address, image_shop, motto_shop, description_shop, telephone_seller, followers } = req.body;
         const equalProduct = await shopModel.findOne({shop_id})
 
         if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
