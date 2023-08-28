@@ -123,7 +123,6 @@ const updateShop = async (req, res) => {
 
         const filter = { shop_id }
         const set = { 
-            shop_id,
             seller_name,
             shop_name,
             email_seller,
@@ -141,7 +140,7 @@ const updateShop = async (req, res) => {
         return res.json({ status: 200, message: 'Successfully to update product!' })
 
     } catch (error) {
-        return res.json({ status: 500, message: 'Failed to update product', error })
+        return res.json({ status: 500, message: 'Failed to update product', error: error.message })
     }
 }
 
