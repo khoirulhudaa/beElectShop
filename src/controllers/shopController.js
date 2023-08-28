@@ -117,7 +117,7 @@ const removeShopById = async (req, res) => {
 const updateShop = async (req, res) => {
     try {
         const { shop_id } = req.params
-        const equalProduct = await productModel.findOne({shop_id})
+        const equalProduct = await shopModel.findOne({shop_id})
 
         if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
 
