@@ -77,7 +77,7 @@ const createShop = async (req, res) => {
         if(create) return res.json({ status: 200, message: 'Successfully', data: create })
         
     } catch (error) {
-        return res.json({ status: 500, message: 'Failed to signup', error });
+        return res.json({ status: 500, message: 'Failed to signup', error: error.message });
     }
 }
 
@@ -93,20 +93,20 @@ const getAllShop = async (req, res) => {
         return res.json({ status: 200, data: dataShop })
 
     } catch (error) {
-        return res.json({ status: 500, message: 'Failed to get data', error });
+        return res.json({ status: 500, message: 'Failed to get data', error: error.message });
     }
 }
 
 const removeShopById = async (req, res) => {
     try {
         const { shop_id } = req.params
-        const dataShopDelete = await shopModel.deleteOne({shop_id})
+        const dataShopDelete = await shopModel.deleteOne(shop_id)
 
         if(!dataShopDelete) return res.json({ status: 404, message: 'Shop not found!' })
 
         return res.json({ status: 200, message: 'Successfully delete shop', data: dataShopDelete })
     } catch (error) {
-        return res.json({ status: 500, message: 'Failed to delete shop', error });
+        return res.json({ status: 500, message: 'Failed to delete shop', error: error.message });
     }
 }
 
