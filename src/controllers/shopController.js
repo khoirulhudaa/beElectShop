@@ -103,7 +103,7 @@ const removeShopById = async (req, res) => {
 
         const equalShopId = await shopModel.findOne({shop_id})
         if(!equalShopId) return res.json({ status: 404, message: 'Shop not found!' })
-        
+
         const dataShopDelete = await shopModel.deleteOne({shop_id})
 
         if(!dataShopDelete) return res.json({ status: 404, message: 'Shop not found!' })
@@ -117,7 +117,7 @@ const removeShopById = async (req, res) => {
 const updateShop = async (req, res) => {
     try {
         const { shop_id } = req.params
-        const equalProduct = await productModel.findOne(shop_id)
+        const equalProduct = await productModel.findOne({shop_id})
 
         if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
 
