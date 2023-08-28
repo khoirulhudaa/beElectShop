@@ -69,16 +69,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 / 8 }, // Batasan ukuran 5MB (bukan 5Mb)
+    limits: { fileSize: 5 * 1024 * 1024 / 8 }, // Batasan ukuran 5MB
     fileFilter: (req, file, cb) => {
-        const allowExtensions = ['jpg', 'png', 'jpeg']
-        const extname = path.extname(file.originalname) 
-        
-        if(allowExtensions.includes(extname)) cb(null, true)
-        const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.')
-        cb(error)
-    }
-})
+      const allowExtensions = ['.jpg', '.jpeg', '.png'];
+      const extname = path.extname(file.originalname);
+  
+      if (allowExtensions.includes(extname)) cb(null, true);
+      else {
+        const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
+        cb(error);
+      }
+    },
+  });
 
 const getAllShop = async (req, res) => {
     try {
