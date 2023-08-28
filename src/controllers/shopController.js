@@ -9,36 +9,6 @@ const createShop = async (req, res) => {
     try {
         // Ambil semua data yang dikirim oleh client
         const { seller_name, email_seller, password, telephone_seller } = req.body 
-
-
-        // Periksa apa ada folder /uploads jika tidak maka buat otomatis
-        const rootDir = path.resolve(__dirname, '..');
-        const uploadDir = path.join(rootDir, 'uploads')
-        fs.mkdirSync(uploadDir, {recursive: true})
-
-        // menetukan destinasi dan nama file gambar 
-        const storage = multer.diskStorage({
-            destination: (req, file, cb) => {
-                cb(null, uploadDir)
-            },
-            filename: (req, file, cb) => {
-                const extname = path.extname(file.originalname)
-                cb(null, `${Date.now()}${extname}`)
-            }
-        })
-
-        const upload = multer({
-            storage,
-            limits: { fileSize: 5 * 1024 * 1024 / 8 }, // Batasan ukuran 5MB (bukan 5Mb)
-            fileFilter: (req, file, cb) => {
-                const allowExtensions = ['jpg', 'png', 'jpeg']
-                const extname = path.extname(file.originalname) 
-                
-                if(allowExtensions.includes(extname)) cb(null, true)
-                const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.')
-                cb(error)
-            }
-        })
         
         // Cek apakah email sudah ada ?
         const equalEmail = await shopModel.findOne({email_seller})
@@ -80,6 +50,35 @@ const createShop = async (req, res) => {
         return res.json({ status: 500, message: 'Failed to signup', error: error.message });
     }
 }
+
+// Periksa apa ada folder /uploads jika tidak maka buat otomatis
+const rootDir = path.resolve(__dirname, '..');
+const uploadDir = path.join(rootDir, 'uploads')
+fs.mkdirSync(uploadDir, {recursive: true})
+
+// menetukan destinasi dan nama file gambar 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir)
+    },
+    filename: (req, file, cb) => {
+        const extname = path.extname(file.originalname)
+        cb(null, `${Date.now()}${extname}`)
+    }
+})
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 / 8 }, // Batasan ukuran 5MB (bukan 5Mb)
+    fileFilter: (req, file, cb) => {
+        const allowExtensions = ['jpg', 'png', 'jpeg']
+        const extname = path.extname(file.originalname) 
+        
+        if(allowExtensions.includes(extname)) cb(null, true)
+        const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.')
+        cb(error)
+    }
+})
 
 const getAllShop = async (req, res) => {
     try {
