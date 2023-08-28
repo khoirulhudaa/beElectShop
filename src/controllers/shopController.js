@@ -134,7 +134,7 @@ const updateShop = async (req, res) => {
             telephone_seller,
             followers
          }
-        const update = await shopMOdel.updateOne(filter, set)
+        const update = await shopModel.updateOne(filter, set)
         if(!update) return res.json({ status: 500, message: 'Failed to update product!' })
 
         return res.json({ status: 200, message: 'Successfully to update product!' })
