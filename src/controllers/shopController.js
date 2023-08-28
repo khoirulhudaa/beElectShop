@@ -52,9 +52,9 @@ const createShop = async (req, res) => {
 }
 
 // Periksa apa ada folder /uploads jika tidak maka buat otomatis
-const rootDir = path.resolve(__dirname, '..');
-const uploadDir = path.join(rootDir, 'uploads')
-fs.mkdirSync(uploadDir, {recursive: true})
+// const rootDir = path.resolve(__dirname, '..');
+// const uploadDir = path.join(rootDir, 'uploads')
+// fs.mkdirSync(uploadDir, {recursive: true})
 
 // menetukan destinasi dan nama file gambar 
 // const storage = multer.diskStorage({
