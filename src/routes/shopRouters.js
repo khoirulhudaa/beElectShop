@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const shopController = require('../controllers/shopController')
 
-router.post('/', shopController.upload.single('image'), shopController.createShop)
+router.post('/', shopController.createShop)
 router.get('/', shopController.getAllShop)
 router.post('/:shop_id', shopController.removeShopById)
 

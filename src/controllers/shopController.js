@@ -1,8 +1,8 @@
 const shopModel = require('../models/shopModel')
 const bcrypt = require('bcryptjs')
-const multer = require('multer')
-const fs = require('fs')
-const path = require('path')
+// const multer = require('multer')
+// const fs = require('fs')
+// const path = require('path')
 
 
 const createShop = async (req, res) => {
@@ -57,30 +57,30 @@ const uploadDir = path.join(rootDir, 'uploads')
 fs.mkdirSync(uploadDir, {recursive: true})
 
 // menetukan destinasi dan nama file gambar 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir)
-    },
-    filename: (req, file, cb) => {
-        const extname = path.extname(file.originalname)
-        cb(null, `${Date.now()}${extname}`)
-    }
-})
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, uploadDir)
+//     },
+//     filename: (req, file, cb) => {
+//         const extname = path.extname(file.originalname)
+//         cb(null, `${Date.now()}${extname}`)
+//     }
+// })
 
-const upload = multer({
-    storage,
-    limits: { fileSize: 5 * 1024 * 1024 / 8 }, // Batasan ukuran 5MB
-    fileFilter: (req, file, cb) => {
-      const allowExtensions = ['.jpg', '.jpeg', '.png'];
-      const extname = path.extname(file.originalname);
-  
-      if (allowExtensions.includes(extname)) cb(null, true);
-      else {
-        const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
-        cb(error);
-      }
-    },
-  });
+// const upload = multer({
+//     storage,
+//     limits: { fileSize: 5 * 1024 * 1024 }, // Batasan ukuran 5MB
+//     fileFilter: (req, file, cb) => {
+//         const allowExtensions = ['.jpg', '.jpeg', '.png'];
+//         const extname = path.extname(file.originalname);
+
+//         if (allowExtensions.includes(extname)) cb(null, true);
+//         else {
+//         const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
+//         cb(error);
+//         }
+//     },
+// });
 
 const getAllShop = async (req, res) => {
     try {
@@ -101,9 +101,9 @@ const getAllShop = async (req, res) => {
 const removeShopById = async (req, res) => {
     try {
         const { shop_id } = req.params
-        const dataShopDelete = await shopModel.deleteOne(shop_id)
+        const dataShopDelete = await shopModel.findByIdAndRemove(shop_id)
 
-        if(!dataShopDelete) return res.json({ status: 404, message: 'Shop not found!' })
+        if(!dataShopDelete) return res.json({ status: 404, message  : 'Shop not found!' })
 
         return res.json({ status: 200, message: 'Successfully delete shop', data: dataShopDelete })
     } catch (error) {
@@ -147,5 +147,5 @@ module.exports = {
     removeShopById,
     createShop,
     updateShop,
-    upload
+    // upload
 }
