@@ -120,6 +120,7 @@ const updateShop = async (req, res) => {
         const { shop_id } = req.params
         const { seller_name, shop_name, email_seller, password, shop_address, motto_shop, description_shop, telephone_seller, followers } = req.body;
         const image_shop = req.file ? req.file.filename : undefined
+        console.log('file:', image_shop)
 
         const equalShop = await shopModel.findOne({ shop_id })
         
@@ -142,7 +143,7 @@ const updateShop = async (req, res) => {
         }
 
         if(oldImage && oldImage !== 'defaultShop.jpg') {
-            fs.unlinkSync(`../uploads/${oldImage}`, err => {
+            fs.unlink(`../uploads/${oldImage}`, err => {
                 if(err) return res.json({ status: 500, message: 'Error to remove old image!', error: err.message })
             })
         }else {
