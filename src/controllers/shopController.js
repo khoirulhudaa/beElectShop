@@ -118,15 +118,15 @@ const updateShop = async (req, res) => {
     try {
         const { shop_id } = req.params
         const { seller_name, shop_name, email_seller, password, shop_address, image_shop, motto_shop, description_shop, telephone_seller, followers } = req.body;
-        const equalProduct = await shopModel.findOne({shop_id})
+        const equalShop = await shopModel.findOne({shop_id})
 
-        if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
+        if(!equalShop) return res.json({ status: 404, message: 'Product not found!' })
 
         const filter = { shop_id }
         const set = { 
             seller_name,
-            shop_name,
             email_seller,
+            shop_name,
             password,
             shop_address,
             image_shop,
@@ -136,9 +136,10 @@ const updateShop = async (req, res) => {
             followers
          }
         const update = await shopModel.updateOne(filter, set)
+
         if(!update) return res.json({ status: 500, message: 'Failed to update product!' })
 
-        return res.json({ status: 200, message: 'Successfully to update product!' })
+        return res.json({ status: 200, message: 'Successfully to update product!', data: equalShop })
 
     } catch (error) {
         return res.json({ status: 500, message: 'Failed to update product', error: error.message })
