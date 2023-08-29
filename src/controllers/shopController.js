@@ -143,7 +143,10 @@ const updateShop = async (req, res) => {
 
         const update = await shopModel.updateOne(filter, set)
 
-        if(!update) return res.json({ status: 500, message: 'Failed to update product!' })
+        if(!update) {
+            console.error('Gagal memperbarui data toko:', update);
+            return res.json({ status: 500, message: 'Failed to update product!' })
+        }
 
         if(oldImage && oldImage !== 'defaultShop.jpg') {
             fs.unlinkSync(path.join(uploadDir, oldImage), err => {
