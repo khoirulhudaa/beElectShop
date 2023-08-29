@@ -32,7 +32,7 @@ app.use('/shop', shopRouter)
 
 // Default route
 app.get('/', (req, res) => {
-    res.json({message: 'ok'})
+    res.json({message: 'Working'})
 })
 
 // Running test
