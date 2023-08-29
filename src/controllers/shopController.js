@@ -120,7 +120,6 @@ const updateShop = async (req, res) => {
         const { shop_id } = req.params
         const { seller_name, shop_name, email_seller, password, shop_address, motto_shop, description_shop, telephone_seller, followers } = req.body;
         const image_shop = req.file ? req.file.filename : undefined
-        console.log('file:', image_shop)
 
         const equalShop = await shopModel.findOne({ shop_id })
         

@@ -6,7 +6,7 @@
     "author": "Muhammad Khoirulhuda",
     "license": "MIT",
     "engines": {
-        "node": "18.16.1"
+        "node": "18.17.1"
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
