@@ -5,8 +5,8 @@
     "main": "index.js",
     "author": "Muhammad Khoirulhuda",
     "license": "MIT",
-    "engines": {
-        "node": "18.17.1"
+    "scripts": {
+    	"start": "nodemon app.js",
     },
     "dependencies": {
         "bcryptjs": "^2.4.3",
