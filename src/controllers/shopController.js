@@ -109,8 +109,8 @@ const upload = multer({
 
         if (allowExtensions.includes(extname)) cb(null, true);
         else {
-        const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
-        cb(error);
+            const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
+            cb(error);
         }
     },
 });
@@ -119,13 +119,12 @@ const updateShop = async (req, res) => {
     try {
         const { shop_id } = req.params
         const { seller_name, shop_name, email_seller, password, shop_address, motto_shop, description_shop, telephone_seller, followers } = req.body;
-        const image_shop = req.file ? req.file.filename : undefined
 
         const equalShop = await shopModel.findOne({ shop_id })
         
         if(!equalShop) return res.json({ status: 404, message: 'Product not found!' })
         
-        const oldImage = equalShop.image_shop
+        // const oldImage = equalShop.image_shop
 
         const filter = { shop_id }
         const set = { 
@@ -134,27 +133,27 @@ const updateShop = async (req, res) => {
             shop_name,
             password,
             shop_address,
-            image_shop,
             motto_shop,
             description_shop,
             telephone_seller,
             followers
         }
-
-        if(oldImage && oldImage !== 'defaultShop.jpg') {
-            fs.unlink(`../uploads/${oldImage}`, err => {
-                if(err) return res.json({ status: 500, message: 'Error to remove old image!', error: err.message })
-            })
-        }else {
-            const update = await shopModel.updateOne(filter, set)
-            
-            if(!update) {
-                console.error('Gagal memperbarui data toko:', update);
-                return res.json({ status: 500, message: 'Failed to update product!' })
-            }
-            
-            return res.json({ status: 200, message: 'Successfully to update product!'})
+        
+        const update = await shopModel.updateOne(filter, set)
+        
+        if(!update) {
+            console.error('Gagal memperbarui data toko:', update);
+            return res.json({ status: 500, message: 'Failed to update product!' })
         }
+        
+        return res.json({ status: 200, message: 'Successfully to update product!'})
+
+        // if(oldImage && oldImage !== 'defaultShop.jpg') {
+        //     fs.unlink(`../uploads/${oldImage}`, err => {
+        //         if(err) return res.json({ status: 500, message: 'Error to remove old image!', error: err.message })
+        //     })
+        // }else {
+        // }
 
     } catch (error) {
         return res.json({ status: 500, message: 'Failed to update product', error: error.message })
