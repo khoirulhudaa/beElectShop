@@ -109,7 +109,8 @@ const createProduct = async (req, res) => {
             product_price,
             product_size,
             product_brand,
-            quantity
+            quantity,
+            
         })
         await createNewProduct.save()
         

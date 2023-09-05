@@ -37,10 +37,6 @@ app.get('/', (req, res) => {
     res.json({message: 'Working'})
 })
 
-app.get('/test', (req, res) => {
-    res.json({message: 'Testing'})
-})
-
 
 // Running test
 app.listen(portServer,() => {
