@@ -122,16 +122,19 @@ const updateShop = async (req, res) => {
 
         const equalShop = await shopModel.findOne({ shop_id })
         
+        const salt = await bcrypt.genSalt(10)
+        const hashPassword = await bcrypt.hash(password, salt)
+
         if(!equalShop) return res.json({ status: 404, message: 'Product not found!' })
         
-        // const oldImage = equalShop.image_shop
+        // const oldImage = equalShop.image_shophashPassword
 
         const filter = { shop_id }
         const set = { 
             seller_name,
             email_seller,
             shop_name,
-            password,
+            password: hashPassword,
             shop_address,
             motto_shop,
             description_shop,
