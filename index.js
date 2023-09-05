@@ -26,8 +26,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routers
 const shopRouter = require('./src/routes/shopRouters')
+const productRouter = require('./src/routes/productRouters')
 
 app.use('/shop', shopRouter)
+app.use('/product', productRouter)
+
 
 // Default route
 app.get('/', (req, res) => {
@@ -37,6 +40,7 @@ app.get('/', (req, res) => {
 app.get('/test', (req, res) => {
     res.json({message: 'Testing'})
 })
+
 
 // Running test
 app.listen(portServer,() => {
