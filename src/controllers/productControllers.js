@@ -1,4 +1,7 @@
 const productModel = require("../models/productModel")
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs')
 
 const getAllProducts = async (req, res) => {
     try {
@@ -36,9 +39,39 @@ const removeProductById = async (req, res) => {
     }
 } 
 
+const uploadDir = path.join(__dirname, '../uploads')
+fs.mkdirSync(uploadDir, { recursive: true })
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir)
+    },
+    filename: (req, file, cb) => {
+        const extname = path.extname(file.originalname)
+        cb(null, `${Date.noe()}${extname}`)
+    }
+})
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // Batasan ukuran 5Mb
+    fileFilter: (req, file, cb) => {
+        const allowExtensions = ['.jpg', '.png', '.jpeg']
+        const extname = path.extname(file.originalname)
+
+        if (allowExtensions.includes(extname)) {
+            cb(null, true);
+        } else {
+            const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
+            cb(error);
+        }
+    }
+})
+
+
 const createProduct = async (req, res) => {
     try {
-        const { product_name, shop_id, product_type, product_color, product_desc, product_image, product_price, product_size, product_brand, quantity } = req.body  
+        const { product_name, shop_id, product_type, product_color, product_desc, product_price, product_size, product_brand, quantity } = req.body  
         
         // Periksa apakah sudah ada data dengan spesifikasi yang sama
         const equalProduct = await productModel.findOne({
@@ -47,7 +80,8 @@ const createProduct = async (req, res) => {
         }) 
 
         if(equalProduct) return res.json({ status: 401, message: 'Product already exist!' })
-        
+        const product_image = req.file.filename
+
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '';
@@ -121,5 +155,6 @@ module.exports = {
     getAllProducts,
     createProduct,
     removeProductById,
-    updateProduct
+    updateProduct,
+    upload
 }

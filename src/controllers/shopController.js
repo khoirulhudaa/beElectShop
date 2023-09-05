@@ -101,14 +101,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Batasan ukuran 5MB
+    limits: { fileSize: 5 * 1024 * 1024 }, // Batasan ukuran 5Mb
     fileFilter: (req, file, cb) => {
         // Persyaratan jenis gambar
         const allowExtensions = ['.jpg', '.jpeg', '.png'];
         const extname = path.extname(file.originalname);
 
-        if (allowExtensions.includes(extname)) cb(null, true);
-        else {
+        if (allowExtensions.includes(extname)) {
+            cb(null, true);
+        } else {
             const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
             cb(error);
         }
