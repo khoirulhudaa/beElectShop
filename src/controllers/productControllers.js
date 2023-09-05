@@ -39,6 +39,7 @@ const removeProductById = async (req, res) => {
     }
 } 
 
+
 const uploadDir = path.join(__dirname, '../uploads')
 fs.mkdirSync(uploadDir, { recursive: true })
 
@@ -108,9 +109,7 @@ const createProduct = async (req, res) => {
             product_price,
             product_size,
             product_brand,
-            quantity,
-            product_image
-            
+            quantity
         })
         await createNewProduct.save()
         
@@ -120,6 +119,7 @@ const createProduct = async (req, res) => {
         return res.json({ status: 500, message: error })
     }
 }
+
 
 const updateProduct = async (req, res) => {
     try {
@@ -150,6 +150,7 @@ const updateProduct = async (req, res) => {
         return res.json({ status: 500, message: 'Failed to update product', error })
     }
 }
+
 
 module.exports = {
     getAllProducts,
