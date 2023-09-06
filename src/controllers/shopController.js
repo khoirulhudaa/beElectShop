@@ -78,7 +78,7 @@ const removeShopById = async (req, res) => {
 
         if(!dataShopDelete) return res.json({ status: 404, message: 'Shop not found!' })
 
-        return res.json({ status: 200, message: 'Successfully delete shop', data: dataShopDelete })
+        return res.json({ status: 200, message: 'Successfully delete shop', data: equalShopId })
     } catch (error) {
         return res.json({ status: 500, message: 'Failed to delete shop', error: error.message });
     }
