@@ -120,15 +120,15 @@ const updateShop = async (req, res) => {
     try {
         const { shop_id } = req.params
         const { seller_name, shop_name, email_seller, password, shop_address, motto_shop, description_shop, telephone_seller, followers } = req.body;
+        const shop_image = req.file.filename
 
         const equalShop = await shopModel.findOne({ shop_id })
+        if(!equalShop) return res.json({ status: 404, message: 'Product not found!' })
+        
+        const oldImage = equalShop.image_shop
         
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(password, salt)
-
-        if(!equalShop) return res.json({ status: 404, message: 'Product not found!' })
-        
-        // const oldImage = equalShop.image_shophashPassword
 
         const filter = { shop_id }
         const set = { 
@@ -137,6 +137,7 @@ const updateShop = async (req, res) => {
             shop_name,
             password: hashPassword,
             shop_address,
+            shop_image,
             motto_shop,
             description_shop,
             telephone_seller,
@@ -147,18 +148,17 @@ const updateShop = async (req, res) => {
         
         if(!update) {
             console.error('Gagal memperbarui data toko:', update);
-            return res.json({ status: 500, message: 'Failed to update product!' })
+            return res.json({ status: 500, message: 'Failed to update product!', img_old: oldImage })
         }
-        
+    
+        if(oldImage && oldImage !== 'defaultShop.jpg') {
+            fs.unlink(`../uploads/${oldImage}`, err => {
+                if(err) return res.json({ status: 500, message: 'Error to remove old image!', error: err.message })
+            })
+        }
+
         return res.json({ status: 200, message: 'Successfully to update product!'})
-
-        // if(oldImage && oldImage !== 'defaultShop.jpg') {
-        //     fs.unlink(`../uploads/${oldImage}`, err => {
-        //         if(err) return res.json({ status: 500, message: 'Error to remove old image!', error: err.message })
-        //     })
-        // }else {
-        // }
-
+        
     } catch (error) {
         return res.json({ status: 500, message: 'Failed to update product', error: error.message })
     }
