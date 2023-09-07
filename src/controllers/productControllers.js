@@ -28,9 +28,12 @@ const getAllProducts = async (req, res) => {
 const removeProductById = async (req, res) => {
     try {
         const { product_id } = req.params
-        const productDelete = await productModel.findByIdAndRemove({product_id})
+        const equalProductId = await productModel.findOne({product_id})
+        if(!equalProductId) return res.json({ status: 404, message: 'Product not found!' })
 
-        if(!productDelete) return res.json({ status: 404, message:'Product not found!' })
+        const dataProductDelete = await shopModel.deleteOne({product_id})
+
+        if(!dataProductDelete) return res.json({ status: 404, message: 'Failed to delete product' })
 
         return res.json({ status: 200, message: 'Successfully delete product' })
         
@@ -81,7 +84,7 @@ const createProduct = async (req, res) => {
         if (!product_name || !shop_id || !product_type || !product_color || !product_description || !product_price || !product_size || !product_brand || !quantity) {
             return res.status(400).json({ status: 400, message: 'Incomplete data provided' });
         }
-        
+
         // Periksa apakah sudah ada data dengan spesifikasi yang sama
         const equalProduct = await productModel.findOne({product_name}) 
 

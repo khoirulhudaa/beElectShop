@@ -76,7 +76,7 @@ const removeShopById = async (req, res) => {
 
         const dataShopDelete = await shopModel.deleteOne({shop_id})
 
-        if(!dataShopDelete) return res.json({ status: 404, message: 'Shop not found!' })
+        if(!dataShopDelete) return res.json({ status: 404, message: 'Failed to delete shop' })
 
         return res.json({ status: 200, message: 'Successfully delete shop', data: equalShopId })
     } catch (error) {

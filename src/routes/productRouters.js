@@ -1,9 +1,9 @@
 const express = require('express')
-const { upload, createProduct, getAllProducts, removeProductById } = require('../controllers/productControllers')
+const productControllers = require('../controllers/productControllers')
 const router = express.Router()
 
-router.post('/', upload.single('product_image'), createProduct)
-router.get('/', getAllProducts)
-router.delete('/:id', removeProductById)
+router.post('/', productControllers.upload.single('product_image'), productControllers.createProduct)
+router.get('/', productControllers.getAllProducts)
+router.delete('/:product_id', productControllers.removeProductById)
 
 module.exports = router
