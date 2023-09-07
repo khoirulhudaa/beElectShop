@@ -31,7 +31,7 @@ const removeProductById = async (req, res) => {
         const equalProductId = await productModel.findOne({product_id})
         if(!equalProductId) return res.json({ status: 404, message: 'Product not found!' })
 
-        const dataProductDelete = await shopModel.deleteOne({product_id})
+        const dataProductDelete = await productModel.deleteOne({product_id})
 
         if(!dataProductDelete) return res.json({ status: 404, message: 'Failed to delete product' })
 
