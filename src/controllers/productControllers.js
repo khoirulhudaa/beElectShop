@@ -116,6 +116,7 @@ const createProduct = async (req, res) => {
             product_image,
             product_price,
             product_size,
+            product_category,
             product_brand,
             quantity,
             
@@ -142,13 +143,12 @@ const updateProduct = async (req, res) => {
             product_name,
             product_type,
             product_color,
-            product_desc,
+            product_description,
             product_image,
             product_price,
-            product_size,
             product_brand,
+            product_category,
             quantity,
-            product_image
          }
         const update = await productModel.updateOne(filter, set)
         if(!update) return res.json({ status: 500, message: 'Failed to update product!' })
