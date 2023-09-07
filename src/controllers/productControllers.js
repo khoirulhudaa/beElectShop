@@ -28,7 +28,7 @@ const getAllProducts = async (req, res) => {
 const removeProductById = async (req, res) => {
     try {
         const { product_id } = req.params
-        const productDelete = await productModel.findByIdAndRemove(product_id)
+        const productDelete = await productModel.findByIdAndRemove({product_id})
 
         if(!productDelete) return res.json({ status: 404, message:'Product not found!' })
 
@@ -48,9 +48,11 @@ const storage = multer.diskStorage({
         cb(null, uploadDir)
     },
     filename: (req, file, cb) => {
-        const extname = path.extname(file.originalname)
-        const originalName = path.parse(fle.originalName).name.split(' ').join('')
-        cb(null, `${originalName}_${Date.now()}${extname}`)
+        const extname = path.extname(file.originalname);
+        const originalFileName = file.originalname;
+        const fileNameWithoutExtension = path.parse(originalFileName).name.split(' ').join('');
+
+        cb(null, `${fileNameWithoutExtension}_${Date.now()}${extname}`);
     }
 })
 
@@ -74,9 +76,14 @@ const upload = multer({
 const createProduct = async (req, res) => {
     try {
         const { product_name, shop_id, product_type, product_color, product_description, product_price, product_size, product_brand, quantity } = req.body  
+
+        // Validasi data
+        if (!product_name || !shop_id || !product_type || !product_color || !product_description || !product_price || !product_size || !product_brand || !quantity) {
+            return res.status(400).json({ status: 400, message: 'Incomplete data provided' });
+        }
         
         // Periksa apakah sudah ada data dengan spesifikasi yang sama
-        const equalProduct = await productModel.findOne(product_name) 
+        const equalProduct = await productModel.findOne({product_name}) 
 
         if(equalProduct) return res.json({ status: 401, message: 'Product already exist!' })
         const product_image = req.file.filename
@@ -123,7 +130,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const { product_id } = req.params
-        const equalProduct = await productModel.findOne(product_id)
+        const equalProduct = await productModel.findOne({product_id})
 
         if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
 
