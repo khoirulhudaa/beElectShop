@@ -72,18 +72,15 @@ const upload = multer({
 
 const createProduct = async (req, res) => {
     try {
-        const { product_name, shop_id, product_type, product_color, product_desc, product_price, product_size, product_brand, quantity } = req.body  
+        const { product_name, shop_id, product_type, product_color, product_description, product_price, product_size, product_brand, quantity } = req.body  
         
         // Periksa apakah sudah ada data dengan spesifikasi yang sama
-        const equalProduct = await productModel.findOne({
-            product_id,
-            product_name
-        }) 
+        const equalProduct = await productModel.findOne(product_name) 
 
         if(equalProduct) return res.json({ status: 401, message: 'Product already exist!' })
         const product_image = req.file.filename
 
-        function generateRandomString(length) {
+        function generateRandomString(length) { 
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '';
           
@@ -104,7 +101,7 @@ const createProduct = async (req, res) => {
             product_name,
             product_type,
             product_color,
-            product_desc,
+            product_description,
             product_image,
             product_price,
             product_size,
