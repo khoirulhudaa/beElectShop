@@ -11,6 +11,7 @@ const getAllProducts = async (req, res) => {
         if(shop_id) filter.shop_id = shop_id
         if(product_size) filter.product_size = product_size
         if(product_brand) filter.product_brand = product_brand
+        if(product_brand) filter.product_price = product_price
         if(product_name) filter.product_name = { $regex: new RegExp(product_name, 'i') }
 
         let productResult = await productModel.find(filter)
