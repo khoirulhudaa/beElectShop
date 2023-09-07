@@ -139,6 +139,7 @@ const updateProduct = async (req, res) => {
         const equalProduct = await productModel.findOne({product_id})
         if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
         
+        const oldImage = equalProduct.product_image
         const product_image = req.file.filename
 
         const filter = { product_id }
@@ -152,10 +153,17 @@ const updateProduct = async (req, res) => {
             product_brand,
             product_size,
             product_category,
-            quantity,
+            quantity
          }
+
         const update = await productModel.updateOne(filter, set)
         if(!update) return res.json({ status: 500, message: 'Failed to update product!' })
+
+        if(oldImage && oldImage !== 'defaultShop.jpg') {
+            fs.unlink(`../uploads/${oldImage}`, err => {
+                if(err) return res.json({ status: 500, message: 'Error to remove old image!', error: err.message })
+            })
+        }
 
         return res.json({ status: 200, message: 'Successfully to update product!' })
 
