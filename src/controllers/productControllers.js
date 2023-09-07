@@ -135,9 +135,11 @@ const updateProduct = async (req, res) => {
     try {
         const { product_id } = req.params
         const { product_name, product_type, product_category, product_color, product_description, product_price, product_size, product_brand, quantity } = req.body  
+        
         const equalProduct = await productModel.findOne({product_id})
-
         if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
+        
+        const product_image = req.file.filename
 
         const filter = { product_id }
         const set = { 
