@@ -86,7 +86,7 @@ const createProduct = async (req, res) => {
         }
 
         // Periksa apakah sudah ada data dengan spesifikasi yang sama
-        const equalProduct = await productModel.findOne({product_name}) 
+        const equalProduct = await productModel.findOne({ product_name, shop_id, product_size });
 
         if(equalProduct) return res.json({ status: 401, message: 'Product already exist!' })
         const product_image = req.file.filename
