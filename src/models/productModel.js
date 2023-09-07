@@ -42,9 +42,9 @@ const productSchema = new mongoose.Schema({
         default: 0
     },
     product_size: {
-        type: Array,
+        type: String,
         required: true,
-        default: 'normal'
+        default: 'Normal'
     },
     product_brand: {
         type: String,
