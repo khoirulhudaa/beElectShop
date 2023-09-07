@@ -49,7 +49,8 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const extname = path.extname(file.originalname)
-        cb(null, `${Date.noe()}${extname}`)
+        const originalName = path.parse(fle.originalName).name.split(' ').join('')
+        cb(null, `${originalName}_${Date.now()}${extname}`)
     }
 })
 
