@@ -78,7 +78,7 @@ const upload = multer({
 
 const createProduct = async (req, res) => {
     try {
-        const { product_name, shop_id, product_type, product_color, product_description, product_price, product_size, product_brand, quantity } = req.body  
+        const { product_name, shop_id, product_type, product_category, product_color, product_description, product_price, product_size, product_brand, quantity } = req.body  
 
         // Validasi data
         if (!product_name || !shop_id || !product_type || !product_color || !product_description || !product_price || !product_size || !product_brand || !quantity) {
@@ -134,6 +134,7 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const { product_id } = req.params
+        const { product_name, product_type, product_category, product_color, product_description, product_price, product_size, product_brand, quantity } = req.body  
         const equalProduct = await productModel.findOne({product_id})
 
         if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
@@ -147,6 +148,7 @@ const updateProduct = async (req, res) => {
             product_image,
             product_price,
             product_brand,
+            product_size,
             product_category,
             quantity,
          }
