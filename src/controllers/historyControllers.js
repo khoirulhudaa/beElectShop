@@ -2,7 +2,7 @@
 
 const createHistory = async (req, res) => {
     try {
-        const { email_consumer, product_name, product_id, shop_id, product_type, product_color, product_desc, product_image, product_price, product_size, product_brand, quantity } = req.body  
+        const { email_consumer, consumer_id, consumer_name, shop_name, product_id, shop_id, product_name, product_type, product_color, product_category, product_description, product_image, product_price, product_size, product_brand, quantity } = req.body  
         
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -20,18 +20,22 @@ const createHistory = async (req, res) => {
 
         const createNewHistory = new historyModel({
             email_consumer,
+            consumer_id,
+            shop_name,
+            consumer_name,
             shop_id,
-            history_id: randomString,
             product_id,
+            history_id: randomString,
             product_name,
             product_type,
             product_color,
-            product_desc,
-            product_image,
+            product_description,
             product_price,
             product_size,
             product_brand,
-            quantity
+            product_category,
+            quantity,
+            product_image
         })
 
         await createNewHistory.save()

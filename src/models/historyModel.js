@@ -9,15 +9,15 @@ const HistorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email_consumer: {
-        type: String,
-        required: true
-    },
-    seller_name: {
+    consumer_id: {
         type: String,
         required: true
     },
     shop_name: {
+        type: String,
+        required: true
+    },
+    email_consumer: {
         type: String,
         required: true
     },
@@ -29,11 +29,15 @@ const HistorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    consumer_id: {
+    product_id: {
         type: String,
         required: true
     },
-    product_id: {
+    product_name: {
+        type: String,
+        required: true
+    },
+    product_type: {
         type: String,
         required: true
     },
@@ -41,7 +45,7 @@ const HistorySchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    description_product: {
+    product_description: {
         type: String,
         required: true
     },
@@ -58,6 +62,14 @@ const HistorySchema = new mongoose.Schema({
         required: true
     },
     product_color: {
+        type: String,
+        required: true
+    },
+    product_image: {
+        type: String,
+        required: true
+    },
+    product_category: {
         type: String,
         required: true
     },

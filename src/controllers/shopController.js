@@ -8,7 +8,7 @@ const path = require('path')
 const createShop = async (req, res) => {
     try {
         // Ambil semua data yang dikirim oleh client
-        const { shop_id, seller_name, email_seller, password, telephone_seller } = req.body 
+        const { shop_id, seller_name, shop_name, email_seller, password, telephone_seller } = req.body 
         
         // Cek apakah email sudah ada ?
         const equalEmail = await shopModel.findOne({email_seller})
@@ -24,6 +24,7 @@ const createShop = async (req, res) => {
         const create = new shopModel({
             shop_id,
             seller_name,
+            shop_name,
             email_seller,
             password: newPasswordGenerate,
             telephone_seller

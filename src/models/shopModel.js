@@ -11,7 +11,7 @@ const ShopSchema = new mongoose.Schema({
     },
     shop_name: {
         type: String,
-        default: ''
+        required: true
     },
     email_seller: {
         type: String,
