@@ -6,4 +6,4 @@ router.get('/', historyController.getAllHistory)
 router.post('/', historyController.createHistory)
 router.delete('/:history_id', historyController.removeHistory)
 
-exports.module = router
+module.exports = router
