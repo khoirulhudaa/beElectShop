@@ -8,7 +8,7 @@ const path = require('path')
 const createShop = async (req, res) => {
     try {
         // Ambil semua data yang dikirim oleh client
-        const { seller_name, email_seller, password, telephone_seller } = req.body 
+        const { shop_id, seller_name, email_seller, password, telephone_seller } = req.body 
         
         // Cek apakah email sudah ada ?
         const equalEmail = await shopModel.findOne({email_seller})
@@ -20,23 +20,9 @@ const createShop = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const newPasswordGenerate =  await bcrypt.hash(password, salt)
 
-        function generateRandomString(length) {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-          
-            for (let i = 0; i < length; i++) {
-              const randomIndex = Math.floor(Math.random() * characters.length);
-              result += characters.charAt(randomIndex);
-            }
-          
-            return result;
-        }
-          
-          const randomString = generateRandomString(5);
-
         // Kirim data ke schema mongodb/database
         const create = new shopModel({
-            shop_id: randomString,
+            shop_id,
             seller_name,
             email_seller,
             password: newPasswordGenerate,

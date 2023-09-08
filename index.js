@@ -5,6 +5,9 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 const app = express()
 
+
+app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
+
 // 3 on use start (cors, express.json(), bodyParser.urlencoded)
 app.use(cors())
 
