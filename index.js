@@ -4,9 +4,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const app = express()
+const path = require('path')
 
 
-app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
 
 // 3 on use start (cors, express.json(), bodyParser.urlencoded)
 app.use(cors())
@@ -26,6 +26,7 @@ mongoose.connect('mongodb+srv://dragme:HBXrSHZaJqemsDtW@cluster0.oadoa02.mongodb
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
 
 // Routers
 const shopRouter = require('./src/routes/shopRouters')
