@@ -9,11 +9,11 @@ const shopModel = require('../models/shopModel')
 
 const signUpConsumer = async (req, res) => {
     try {
-        const { email_consumer, consumer_name, gender, telephone_consumer, password} = req.body
+        const { email_consumer, consumer_name, gender, telephone_consumer, password } = req.body
        
         const equalConsumer = await Consumer.findOne({ email_consumer })
         if(equalConsumer) return res.json({ status: 400, message: 'Email already exist!' })
-
+ 
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '';

@@ -31,9 +31,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
 // Routers
 const shopRouter = require('./src/routes/shopRouters')
 const productRouter = require('./src/routes/productRouters')
+const authRouter = require('./src/routes/authRouters')
 
 app.use('/shop', shopRouter)
 app.use('/product', productRouter)
+app.use('/auth', authRouter)
 
 
 // Default route
