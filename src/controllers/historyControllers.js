@@ -49,9 +49,12 @@ const createHistory = async (req, res) => {
 const removeHistory = async (req, res) => {
     try {
         const { history_id } = req.params
-        const equalHistory = await historyModel.findByIdAndRemove({ history_id })
-
+        const equalHistory = await historyModel.findOne({ history_id })
         if(!equalHistory) return res.json({ status: 404, message: 'History not found!' })
+        
+
+        const deleteHistory = await historyModel.deleteOne({ history_id })
+        if(!deleteHistory) return res.json({ status: 404, message: 'Failed for delete history!' })
 
         return res.json({ status: 200, message: 'Successfully remove history!' })
 
