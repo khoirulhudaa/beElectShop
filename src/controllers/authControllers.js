@@ -54,7 +54,7 @@ const signInConsumer = async (req, res) => {
         const consumer = Consumer.findOne({ email_consumer })
         if(!consumer) return res.json({ status: 404, message: 'User not found!' })
 
-        bcrypt.compare(password, consumer.password, (err, isMatch) => {
+        await bcrypt.compare(password, consumer.password, (err, isMatch) => {
             if(err) return res.json({ status: 500, message: 'Internal server error!' })
             if(!isMatch) return res.json({ status: 401, message: 'Wrong password' })
 
