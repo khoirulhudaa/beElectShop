@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const HistorySchema = new mongoose.Schema({
+    history_id: {
+        type: String,
+        required: true
+    },
     consumer_name: {
         type: String,
         required: true
