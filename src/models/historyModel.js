@@ -21,6 +21,10 @@ const HistorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    product_image: {
+        type: String,
+        required: true
+    },
     consumer_id: {
         type: String,
         required: true

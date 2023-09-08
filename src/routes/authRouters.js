@@ -4,7 +4,7 @@ const router = express.Router()
 
 // Auth
 router.post('/signup/consumer', authControllers.signUpConsumer)
-router.post('/signin/consumer', authControllers.signUpConsumer)
+router.post('/signin/consumer', authControllers.signInConsumer)
 router.post('/signup/seller', authControllers.signUpSeller)
 router.post('/signin/seller', authControllers.signInSeller)
 

@@ -237,7 +237,7 @@ const getAllSeller = async (req, res) => {
 
 module.exports = {
     signUpConsumer,
-    signUpConsumer,
+    signInConsumer,
     signUpSeller,
     signInSeller,
     getAllConsumer,
