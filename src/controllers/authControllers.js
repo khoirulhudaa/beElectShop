@@ -54,13 +54,14 @@ const signInConsumer = async (req, res) => {
         const consumer = Consumer.findOne({ email_consumer })
         if(!consumer) return res.json({ status: 404, message: 'User not found!' })
 
-        await bcrypt.compare(password, consumer.password, (err, isMatch) => {
-            if(err) return res.json({ status: 500, message: 'Internal server error!' })
-            if(!isMatch) return res.json({ status: 401, message: 'Wrong password' })
+        const isMatch = await bcrypt.compare(password, consumer.password);
 
-            const token = jwt.sign({ consumer_id: consumer.consumer_id }, 'ElectShop', { expired: '1h' })
-            return res.json({ status: 200, token, data: consumer })
-        })
+        if (!isMatch) {
+            return res.json({ status: 401, message: 'Wrong password' });
+        }
+
+        const token = jwt.sign({ consumer_id: consumer.consumer_id }, 'ElectShop', { expiresIn: '1h' });
+        return res.json({ status: 200, token, data: consumer });
         
     } catch (error) {
         return res.json({ status: 500, message: 'Failed to signIn', error: error.message });
