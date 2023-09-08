@@ -2,7 +2,7 @@
 
 const createHistory = async (req, res) => {
     try {
-        const { email_consumer, product_name, shop_id, product_type, product_color, product_desc, product_image, product_price, product_size, product_brand, quantity } = req.body  
+        const { email_consumer, product_name, product_id, shop_id, product_type, product_color, product_desc, product_image, product_price, product_size, product_brand, quantity } = req.body  
         
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -31,8 +31,7 @@ const createHistory = async (req, res) => {
             product_price,
             product_size,
             product_brand,
-            quantity,
-            product_image
+            quantity
         })
 
         await createNewHistory.save()
