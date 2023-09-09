@@ -2,7 +2,7 @@ const Consumer = require('../models/consumerModel')
 const Seller = require('../models/sellerModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const shopModel = require('../models/shopModel')
+const Seller = require('../models/Seller')
 
 
 // Consumer Authentication
@@ -116,7 +116,7 @@ const signUpSeller = async (req, res) => {
 const signInSeller = async (req, res) => {
     try {
         const {email_seller, password} = req.body
-        const seller = await shopModel.findOne({ email_seller })
+        const seller = await Seller.findOne({ email_seller })
         if(!seller) return res.json({ status: 404, message: 'Seller not found!' })
 
         bcrypt.compare(password, seller.password, (err, isMatch) => {
