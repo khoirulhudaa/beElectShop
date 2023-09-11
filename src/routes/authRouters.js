@@ -3,14 +3,14 @@ const authControllers = require('../controllers/authControllers')
 const router = express.Router()
 
 // Auth
-router.post('/signup/seller', authControllers.signUpSeller)
-router.post('/signin/seller', authControllers.signInSeller)
+router.post('/seller', authControllers.signUpSeller)
+router.post('/seller', authControllers.signInSeller)
 // router.post('/signup/consumer', authControllers.signUpConsumer)
 // router.post('/signin/consumer', authControllers.signInConsumer)
 
 // Get list users
-// router.get('/consumer', authControllers.getAllConsumer)
-// router.get('/seller', authControllers.getAllSeller)
+// router.get('/list/consumer', authControllers.getAllConsumer)
+// router.get('/list/seller', authControllers.getAllSeller)
 
 // Delete Account
 // router.delete('/consumer/:consumer_id', authControllers.removeConsumer)
