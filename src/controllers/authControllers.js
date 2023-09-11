@@ -171,35 +171,33 @@ const removeSeller = async (req, res) => {
 // Get users
 
 
-const getAllConsumer = async (req, res) => {
-    try {
-        const getConsumer = await Consumer.find()
+// const getAllConsumer = async (req, res) => {
+//     try {
+//         const getConsumer = await Consumer.find()
 
-        return res.json({ status: 200, message: 'Successfully get users', data: getConsumer })
+//         return res.json({ status: 200, message: 'Successfully get users', data: getConsumer })
 
-    } catch (error) {
-        return res.json({ status: 500, message: 'Error server', error })
-    }
-}
+//     } catch (error) {
+//         return res.json({ status: 500, message: 'Error server', error })
+//     }
+// }
 
-const getAllSeller = async (req, res) => {
-    try {
-        const getSeller = await Seller.find()
+// const getAllSeller = async (req, res) => {
+//     try {
+//         const getSeller = await Seller.find()
 
-        return res.json({ status: 200, message: 'Successfully get users', data: getSeller })
+//         return res.json({ status: 200, message: 'Successfully get users', data: getSeller })
 
-    } catch (error) {
-        return res.json({ status: 500, message: 'Error server', error })
-    }
-}
+//     } catch (error) {
+//         return res.json({ status: 500, message: 'Error server', error })
+//     }
+// }
 
 module.exports = {
     signUpConsumer,
     signInConsumer,
     signUpSeller,
     signInSeller,
-    getAllConsumer,
-    getAllSeller,
     removeConsumer,
     removeSeller
 }
