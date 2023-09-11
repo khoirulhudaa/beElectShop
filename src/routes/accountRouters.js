@@ -3,8 +3,8 @@ const accountController = require('../controllers/accountControllers')
 const router = express.Router()
 
 // Auth
-router.post('account/seller', accountController.signUpSeller)
-router.post('account/seller', accountController.signInSeller)
+router.post('signup/seller', accountController.signUpSeller)
+router.post('signin/seller', accountController.signInSeller)
 // router.post('/signup/consumer', authControllers.signUpConsumer)
 // router.post('/signin/consumer', authControllers.signInConsumer)
 

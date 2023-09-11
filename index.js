@@ -36,7 +36,7 @@ const historyRouter = require('./src/routes/historyRouters')
 
 app.use('/shop', shopRouter)
 app.use('/product', productRouter)
-app.use('/', accountRouter)
+app.use('/account', accountRouter)
 app.use('/history', historyRouter)
 
 
