@@ -193,49 +193,6 @@ const getAllSeller = async (req, res) => {
     }
 }
 
-// Kode untuk mengirim pesan email sebelum update password
-
-// const sendEmailConsumer = async (req, res) => {
-//     try {
-//         const { email_consumer } = req.body
-//         const equalEmail = await userModel.findOne(email_consumer)
-//         if(!equalEmail) return res.json({ status: 404, message: 'Email not found!' })
-//     } catch (error) {
-//         return res.json({ status: 500, message: 'Error server', error: error.message })
-//     }
-// }
-
-
-
-// Kode untuk proes pembaharuan password consumer & seller
-
-// const updatePasswordConsumer = async (req, res) => {
-//     try {
-//         const { email_consumer } = req.params
-//         const equalEmail = await userModel.findOne(email_consumer)
-
-//         if(!equalEmail) return res.json({ status: 404, message: 'Email not found!' })
-
-//         const filter = { email_consumer }
-//         const setPassword = { password }
-
-//         const updatePassword = await userModel.updateOne(filter, setPassword)
-//         if(!updatePassword) return res.json({ status: 500, message: 'Failed to update password!' })
-
-//         return res.json({ status: 200, message: 'Successfully to update password'})
-//     } catch (error) {
-//         return res.json({ status: 200, message: 'Error server', error: error.message })
-//     }
-// }
-
-// const updatePasswordSeller = async (req, res) => {
-//     try {
-
-//     } catch (error) {
-//         return res.json({ status: 500, message: 'Error server', error: error.message })
-//     }
-// }
-
 module.exports = {
     signUpConsumer,
     signInConsumer,
