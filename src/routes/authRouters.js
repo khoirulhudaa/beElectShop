@@ -3,10 +3,10 @@ const authControllers = require('../controllers/authControllers')
 const router = express.Router()
 
 // Auth
-router.post('/signup/consumer', authControllers.signUpConsumer)
-router.post('/signin/consumer', authControllers.signInConsumer)
 router.post('/signup/seller', authControllers.signUpSeller)
 router.post('/signin/seller', authControllers.signInSeller)
+// router.post('/signup/consumer', authControllers.signUpConsumer)
+// router.post('/signin/consumer', authControllers.signInConsumer)
 
 // Get list users
 // router.get('/consumer', authControllers.getAllConsumer)
