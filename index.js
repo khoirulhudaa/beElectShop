@@ -36,12 +36,12 @@ const historyRouter = require('./src/routes/historyRouters')
 
 app.use('/shop', shopRouter)
 app.use('/product', productRouter)
-app.use('/auth', authRouter)
+app.use('/', authRouter)
 app.use('/history', historyRouter)
 
 
 // Default route
-app.get('/', (req, res) => {
+app.get('/test', (req, res) => {
     res.json({message: 'Working'})
 })
 
