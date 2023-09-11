@@ -31,12 +31,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
 // Routers
 const shopRouter = require('./src/routes/shopRouters')
 const productRouter = require('./src/routes/productRouters')
-const authRouter = require('./src/routes/authRouters')
+const accountRouter = require('./src/routes/accountRouters')
 const historyRouter = require('./src/routes/historyRouters')
 
 app.use('/shop', shopRouter)
 app.use('/product', productRouter)
-app.use('/', authRouter)
+app.use('/', accountRouter)
 app.use('/history', historyRouter)
 
 
