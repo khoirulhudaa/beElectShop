@@ -2,7 +2,6 @@ const Consumer = require('../models/consumerModel')
 const Seller = require('../models/sellerModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const Seller = require('../models/Seller')
 
 
 // Consumer Authentication
@@ -57,7 +56,7 @@ const signInConsumer = async (req, res) => {
         const isMatch = await bcrypt.compare(password, consumer.password);
 
         if (!isMatch) {
-            return res.json({ status: 401, message: 'Wrong password' });
+            return res.json({ status: 401, message: 'Incorrect password' });
         }
 
         const token = jwt.sign({ consumer_id: consumer.consumer_id }, 'ElectShop', { expiresIn: '1h' });
@@ -121,7 +120,7 @@ const signInSeller = async (req, res) => {
 
         bcrypt.compare(password, seller.password, (err, isMatch) => {
             if(err) return res.json({ status: 500, message: 'Internal server error!' })
-            if(!isMatch) return res.json({ status: 401, message: 'Wrong password' })
+            if(!isMatch) return res.json({ status: 401, message: 'Incorrect password' })
 
             const token = jwt.sign({ shop_id: seller.shop_id }, 'ElectShop', { expired: '1h' })
             return res.json({ status: 200, token, data: seller })
@@ -171,27 +170,27 @@ const removeSeller = async (req, res) => {
 // Get users
 
 
-// const getAllConsumer = async (req, res) => {
-//     try {
-//         const getConsumer = await Consumer.find()
+const getAllConsumer = async (req, res) => {
+    try {
+        const getConsumer = await Consumer.find()
 
-//         return res.json({ status: 200, message: 'Successfully get users', data: getConsumer })
+        return res.json({ status: 200, message: 'Successfully get users', data: getConsumer })
 
-//     } catch (error) {
-//         return res.json({ status: 500, message: 'Error server', error })
-//     }
-// }
+    } catch (error) {
+        return res.json({ status: 500, message: 'Error server', error })
+    }
+}
 
-// const getAllSeller = async (req, res) => {
-//     try {
-//         const getSeller = await Seller.find()
+const getAllSeller = async (req, res) => {
+    try {
+        const getSeller = await Seller.find()
 
-//         return res.json({ status: 200, message: 'Successfully get users', data: getSeller })
+        return res.json({ status: 200, message: 'Successfully get users', data: getSeller })
 
-//     } catch (error) {
-//         return res.json({ status: 500, message: 'Error server', error })
-//     }
-// }
+    } catch (error) {
+        return res.json({ status: 500, message: 'Error server', error })
+    }
+}
 
 module.exports = {
     signUpConsumer,
@@ -199,5 +198,7 @@ module.exports = {
     signUpSeller,
     signInSeller,
     removeConsumer,
-    removeSeller
+    removeSeller,
+    getAllConsumer,
+    getAllSeller
 }
