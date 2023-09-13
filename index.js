@@ -6,8 +6,6 @@ require('dotenv').config()
 const app = express()
 const path = require('path')
 
-
-
 // 3 on use start (cors, express.json(), bodyParser.urlencoded)
 app.use(cors())
 

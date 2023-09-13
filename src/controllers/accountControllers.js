@@ -73,6 +73,7 @@ const signInConsumer = async (req, res) => {
 
 const signUpSeller = async (req, res) => {
     try {
+        console.log('Badan Permintaan:', req.body);
         const { email_seller, seller_name, gender, telephone_seller, password } = req.body
        
         const equalSeller = await Seller.findOne({ email_seller })
@@ -106,11 +107,11 @@ const signUpSeller = async (req, res) => {
 
         const create = await newSeller.save()
         
-        if(!create) return res.json({ status: 401, message: 'Failed create account seller!' })
-        return res.json({ status: 200, message: 'Successfully register!' })
+        if(!create) return res.json({ status: 401, message: 'Failed create account seller!', data: req.body })
+        return res.json({ status: 200, message: 'Successfully register!', data: req.body })
 
     } catch (error) {
-        return res.json({ status: 500, message: 'Failed to signUp', error: error.message });
+        return res.json({ status: 500, message: 'Failed to signUp', error: error.message, data: req.body });
     }
 }
 
