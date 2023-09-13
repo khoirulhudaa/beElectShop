@@ -43,7 +43,7 @@ const signUpConsumer = async (req, res) => {
         return res.json({ status: 200, message: 'Success Register!' })
 
     } catch (error) {
-        return res.json({ status: 500, message: 'Failed to signUp', error: error.message });
+        return res.json({ status: 500, message: 'Failed to signUp', error: error });
     }
 }
 
@@ -76,7 +76,7 @@ const signUpSeller = async (req, res) => {
         const { email_seller, seller_name, gender, telephone_seller, password } = req.body
        
         const equalSeller = await Seller.findOne({ email_seller })
-        if(equalSeller) return res.json({ status: 400, message: 'Email already exist!' })
+        if(equalSeller) return res.json({ status: 401, message: 'Email already exist!' })
 
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -104,7 +104,9 @@ const signUpSeller = async (req, res) => {
             telephone_seller
         })
 
-        await newSeller.save()
+        const create = await newSeller.save()
+        
+        if(!create) return res.json({ status: 401, message: 'Failed create account seller!' })
         return res.json({ status: 200, message: 'Successfully register!' })
 
     } catch (error) {
