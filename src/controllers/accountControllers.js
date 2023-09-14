@@ -73,7 +73,6 @@ const signInConsumer = async (req, res) => {
 
 const signUpSeller = async (req, res) => {
     try {
-        console.log('Badan Permintaan:', req.body);
         const { email_seller, seller_name, gender, telephone_seller, password } = req.body
        
         const equalSeller = await Seller.findOne({ email_seller })
@@ -125,7 +124,7 @@ const signInSeller = async (req, res) => {
             if(err) return res.json({ status: 500, message: 'Internal server error!' })
             if(!isMatch) return res.json({ status: 401, message: 'Incorrect password' })
 
-            const token = jwt.sign({ shop_id: seller.shop_id }, 'ElectShop', { expired: '1h' })
+            const token = jwt.sign({ shop_id: seller.seller_id }, 'ElectShop', { expired: '1h' })
             return res.json({ status: 200, token, data: seller })
         })
         
