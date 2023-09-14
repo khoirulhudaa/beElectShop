@@ -120,14 +120,12 @@ const signInSeller = async (req, res) => {
         const seller = await Seller.findOne({ email_seller })
         if(!seller) return res.json({ status: 404, message: 'Seller not found!' })
 
-        bcrypt.compare(password, seller.password, (err, isMatch) => {
-            if(err) return res.json({ status: 500, message: 'Internal server error!' })
-            if(!isMatch) return res.json({ status: 401, message: 'Incorrect password' })
+        const isMatch = await bcrypt.compare(password, seller.password)
+        if(!isMatch) return res.json({ status: 401, message: 'Incorrect password' })
 
-            const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expired: '1h' })
-            if(!token) res.json({ status: 500, message: 'Error in token' })
-            return res.json({ status: 200, token, data: seller })
-        })
+        const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '1h' })
+        if(!token) res.json({ status: 500, message: 'Error in token' })
+        return res.json({ status: 200, token, data: seller })
         
     } catch (error) {
         return res.json({ status: 500, message: 'Error server', error: error.message });
