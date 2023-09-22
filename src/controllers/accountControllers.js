@@ -83,7 +83,7 @@ const signUpSeller = async (req, res) => {
 
         // Jika ada field yang kosong, kirim respons error 401
         if (missingFields.length > 0) {
-            return res.status(401).json({ error: `Fields are missing: ${missingFields.join(', ')}` });
+            return res.json({ status: 401, message: 'Fields are missing'});
         }
 
         const equalSeller = await Seller.findOne({ email_seller })
