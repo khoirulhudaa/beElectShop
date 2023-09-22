@@ -75,8 +75,15 @@ const signUpSeller = async (req, res) => {
     try {
         const { email_seller, seller_name, gender, telephone_seller, password } = req.body
         
-        if (!email_seller || !seller_name || !gender || !telephone_seller || !password) {
-            return res.status(401).json({ status: 401, message: 'Fields are missing!', data: req.body });
+        // Membuat array yang berisi nama-nama field yang harus ada
+        const requiredFields = ['email_seller', 'seller_name', 'gender', 'telephone_seller', 'password'];
+
+        // Mengecek apakah semua field yang dibutuhkan ada dan tidak kosong
+        const missingFields = requiredFields.filter(field => !req.body[field]);
+
+        // Jika ada field yang kosong, kirim respons error 401
+        if (missingFields.length > 0) {
+            return res.status(401).json({ error: `Fields are missing: ${missingFields.join(', ')}` });
         }
 
         const equalSeller = await Seller.findOne({ email_seller })
