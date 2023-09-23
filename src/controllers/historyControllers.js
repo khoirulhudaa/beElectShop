@@ -39,7 +39,7 @@ const createHistory = async (req, res) => {
         })
 
         await createNewHistory.save()
-        return res.json({ status: 200, message: 'Succesfully add history' })
+        return res.json({ status: 200, message: 'Successfully add history' })
 
     } catch (error) {  
         return res.json({ status: 500, message:'Failed to add history!', error })
@@ -72,7 +72,7 @@ const getAllHistory = async (req, res) => {
         if (product_brand) filter.product_brand = product_brand
 
         const data = await historyModel.find(filter)
-
+        
         return res.json({ status: 200, message: 'Successfully get data history!', data })
 
     } catch (error) {
