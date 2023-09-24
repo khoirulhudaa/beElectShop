@@ -134,7 +134,7 @@ const signInSeller = async (req, res) => {
         const isMatch = await bcrypt.compare(password, seller.password)
         if(!isMatch) return res.json({ status: 401, message: 'Incorrect password' })
 
-        const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '60s' })
+        const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '1h' })
         if(!token) res.json({ status: 500, message: 'Error in token' })
         return res.json({ status: 200, token, data: seller })
         
