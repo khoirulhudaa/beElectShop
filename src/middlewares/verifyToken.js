@@ -4,7 +4,7 @@ const checkToken = (req, res, next) => {
     try {
         const token = req.headers['Authorization'];
     
-        if(token) return res.json({ status: 401, message: 'Token Not Found!' })
+        if(token) return res.json({ status: 401, message: 'Token Not Found!', token })
         return res.json({ message: 'Toekn expred' })
         
         // const result = jsonwebtoken.verify(token, 'ElectShop')
