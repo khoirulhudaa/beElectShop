@@ -1,7 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken')
 
 const checkToken = (req, res, next) => {
-    const token = req.header.authorization;
+    const token = req.headers['Authorization'];
 
     if(!token) return res.json({ status: 401, message: 'Token Not Found!' })
 
