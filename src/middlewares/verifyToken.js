@@ -2,9 +2,7 @@ const jsonwebtoken = require('jsonwebtoken')
 
 const checkToken = (req, res, next) => {
     try {
-        const token = req.headers.authorization
-    
-        if(!token) return res.json({ status: 401, message: 'Token Expired!' })
+        if(!eq.headers.authorization) return res.json({ status: 401, message: 'Token Expired!' })
         
         const result = jsonwebtoken.verify(token, 'ElectShop')
         req.user = result
