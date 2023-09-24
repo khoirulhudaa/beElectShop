@@ -31,11 +31,12 @@ const shopRouter = require('./src/routes/shopRouters')
 const productRouter = require('./src/routes/productRouters')
 const accountRouter = require('./src/routes/accountRouters')
 const historyRouter = require('./src/routes/historyRouters')
+const { checkToken } = require('./src/middlewares/verifyToken')
 
-app.use('/shop', shopRouter)
-app.use('/product', productRouter)
+app.use('/shop', checkToken, shopRouter)
+app.use('/product', checkToken, productRouter)
+app.use('/history', checkToken, historyRouter)
 app.use('/account', accountRouter)
-app.use('/history', historyRouter)
 
 
 // Default route
