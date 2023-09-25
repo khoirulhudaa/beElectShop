@@ -1,17 +1,23 @@
-const jsonwebtoken = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
-const checkToken = (req, res, next) => {
-    try {
-        const token = req.headers['Authorization']
-    
-        if(!token) return res.json({ status: 401, message: 'Token Expired!' })
-        
-        const result = jsonwebtoken.verify(token, 'ElectShop')
-        req.user = result
-        next()
-    } catch (error) {
-        return res.json({ status: 500, message: error.message })
+module.exports = async (req, res, next) => {
+    const token = req.headers['authorization'];
+
+    if (token == undefined) {
+        return res.status(403).json({
+            status: false,
+            message: "You don't have access permissions.",
+        });
     }
-}
 
-module.exports = { checkToken } 
+    jwt.verify(token, 'ElectShop', function (error) {
+        if (error) {
+            return res.status(403).json({
+                status: false,
+                message: error.message,
+            });
+        }
+
+        return next();
+    });
+};

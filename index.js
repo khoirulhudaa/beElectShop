@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
 
 // Routers
-const { checkToken } = require('./src/middlewares/verifyToken')
+const checkToken = require('./src/middlewares/verifyToken')
 const shopRouter = require('./src/routes/shopRouters')
 const productRouter = require('./src/routes/productRouters')
 const accountRouter = require('./src/routes/accountRouters')
