@@ -38,13 +38,6 @@ app.use('/shop', checkToken, shopRouter)
 app.use('/product', checkToken, productRouter)
 app.use('/history', checkToken, historyRouter)
 
-
-// Default route
-app.get('/test', (req, res) => {
-    res.json({message: 'Working'})
-})
-
-
 // Running test
 app.listen(portServer,() => {
     console.log(`Running on port ${portServer}`)
