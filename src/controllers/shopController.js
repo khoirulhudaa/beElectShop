@@ -4,11 +4,45 @@ const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
 
+// Periksa apa ada folder /uploads jika tidak maka buat otomatis
+const uploadDir = path.join(__dirname, '../uploads');
+fs.mkdirSync(uploadDir, { recursive: true });
+
+// menentukan destinasi dan nama file gambar 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const extname = path.extname(file.originalname);
+        const originalFileName = file.originalname;
+        const fileNameWithoutExtension = path.parse(originalFileName).name.split(' ').join('');
+
+        cb(null, `${fileNameWithoutExtension}_${Date.now()}${extname}`);
+    }
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // Batasan ukuran 5Mb
+    fileFilter: (req, file, cb) => {
+        // Persyaratan jenis gambar
+        const allowExtensions = ['.jpg', '.jpeg', '.png'];
+        const extname = path.extname(file.originalname);
+
+        if (allowExtensions.includes(extname)) {
+            cb(null, true);
+        } else {
+            const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
+            cb(error);
+        }
+    },
+});
 
 const createShop = async (req, res) => {
     try {
         // Ambil semua data yang dikirim oleh client
-        const { shop_id, seller_name, shop_name, email_seller, password, telephone_seller } = req.body 
+        const { shop_id, seller_name, shop_name, email_seller, password, telephone_seller, motto_shop, description_shop, shop_address } = req.body 
         
         // Cek apakah email sudah ada ?
         const equalEmail = await shopModel.findOne({email_seller})
@@ -20,6 +54,8 @@ const createShop = async (req, res) => {
         const salt = await bcrypt.genSalt(10)
         const newPasswordGenerate =  await bcrypt.hash(password, salt)
 
+        const checkImage = req.file.filename
+
         // Kirim data ke schema mongodb/database
         const create = new shopModel({
             shop_id,
@@ -27,7 +63,11 @@ const createShop = async (req, res) => {
             shop_name,
             email_seller,
             password: newPasswordGenerate,
-            telephone_seller
+            shop_address,
+            motto_shop,
+            image_shop: checkImage,
+            telephone_seller,
+            description_shop
         })
         await create.save()
 
@@ -70,41 +110,6 @@ const removeShopById = async (req, res) => {
         return res.json({ status: 500, message: 'Failed to delete shop', error: error.message });
     }
 }
-
-// Periksa apa ada folder /uploads jika tidak maka buat otomatis
-const uploadDir = path.join(__dirname, '../uploads');
-fs.mkdirSync(uploadDir, { recursive: true });
-
-// menentukan destinasi dan nama file gambar 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        const extname = path.extname(file.originalname);
-        const originalFileName = file.originalname;
-        const fileNameWithoutExtension = path.parse(originalFileName).name.split(' ').join('');
-
-        cb(null, `${fileNameWithoutExtension}_${Date.now()}${extname}`);
-    }
-});
-
-const upload = multer({
-    storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Batasan ukuran 5Mb
-    fileFilter: (req, file, cb) => {
-        // Persyaratan jenis gambar
-        const allowExtensions = ['.jpg', '.jpeg', '.png'];
-        const extname = path.extname(file.originalname);
-
-        if (allowExtensions.includes(extname)) {
-            cb(null, true);
-        } else {
-            const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
-            cb(error);
-        }
-    },
-});
 
 const updateShop = async (req, res) => {
     try {

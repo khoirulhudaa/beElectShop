@@ -44,7 +44,6 @@ const ShopSchema = new mongoose.Schema({
     },
     description_shop: {
         type: String,
-        default: ''
     },
     telephone_seller: {
         type: String,
