@@ -42,18 +42,13 @@ const upload = multer({
 const createShop = async (req, res) => {
     try {
         // Ambil semua data yang dikirim oleh client
-        const { shop_id, seller_name, shop_name, email_seller, password, telephone_seller, motto_shop, description_shop, shop_address } = req.body 
+        const { shop_id, seller_name, shop_name, email_seller, telephone_seller, motto_shop, description_shop, shop_address } = req.body 
         
         // Cek apakah email sudah ada ?
         const equalEmail = await shopModel.findOne({email_seller})
 
         if(equalEmail) return res.json({ status: 401, message: 'Email already exist!' })
-        if(password.length < 5) return res.json({ status: 500, message: 'Min character length is 6' })
-
-        // Mengubah password menjadi character random
-        const salt = await bcrypt.genSalt(10)
-        const newPasswordGenerate =  await bcrypt.hash(password, salt)
-
+      
         const checkImage = req.file.filename
 
         // Kirim data ke schema mongodb/database
@@ -62,7 +57,6 @@ const createShop = async (req, res) => {
             seller_name,
             shop_name,
             email_seller,
-            password: newPasswordGenerate,
             shop_address,
             motto_shop,
             image_shop: checkImage,
