@@ -38,7 +38,12 @@ const upload = multer({
 
 const createShop = async (req, res) => {
     try {
-        // Ambil semua data yang dikirim oleh client
+        
+        // Cek apakah gambar sudah dikirim oleh client
+        if (!req.file) {
+            return res.json({ status: 400, message: 'No file uploaded' });
+        }
+        
         const { shop_id, seller_name, shop_name, email_seller, telephone_seller, motto_shop, description_shop, shop_address } = req.body 
         
         // Cek apakah email sudah ada ?
