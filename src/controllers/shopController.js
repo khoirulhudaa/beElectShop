@@ -41,7 +41,7 @@ const createShop = async (req, res) => {
         
         // Cek apakah gambar sudah dikirim oleh client
         if (!req.file) {
-            return res.json({ status: 400, message: 'No file uploaded' });
+            return res.json({ status: 400, message: 'No file uploaded', data:req });
         }
         
         const { shop_id, seller_name, shop_name, email_seller, telephone_seller, motto_shop, description_shop, shop_address } = req.body 
