@@ -83,8 +83,8 @@ const createShop = async (req, res) => {
         if(create) return res.json({ status: 200, message: 'Successfully', data: create })
         
     } catch (error) {
-        return res.json({ status: 500, message: 'Failed to signup', error: error });
-    }
+        return res.json({ status: 500, message: 'Failed to signup', error: error.message });
+    }   
 }
 
 const getAllShop = async (req, res) => {
