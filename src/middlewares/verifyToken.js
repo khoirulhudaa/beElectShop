@@ -7,6 +7,7 @@ module.exports = async (req, res, next) => {
         return res.status(403).json({
             status: false,
             message: "You don't have access permissions.",
+            token: req.headers
         });
     }
 
@@ -15,6 +16,7 @@ module.exports = async (req, res, next) => {
             return res.status(401).json({
                 status: false,
                 message: error.message,
+                token: req.headers
             });
         }
 
