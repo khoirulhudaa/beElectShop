@@ -44,18 +44,31 @@ const createShop = async (req, res) => {
             return res.json({ status: 400, message: 'No file uploaded', data:req });
         }
         
-        const { shop_id, seller_name, shop_name, email_seller, telephone_seller, motto_shop, description_shop, shop_address } = req.body 
+        const { seller_name, shop_name, email_seller, telephone_seller, motto_shop, description_shop, shop_address } = req.body 
         
         // Cek apakah email sudah ada ?
         const equalEmail = await shopModel.findOne({email_seller})
-
         if(equalEmail) return res.json({ status: 401, message: 'Email already exist!' })
-      
+       
         const checkImage = req.file.filename
 
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+          
+            for (let i = 0; i < length; i++) {
+              const randomIndex = Math.floor(Math.random() * characters.length);
+              result += characters.charAt(randomIndex);
+            }
+          
+            return result;
+        }
+          
+        const randomString = generateRandomString(5);
+        
         // Kirim data ke schema mongodb/database
         const create = new shopModel({
-            shop_id,
+            shop_id: randomString,
             seller_name,
             shop_name,
             email_seller,
