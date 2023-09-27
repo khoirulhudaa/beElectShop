@@ -4,11 +4,9 @@ const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
 
-// Periksa apa ada folder /uploads jika tidak maka buat otomatis
 const uploadDir = path.join(__dirname, '../uploads');
 fs.mkdirSync(uploadDir, { recursive: true });
 
-// menentukan destinasi dan nama file gambar 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadDir);
@@ -24,9 +22,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Batasan ukuran 5Mb
+    limits: { fileSize: 5 * 1024 * 1024 }, 
     fileFilter: (req, file, cb) => {
-        // Persyaratan jenis gambar
         const allowExtensions = ['.jpg', '.jpeg', '.png'];
         const extname = path.extname(file.originalname);
 
