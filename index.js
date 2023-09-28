@@ -38,6 +38,10 @@ app.use('/shop', checkToken, shopRouter)
 app.use('/product', checkToken, productRouter)
 app.use('/history', checkToken, historyRouter)
 
+app.get('/test', (req, res) => {
+    res.send('test success!')   
+})
+
 // Running test
 app.listen(portServer,() => {
     console.log(`Running on port ${portServer}`)
