@@ -35,57 +35,59 @@ const upload = multer({
         }
     },
 });
-
 const createShop = async (req, res) => {
     try {
+        const { 
+            seller_name, 
+            shop_name, 
+            email_seller, 
+            password,
+            telephone_seller, 
+            motto_shop, 
+            description_shop, 
+            shop_address 
+        } = req.body 
         
-        // Cek apakah gambar sudah dikirim oleh client
-        if (!req.file) {
-            return res.json({ status: 400, message: 'No file uploaded', data:req });
+        // Cek apakah email sudah ada
+        const equalEmail = await shopModel.findOne({ email_seller });
+        if (equalEmail) {
+            return res.status(401).json({ status: 401, message: 'Email already exists' });
         }
-        
-        const { seller_name, shop_name, email_seller, telephone_seller, motto_shop, description_shop, shop_address } = req.body 
-        
-        // Cek apakah email sudah ada ?
-        const equalEmail = await shopModel.findOne({email_seller})
-        if(equalEmail) return res.json({ status: 401, message: 'Email already exist!' })
-       
-        const checkImage = req.file.filename
 
-        function generateRandomString(length) {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-          
-            for (let i = 0; i < length; i++) {
-              const randomIndex = Math.floor(Math.random() * characters.length);
-              result += characters.charAt(randomIndex);
-            }
-          
-            return result;
-        }
-          
-        const randomString = generateRandomString(5);
-        
+        // Enkripsi password
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+
         // Kirim data ke schema mongodb/database
+        const randomString = generateRandomString(5);
+
         const create = new shopModel({
             shop_id: randomString,
             seller_name,
             shop_name,
             email_seller,
+            password: hashPassword,
             shop_address,
             motto_shop,
-            image_shop: checkImage,
+            image_shop: req.file.filename, 
             telephone_seller,
             description_shop
-        })
-        await create.save()
+        });
 
-        if(create) return res.json({ status: 200, message: 'Successfully', data: create })
+        await create.save();
+
+        if (create) {
+            return res.status(200).json({ status: 200, message: 'Successfully' });
+        } else {
+            return res.status(500).json({ status: 500, message: 'Failed to signup' });
+        }
         
     } catch (error) {
-        return res.json({ status: 500, message: 'Failed to signup', error: error.message, req:req });
+        console.error(error); // Cetak kesalahan ke konsol
+        return res.status(500).json({ status: 500, message: 'Failed to signup', error: error.message });
     }   
 }
+
 
 const getAllShop = async (req, res) => {
     try {
