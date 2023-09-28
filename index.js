@@ -7,10 +7,8 @@
     const path = require('path')
 
     // 3 on use start (cors, express.json(), bodyParser.urlencoded)
-    const corsOptions = {
-        origin: 'http://localhost:5173', // Atur origin sesuai dengan alamat client Anda
-        optionsSuccessStatus: 200, // Untuk mengizinkan status 200
-    };
+    app.use(cors())
+
 
     // Get variable environment
     const portServer = process.env.PORT_SERVER_RUNNING
@@ -37,7 +35,7 @@
     const historyRouter = require('./src/routes/historyRouters')
 
     app.use('/account', accountRouter)
-    app.use('/shop', cors(corsOptions), checkToken, shopRouter)
+    app.use('/shop', checkToken, shopRouter)
     app.use('/product', checkToken, productRouter)
     app.use('/history', checkToken, historyRouter)
 
