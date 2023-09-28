@@ -26,10 +26,6 @@ const ShopSchema = new mongoose.Schema({
             message: 'Invalid email format'
         }
     },
-    password: {
-        type: String,
-        required: true
-    },
     shop_address: {
         type: String,
         default: ''

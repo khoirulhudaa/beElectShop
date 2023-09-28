@@ -42,7 +42,6 @@ const createShop = async (req, res) => {
             seller_name, 
             shop_name, 
             email_seller, 
-            password,
             telephone_seller, 
             motto_shop, 
             description_shop, 
@@ -54,10 +53,6 @@ const createShop = async (req, res) => {
         if (equalEmail) {
             return res.status(401).json({ status: 401, message: 'Email already exists' });
         }
-
-        // Enkripsi password
-        const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(password, salt);
 
         // Kirim data ke schema mongodb/database
         function generateRandomString(length) {
@@ -71,7 +66,7 @@ const createShop = async (req, res) => {
           
             return result;
         }
-        
+
         const randomString = generateRandomString(5);
 
         const create = new shopModel({
@@ -79,12 +74,12 @@ const createShop = async (req, res) => {
             seller_name,
             shop_name,
             email_seller,
-            password: hashPassword,
             shop_address,
             motto_shop,
             image_shop: req.file.filename, 
             telephone_seller,
-            description_shop
+            description_shop,
+            followers: 0
         });
 
         await create.save();
