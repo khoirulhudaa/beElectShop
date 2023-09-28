@@ -51,7 +51,11 @@ const createShop = async (req, res) => {
         // Cek apakah email sudah ada
         const equalEmail = await shopModel.findOne({ email_seller });
         if (equalEmail) {
-            return res.status(401).json({ status: 401, message: 'Email already exists' });
+            return res.json({ status: 401, message: 'Email already exists' });
+        }
+
+        if (!req.file) {
+            return res.json({ status: 401, message: 'File Not Found' });
         }
 
         // Kirim data ke schema mongodb/database
@@ -85,14 +89,14 @@ const createShop = async (req, res) => {
         await create.save();
 
         if (create) {
-            return res.status(200).json({ status: 200, message: 'Successfully' });
+            return res.json({ status: 200, message: 'Successfully' });
         } else {
-            return res.status(500).json({ status: 500, message: 'Failed to signup' });
+            return res.json({ status: 500, message: 'Failed to signup' });
         }
         
     } catch (error) {
         console.error(error); // Cetak kesalahan ke konsol
-        return res.status(500).json({ status: 500, message: 'Failed to signup', error: error.message });
+        return res.json({ status: 500, message: 'Failed to signup', error: error.message });
     }   
 }
 
