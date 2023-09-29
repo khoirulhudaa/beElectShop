@@ -45,7 +45,8 @@ const createShop = async (req, res) => {
             telephone_seller, 
             motto_shop, 
             description_shop, 
-            shop_address 
+            shop_address,
+            seller_id
         } = req.body 
         
         // Cek apakah email sudah ada
@@ -62,7 +63,7 @@ const createShop = async (req, res) => {
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '';
-          
+            
             for (let i = 0; i < length; i++) {
               const randomIndex = Math.floor(Math.random() * characters.length);
               result += characters.charAt(randomIndex);
@@ -76,6 +77,7 @@ const createShop = async (req, res) => {
         const create = new shopModel({
             shop_id: randomString,
             seller_name,
+            seller_id,
             shop_name,
             email_seller,
             shop_address,

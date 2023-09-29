@@ -5,6 +5,10 @@ const ShopSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    seller_id: {
+        type: String,
+        required: true,
+    },
     seller_name: {
         type: String,
         required: true
