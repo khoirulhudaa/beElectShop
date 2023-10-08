@@ -88,7 +88,7 @@ const createShop = async (req, res) => {
             followers: 0
         });
 
-        await create.save();
+        const create = await create.save();
 
         if (create) {
             return res.json({ status: 200, message: 'Successfully' });
