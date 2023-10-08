@@ -88,9 +88,9 @@ const createShop = async (req, res) => {
             followers: 0
         });
 
-        const create = await create.save();
+        const created = await create.save();
 
-        if (create) {
+        if (created) {
             return res.json({ status: 200, message: 'Successfully' });
         } else {
             return res.json({ status: 500, message: 'Failed to signup' });
