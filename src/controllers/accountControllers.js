@@ -129,7 +129,6 @@ const signInSeller = async (req, res) => {
     try {
         const { email_seller, password } = req.body;
 
-        // Validasi input
         if (!email_seller || !password) {
             return res.status(400).json({ status: 400, message: 'Invalid input' });
         }
@@ -149,11 +148,9 @@ const signInSeller = async (req, res) => {
             return res.status(500).json({ status: 500, message: 'Error in token' });
         }
 
-        // Kirim token dan data seller
         return res.status(200).json({ status: 200, token, data: seller });
 
     } catch (error) {
-        // Tangani kesalahan dengan benar
         return res.status(500).json({ status: 500, message: 'Server error', error: error.message });
     }
 }
