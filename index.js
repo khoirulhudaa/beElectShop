@@ -13,7 +13,7 @@ app.use(cors())
 const portServer = process.env.PORT_SERVER_RUNNING
 
 // Connected on database ft mongodb
-mongoose.connect('mongodb+srv://dragme:HBXrSHZaJqemsDtW@cluster0.oadoa02.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://muhammadkhoirulhuda111:qg1FbjbxzJDiPp50@cluster0.oadoa02.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log('Successfully connect on database')
 })
