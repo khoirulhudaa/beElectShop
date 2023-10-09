@@ -67,9 +67,7 @@ const signInConsumer = async (req, res) => {
     }
 } 
 
-
 // Seller Authentication
-
 
 const signUpSeller = async (req, res) => {
     try {
@@ -125,24 +123,40 @@ const signUpSeller = async (req, res) => {
     }
 }
 
+// SignIn Account Seller
+
 const signInSeller = async (req, res) => {
     try {
-        const {email_seller, password} = req.body
-        const seller = await Seller.findOne({ email_seller })
-        if(!seller) return res.json({ status: 404, message: 'Seller not found!' })
+        const { email_seller, password } = req.body;
 
-        const isMatch = await bcrypt.compare(password, seller.password)
-        if(!isMatch) return res.json({ status: 401, message: 'Incorrect password' })
+        // Validasi input
+        if (!email_seller || !password) {
+            return res.status(400).json({ status: 400, message: 'Invalid input' });
+        }
 
-        const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '1h' })
-        if(!token) res.json({ status: 500, message: 'Error in token' })
-        return res.json({ status: 200, token, data: seller })
-        
+        const seller = await Seller.findOne({ email_seller });
+        if (!seller) {
+            return res.status(404).json({ status: 404, message: 'Seller not found!' });
+        }
+
+        const isMatch = await bcrypt.compare(password, seller.password);
+        if (!isMatch) {
+            return res.status(401).json({ status: 401, message: 'Incorrect password' });
+        }
+
+        const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '1h' });
+        if (!token) {
+            return res.status(500).json({ status: 500, message: 'Error in token' });
+        }
+
+        // Kirim token dan data seller
+        return res.status(200).json({ status: 200, token, data: seller });
+
     } catch (error) {
-        return res.json({ status: 500, message: 'Error server', error: error.message });
+        // Tangani kesalahan dengan benar
+        return res.status(500).json({ status: 500, message: 'Server error', error: error.message });
     }
-} 
-
+}
 
 // Delete Account
 
