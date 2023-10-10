@@ -124,36 +124,30 @@ const signUpSeller = async (req, res) => {
 }
 
 // SignIn Account Seller
+const TIMEOUT_MS = 10000; // 10 detik
 
-const signInSeller = async (req, res) => {
-    try {
-        const { email_seller, password } = req.body;
+const timeoutPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    reject(new Error('Request timeout'));
+  }, TIMEOUT_MS);
+});
 
-        if (!email_seller || !password) {
-            return res.status(400).json({ status: 400, message: 'Invalid input' });
-        }
+try {
+  const result = await Promise.race([
+    Seller.findOne({ email_seller }),
+    timeoutPromise,
+  ]);
 
-        const seller = await Seller.findOne({ email_seller });
-        if (!seller) {
-            return res.status(404).json({ status: 404, message: 'Seller not found!' });
-        }
-
-        const isMatch = await bcrypt.compare(password, seller.password);
-        if (!isMatch) {
-            return res.status(401).json({ status: 401, message: 'Incorrect password' });
-        }
-
-        const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '1h' });
-        if (!token) {
-            return res.status(500).json({ status: 500, message: 'Error in token' });
-        }
-
-        return res.status(200).json({ status: 200, token, data: seller });
-
-    } catch (error) {
-        return res.status(500).json({ status: 500, message: 'Server error', error: error.message });
-    }
+  // Lanjutkan dengan hasil query jika tidak timeout
+  res.status(200).json({ status: 200, data: result });
+} catch (error) {
+  if (error.message === 'Request timeout') {
+    res.status(504).json({ status: 504, message: 'Request timeout. Please try again later.' });
+  } else {
+    res.status(500).json({ status: 500, message: 'Internal Server Error', error: error.message });
+  }
 }
+
 
 // Delete Account
 
