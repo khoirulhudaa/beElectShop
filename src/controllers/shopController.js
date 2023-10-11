@@ -105,11 +105,11 @@ const createShop = async (req, res) => {
 
 const getAllShop = async (req, res) => {
     try {
-        // const { seller_id } = req.params
-        // const filter = {}
-        // if(seller_id) filter.seller_id = seller_id 
+        const { seller_id } = req.params
+        const filter = {}
+        if(seller_id) filter.seller_id = seller_id 
         
-        const dataShop = await shopModel.find()
+        const dataShop = await shopModel.find(filter)
         if(!dataShop) return res.json({ status: 404, message: 'Shop not found!' })
 
         return res.json({ status: 200, data: dataShop })
