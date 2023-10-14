@@ -140,7 +140,7 @@ const updateShop = async (req, res) => {
     try {
         const { shop_id } = req.params
         const { seller_name, shop_name, shop_address, motto_shop, description_shop, telephone_seller, followers } = req.body;
-        const image_shop = req.file.filename
+        const image_shop = req.file ? req.file.filename : undefined
 
         const equalShop = await shopModel.findOne({ shop_id })
         if(!equalShop) return res.json({ status: 404, message: 'Product not found!' })
@@ -166,7 +166,7 @@ const updateShop = async (req, res) => {
             return res.json({ status: 500, message: 'Failed to update product!', img_old: oldImage })
         }
     
-        if(oldImage && oldImage !== 'defaultShop.jpg') {
+        if(oldImage && image_shop !== undefined) {
             fs.unlink(`../uploads/${oldImage}`, err => {
                 if(err) return res.json({ status: 500, message: 'Error to remove old image!', error: err.message })
             })
