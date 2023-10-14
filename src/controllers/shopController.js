@@ -139,7 +139,7 @@ const removeShopById = async (req, res) => {
 const updateShop = async (req, res) => {
     try {
         const { shop_id } = req.params
-        const { seller_name, shop_name, email_seller, password, shop_address, motto_shop, description_shop, telephone_seller, followers } = req.body;
+        const { seller_name, shop_name, shop_address, motto_shop, description_shop, telephone_seller, followers } = req.body;
         const image_shop = req.file.filename
 
         const equalShop = await shopModel.findOne({ shop_id })
@@ -147,15 +147,10 @@ const updateShop = async (req, res) => {
         
         const oldImage = equalShop.image_shop
         
-        const salt = await bcrypt.genSalt(10)
-        const hashPassword = await bcrypt.hash(password, salt)
-
         const filter = { shop_id }
         const set = { 
             seller_name,
-            email_seller,
             shop_name,
-            password: hashPassword,
             shop_address,
             image_shop,
             motto_shop,
