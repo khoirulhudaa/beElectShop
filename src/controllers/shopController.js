@@ -168,7 +168,8 @@ const updateShop = async (req, res) => {
     
         if(oldImage && image_shop) {
             try {
-                await fs.unlink(`../uploads/${oldImage}`)
+                const imagePath = path.join(__dirname, '..', 'uploads', oldImage);
+                await fs.promise.unlink(imagePath);
             } catch(error) {
                 return res.json({ status: 500, message: 'Error removing old image!', error: error.message })
             }
