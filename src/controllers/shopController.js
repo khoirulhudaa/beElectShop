@@ -144,16 +144,9 @@ const updateShop = async (req, res) => {
         const equalShop = await shopModel.findOne({ shop_id })
         if(!equalShop) return res.json({ status: 404, message: 'Shop not found!' })
         
-        const oldImage = equalShop.image_shop
-        if(oldImage && image_shop) {
-            try {
-                await fs.promises.unlink(`../uploads/${oldImage}`)
-            } catch(error) {
-                return res.json({ status: 500, message: 'Error to remove old image!', error: error.message })
-            }
-        }
-
-        const image_shop = req.file ? req.file.filename : undefined
+        const oldImage = equalShop.image_shop; // Ambil oldImage sebelum mengganti image_shop
+        const image_shop = req.file ? req.file.filename : undefined;
+        
         const filter = { shop_id }
         const set = { 
             seller_name,
@@ -172,6 +165,14 @@ const updateShop = async (req, res) => {
             console.error('Gagal memperbarui data toko:', update);
             return res.json({ status: 500, message: 'Failed to update shop!', img_old: oldImage })
         }
+    
+        if(oldImage && image_shop) {
+            try {
+                await fs.promises.unlink(`../uploads/${oldImage}`)
+            } catch(error) {
+                return res.json({ status: 500, message: 'Error removing old image!', error: error.message })
+            }
+        }
 
         return res.json({ status: 200, message: 'Successfully to update product!'})
         
@@ -179,6 +180,7 @@ const updateShop = async (req, res) => {
         return res.json({ status: 500, message: 'Failed to update product', error: error.message })
     }
 }
+
 
 module.exports = {
     getAllShop,
