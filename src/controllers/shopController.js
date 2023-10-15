@@ -168,13 +168,13 @@ const updateShop = async (req, res) => {
     
         if(oldImage && image_shop) {
             try {
-                await fs.promises.unlink(`../uploads/${oldImage}`)
-                return res.json({ status: 200, message: 'Successfully to update product!'})
+                await fs.unlink(`../uploads/${oldImage}`)
             } catch(error) {
                 return res.json({ status: 500, message: 'Error removing old image!', error: error.message })
             }
         }
         
+        return res.json({ status: 200, message: 'Successfully to update product!'})
         // return res.json({ status: 200, message: 'Successfully to update product!'})
     
     } catch (error) {
