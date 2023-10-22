@@ -11,14 +11,6 @@ const getAllProducts = async (req, res) => {
         if (shop_id) filter.shop_id = shop_id
 
         let productResult = await productModel.find(filter)
-
-        if (product_price === 'asc') {
-            productResult = productResult.sort((a, b) => a.product_price - b.product_price)
-        }
-        if (product_price === 'desc') {
-            productResult = productResult.sort((a, b) => b.product_price - a.product_price)
-        }
-
         return res.json({ status: 200, data: productResult, message: 'Data semua produk' })
 
     } catch (error) {
