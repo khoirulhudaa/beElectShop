@@ -5,7 +5,7 @@ const fs = require('fs')
 
 const getAllProducts = async (req, res) => {
     try {
-        const { shop_id, product_size, product_brand, product_price, product_name } = req.query    
+        const { shop_id } = req.params    
         let filter = {}
 
         if (shop_id) filter.shop_id = shop_id
