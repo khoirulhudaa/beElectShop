@@ -92,9 +92,11 @@ const createProduct = async (req, res) => {
 
         // Periksa apakah sudah ada data dengan spesifikasi yang sama
         const equalProduct = await productModel.findOne({ product_name, shop_id, product_size });
-
         if(equalProduct) return res.json({ status: 401, message: 'Product already exist!' })
-        const product_image = req.file.filename
+        
+        if(!req.file) {
+            return res.json({ status: 404, message: 'File not found!' })
+        }
 
         function generateRandomString(length) { 
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -118,7 +120,7 @@ const createProduct = async (req, res) => {
             product_type,
             product_color,
             product_description,
-            product_image,
+            product_image: req.file.filename,
             product_price,
             product_size,
             product_category,
