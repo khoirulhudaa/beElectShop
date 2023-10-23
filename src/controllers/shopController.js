@@ -48,6 +48,8 @@ const createShop = async (req, res) => {
             shop_address,
             seller_id
         } = req.body 
+
+        if(!seller_name) return res.json({ status: 500, message: 'data tidak ada seller name!' })
         
         // Cek apakah email sudah ada
         const equalEmail = await shopModel.findOne({ email_seller });
