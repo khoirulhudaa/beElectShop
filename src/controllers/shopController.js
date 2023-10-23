@@ -91,14 +91,14 @@ const createShop = async (req, res) => {
         const created = await create.save();
 
         if (created) {
-            return res.json({ status: 200, message: 'Successfully' });
+            return res.json({ status: 200, message: 'Successfully create shop!' });
         } else {
-            return res.json({ status: 500, message: 'Failed to signup' });
+            return res.json({ status: 500, message: 'Failed to signup!' });
         }
         
     } catch (error) {
         console.error(error); // Cetak kesalahan ke konsol
-        return res.json({ status: 500, message: 'Failed to signup', error: error.message });
+        return res.json({ status: 500, message: 'Failed to signup!', error: error.message });
     }   
 }
 
