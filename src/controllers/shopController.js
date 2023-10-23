@@ -57,9 +57,9 @@ const createShop = async (req, res) => {
             return res.json({ status: 401, message: 'Email already exists' });
         }
 
-        // if (!req.file) {
-        //     return res.json({ status: 401, message: 'File Not Found' });
-        // }
+        if (!req.file) {
+            return res.json({ status: 401, message: 'File Not Found' });
+        }
 
         // Kirim data ke schema mongodb/database
         function generateRandomString(length) {
@@ -84,7 +84,7 @@ const createShop = async (req, res) => {
             email_seller,
             shop_address,
             motto_shop,
-            // image_shop: req.file.filename, 
+            image_shop: req.file.filename, 
             telephone_seller,
             description_shop,
             followers: 0
