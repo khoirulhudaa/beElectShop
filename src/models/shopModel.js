@@ -34,10 +34,10 @@ const ShopSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    image_shop: {
-        type: String,
-        default: 'defaultShop.jpg'
-    },
+    // image_shop: {
+    //     type: String,
+    //     default: 'defaultShop.jpg'
+    // },
     motto_shop: {
         type: String,
         default: ''
