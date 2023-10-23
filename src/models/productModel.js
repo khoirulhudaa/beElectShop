@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
     product_color: {
         type: String,
         required: true,
-        default: 'random'
+        default: 'black'
     },
     product_description: {
         type: String,

@@ -74,7 +74,18 @@ const upload = multer({
 
 const createProduct = async (req, res) => {
     try {
-        const { product_name, shop_id, product_type, product_category, product_color, product_description, product_price, product_size, product_brand, quantity } = req.body  
+        const { 
+            product_name, 
+            shop_id, 
+            product_type, 
+            product_category, 
+            product_color, 
+            product_description, 
+            product_price, 
+            product_size, 
+            product_brand, 
+            quantity 
+        } = req.body  
 
         // Validasi data
         if (!product_name || !shop_id || !product_type || !product_color || !product_description || !product_price || !product_size || !product_brand || !quantity) {
@@ -117,8 +128,8 @@ const createProduct = async (req, res) => {
             product_category,
             product_brand,
             quantity,
-            
         })
+        
         await createNewProduct.save()
         
         return res.json({ status: 200, message: 'Successfully add new product!' })
