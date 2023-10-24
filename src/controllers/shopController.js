@@ -74,9 +74,9 @@ const createShop = async (req, res) => {
             return result;
         }
 
-        const randomString = generateRandomString(5);
+        const randomString = await generateRandomString(5);
 
-        const create =  new shopModel({
+        const create = await new shopModel({
             shop_id: randomString,
             seller_name,
             seller_id,
@@ -100,8 +100,7 @@ const createShop = async (req, res) => {
         
     } catch (error) {
         console.error(error); // Cetak kesalahan ke konsol
-        console.error(req); // Cetak kesalahan ke konsol
-        return res.json({ status: 500, message: 'Failed to signup!', error: req  });
+        return res.json({ status: 500, message: 'Failed to signup!', error: error.message  });
     }   
 }
 
