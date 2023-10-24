@@ -37,7 +37,7 @@ const upload = multer({
 });
 
 const createShop = async (req, res) => {
-    if(!req) return res.json({ status: 50000, data: req })
+    if(req) return res.json({ status: 50000, data: req })
     try {
         const { 
             seller_name, 
@@ -50,9 +50,9 @@ const createShop = async (req, res) => {
             seller_id
         } = req.body 
 
-        if(!req) return res.json({ status: 50001, data: req })
+        if(req) return res.json({ status: 50001, data: req })
 
-        if(!seller_name) return  res.json({ status: 500, message: 'data tidak ada seller name!' })
+        if(seller_name) return  res.json({ status: 500, message: 'data ada seller name!' })
         
         // Cek apakah email sudah ada
         const equalEmail = await shopModel.findOne({ email_seller });
