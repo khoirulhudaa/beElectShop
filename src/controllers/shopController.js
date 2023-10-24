@@ -39,6 +39,7 @@ const upload = multer({
 });
 
 const createShop = async (req, res) => {
+    console.log(req)
     try {
         const { 
             seller_name, 
@@ -53,6 +54,7 @@ const createShop = async (req, res) => {
 
         // Cek apakah email sudah ada
         const equalEmail = await shopModel.findOne({ email_seller });
+
         if (equalEmail) {
             return res.json({ status: 401, message: 'Shop already exists' });
         }
@@ -74,9 +76,9 @@ const createShop = async (req, res) => {
             return result;
         }
 
-        const randomString = await generateRandomString(5);
+        const randomString = generateRandomString(5);
 
-        const create = await new shopModel({
+        const create = new shopModel({
             shop_id: randomString,
             seller_name,
             seller_id,
@@ -99,6 +101,7 @@ const createShop = async (req, res) => {
         }
         
     } catch (error) {
+        console.log(req)
         console.error(error); // Cetak kesalahan ke konsol
         return res.json({ status: 500, message: 'Failed to signup!', error: error.message  });
     }   
