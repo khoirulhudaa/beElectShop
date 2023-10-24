@@ -52,7 +52,7 @@ const createShop = async (req, res) => {
         // Cek apakah email sudah ada
         const equalEmail = await shopModel.findOne({ email_seller });
         if (equalEmail) {
-            return res.json({ status: 401, message: 'Email already exists' });
+            return res.json({ status: 401, message: 'Shop already exists' });
         }
 
         if (!req.file) {
@@ -74,7 +74,7 @@ const createShop = async (req, res) => {
 
         const randomString = generateRandomString(5);
 
-        const create = await new shopModel({
+        const create =  new shopModel({
             shop_id: randomString,
             seller_name,
             seller_id,
@@ -98,7 +98,8 @@ const createShop = async (req, res) => {
         
     } catch (error) {
         console.error(error); // Cetak kesalahan ke konsol
-        return res.json({ status: 500, message: 'Failed to signup!', error: error.message });
+        console.error(req); // Cetak kesalahan ke konsol
+        return res.json({ status: 500, message: 'Failed to signup!', error: req  });
     }   
 }
 
