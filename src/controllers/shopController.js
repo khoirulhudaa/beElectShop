@@ -44,12 +44,12 @@ const createShop = async (req, res) => {
         const { 
             seller_name, 
             shop_name, 
+            seller_id,
             email_seller, 
             telephone_seller, 
             motto_shop, 
             description_shop, 
-            shop_address,
-            seller_id
+            shop_address
         } = req.body 
 
         // Cek apakah email sudah ada
@@ -81,14 +81,14 @@ const createShop = async (req, res) => {
         const create = new shopModel({
             shop_id: randomString,
             seller_name,
-            seller_id,
             shop_name,
+            seller_id,
             email_seller,
-            shop_address,
-            motto_shop,
-            image_shop: req.file.filename, 
             telephone_seller,
+            motto_shop,
             description_shop,
+            shop_address,
+            image_shop: req.file.filename, 
             followers: 0
         });
 
