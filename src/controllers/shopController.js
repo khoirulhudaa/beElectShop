@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
+const productModel = require('../models/productModel')
 
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -130,12 +131,14 @@ const removeShopById = async (req, res) => {
 
         const equalShopId = await shopModel.findOne({shop_id})
         if(!equalShopId) return res.json({ status: 404, message: 'Shop not found!' })
-
+        
         const dataShopDelete = await shopModel.deleteOne({shop_id})
-
         if(!dataShopDelete) return res.json({ status: 404, message: 'Failed to delete shop' })
+        
+        await productModel.deleteMany({ shop_id });
 
         return res.json({ status: 200, message: 'Successfully delete shop', data: equalShopId })
+    
     } catch (error) {
         return res.json({ status: 500, message: 'Failed to delete shop', error: error.message });
     }

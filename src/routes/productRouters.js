@@ -1,10 +1,17 @@
-const express = require('express')
-const productControllers = require('../controllers/productControllers')
-const router = express.Router()
+const express = require('express');
+const productControllers = require('../controllers/productControllers');
+const router = express.Router();
 
-router.post('/', productControllers.upload.single('product_image'), productControllers.createProduct)
-router.get('/:shop_id?', productControllers.getAllProducts)
-router.delete('/:product_id', productControllers.removeProductById)
-router.post('/:product_id?', productControllers.upload.single('product_image'), productControllers.updateProduct)
+// Create a new product
+router.post('/', productControllers.upload.single('product_image'), productControllers.createProduct);
 
-module.exports = router
+// Get all products for a shop (if shop_id is provided)
+router.get('/:shop_id?', productControllers.getAllProducts);
+
+// Remove a product by its ID
+router.delete('/product/:product_id', productControllers.removeProductById);
+
+// Update a product by its ID
+router.post('/product/:product_id', productControllers.upload.single('product_image'), productControllers.updateProduct);
+
+module.exports = router;
