@@ -24,6 +24,7 @@ const getAllProducts = async (req, res) => {
 const removeProductById = async (req, res) => {
     try {
         const { product_id } = req.params
+        
         const equalProductId = await productModel.findOne({product_id})
         if(!equalProductId) return res.json({ status: 404, message: 'Product not found!' })
 

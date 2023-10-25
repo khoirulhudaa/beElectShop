@@ -9,9 +9,9 @@ router.post('/', productControllers.upload.single('product_image'), productContr
 router.get('/:shop_id?', productControllers.getAllProducts);
 
 // Remove a product by its ID
-router.delete('/product/:product_id', productControllers.removeProductById);
+router.delete('/:product_id', productControllers.removeProductById);
 
 // Update a product by its ID
-router.post('/product/:product_id', productControllers.upload.single('product_image'), productControllers.updateProduct);
+router.post('/:product_id', productControllers.upload.single('product_image'), productControllers.updateProduct);
 
 module.exports = router;
