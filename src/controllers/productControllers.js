@@ -166,7 +166,7 @@ const updateProduct = async (req, res) => {
         if(!equalProduct) return res.json({ status: 404, message: 'Product not found!' })
         
         const oldImage = equalProduct.product_image
-        const product_image = req.file.filename
+        const product_image = req.file ? req.file.filename : undefined;
 
         const filter = { product_id }
         const set = { 
