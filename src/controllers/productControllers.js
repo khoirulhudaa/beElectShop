@@ -185,10 +185,13 @@ const updateProduct = async (req, res) => {
         const update = await productModel.updateOne(filter, set)
         if(!update) return res.json({ status: 500, message: 'Failed to update product!' })
 
-        if(oldImage && oldImage !== 'defaultShop.jpg') {
-            fs.unlink(`../uploads/${oldImage}`, err => {
-                if(err) return res.json({ status: 500, message: 'Error to remove old image!', error: err.message })
-            })
+        if(oldImage && product_image) {
+            try {
+                const imagePath = path.join(__dirname, '..', 'uploads', oldImage);
+                await fs.promises.unlink(imagePath);
+            } catch(error) {
+                return res.json({ status: 500, message: 'Error removing old image!', error: error.message })
+            }
         }
 
         return res.json({ status: 200, message: 'Successfully to update product!' })

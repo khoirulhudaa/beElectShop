@@ -15,6 +15,6 @@ router.get('/Oneproduct/:product_id?', productControllers.getProductById);
 router.delete('/:product_id', productControllers.removeProductById);
 
 // Update a product by its ID
-router.post('/:product_id', productControllers.upload.single('product_image'), productControllers.updateProduct);
+router.put('/:product_id', productControllers.upload.single('product_image'), productControllers.updateProduct);
 
 module.exports = router;
