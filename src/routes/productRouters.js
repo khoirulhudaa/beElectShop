@@ -9,7 +9,7 @@ router.post('/', productControllers.upload.single('product_image'), productContr
 router.get('/:shop_id?', productControllers.getAllProducts);
 
 // Get one products for a product_id
-router.get('/:product_id?', productControllers.getProductById);
+router.get('/Oneproduct/:product_id?', productControllers.getProductById);
 
 // Remove a product by its ID
 router.delete('/:product_id', productControllers.removeProductById);
