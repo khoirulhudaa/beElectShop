@@ -8,6 +8,9 @@ router.post('/', productControllers.upload.single('product_image'), productContr
 // Get all products for a shop (if shop_id is provided)
 router.get('/:shop_id?', productControllers.getAllProducts);
 
+// Get one products for a product_id
+router.get('/:product_id?', productControllers.getAllProducts);
+
 // Remove a product by its ID
 router.delete('/:product_id', productControllers.removeProductById);
 

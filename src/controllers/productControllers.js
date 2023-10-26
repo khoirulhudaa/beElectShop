@@ -5,10 +5,11 @@ const fs = require('fs')
 
 const getAllProducts = async (req, res) => {
     try {
-        const { shop_id } = req.params    
+        const { shop_id, product_id } = req.params    
         let filter = {}
 
         if (shop_id) filter.shop_id = shop_id
+        if (product_id) filter.product_id = product_id
 
         let productResult = await productModel.find(filter)
         if(!productResult) return res.json({ status: 404, message: 'Product not found!' })
