@@ -21,6 +21,22 @@ const getAllProducts = async (req, res) => {
     }
 }
 
+const getProductById = async (req, res) => {
+    try {
+        const { product_id } = req.params    
+        let filter = {}
+
+        if (product_id) filter.product_id = product_id
+
+        let productResult = await productModel.find(filter)
+        if(!productResult) return res.json({ status: 404, message: `Product with product id: ${product_id} not found!` })
+      
+        return res.json({ status: 200, data: productResult, message: 'All data product' })
+
+    } catch (error) {
+        return res.json({ status: 500, message: error.message })
+    }
+}
 
 const removeProductById = async (req, res) => {
     try {
@@ -188,5 +204,6 @@ module.exports = {
     createProduct,
     removeProductById,
     updateProduct,
+    getProductById,
     upload
 }
