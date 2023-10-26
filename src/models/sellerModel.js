@@ -29,12 +29,28 @@ const SellerSchema = new mongoose.Schema({
     gender: {
         type: String,
         required: true,
-        default: 'Male'
+        default: ''
     },
     telephone_seller: {
         type: String,
         required: true,
         maxLength: 13
+    },
+    seller_image: {
+        type: String,
+        default: 'default.jpg'
+    },
+    instagram: {
+        type: String,
+        default: ''
+    },
+    twitter: {
+        type: String,
+        default: ''
+    },
+    birthday: {
+        type: Date,
+        default: ''
     }
 })
 
