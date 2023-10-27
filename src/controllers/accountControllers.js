@@ -1,7 +1,10 @@
+const multer = require('multer');
 const Consumer = require('../models/consumerModel')
 const Seller = require('../models/sellerModel')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const fs = require('fs')
+const path = require('path')
 
 
 const uploadDir = path.join(__dirname, '../uploads');
