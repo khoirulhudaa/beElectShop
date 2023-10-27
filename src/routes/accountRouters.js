@@ -17,4 +17,7 @@ router.get('/list/seller', accountController.getAllSeller)
 router.delete('/consumer/:consumer_id', accountController.removeConsumer)
 router.delete('/seller/:seller_id', accountController.removeSeller)
 
+// Update Account
+router.put('/seller/:seller_id', accountController.upload.single('seller_image'), accountController.updateSellerAccount)
+
 module.exports = router

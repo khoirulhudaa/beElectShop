@@ -4,6 +4,40 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const extname = path.extname(file.originalname);
+        const originalFileName = file.originalname;
+        const fileNameWithoutExtension = path.parse(originalFileName).name.split(' ').join('');
+
+        cb(null, `${fileNameWithoutExtension}_${Date.now()}${extname}`);
+    }
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, 
+    fileFilter: (req, file, cb) => {
+        const allowExtensions = ['.jpg', '.jpeg', '.png'];
+        const extname = path.extname(file.originalname);
+
+        if (allowExtensions.includes(extname)) {
+            cb(null, true);
+        } else {
+            const error = new Error('Hanya file dengan ekstensi jpg, jpeg, atau png yang diperbolehkan.');
+            cb(error);
+        }
+    },
+});
+
 // Consumer Authentication
 
 const signUpConsumer = async (req, res) => {
@@ -190,12 +224,16 @@ const removeSeller = async (req, res) => {
 }
 
 
-// Get users
-
+// Get all account
 
 const getAllConsumer = async (req, res) => {
     try {
-        const getConsumer = await Consumer.find()
+        const { consumer_id } = req.params
+        const filter = {}
+
+        if(consumer_id) filter.consumer_id = consumer_id
+
+        const getConsumer = await Consumer.find(filter)
 
         return res.json({ status: 200, message: 'Successfully get users', data: getConsumer })
 
@@ -206,12 +244,55 @@ const getAllConsumer = async (req, res) => {
 
 const getAllSeller = async (req, res) => {
     try {
-        const getSeller = await Seller.find()
+        const { seller_id } = req.params
+        const filter = {}
+
+        if(seller_id) filter.seller_id = seller_id
+
+        const getSeller = await Seller.find(filter)
 
         return res.json({ status: 200, message: 'Successfully get users', data: getSeller })
 
     } catch (error) {
         return res.json({ status: 500, message: 'Error server', error })
+    }
+}
+
+const updateSellerAccount = async (req, res) => {
+    try {
+        const { seller_id } = req.params
+        const { seller_name, email_seller, telephone_seller, gender, instagram, twitter, birthday } = req.params
+        
+        const requiredFields = ['email_seller', 'seller_name', 'gender', 'telephone_seller'];
+        const missingFields = requiredFields.filter(field => !req.body[field]);
+        
+        if (missingFields.length > 0) {
+            return res.json({ status: 401, message: 'Fields are missing'});
+        }
+        
+        const seller_image = req.file ? req.file.filename : undefined;
+
+        const filter = { seller_id }
+        const set = { 
+            seller_name, 
+            email_seller, 
+            telephone_seller, 
+            gender, 
+            instagram, 
+            twitter, 
+            birthday,
+            seller_image
+         } 
+
+         const update = await Seller.updateOne(filter, set)
+         if(update) {
+             return res.json({ status: 200, message: 'Successfully for update data account!' })
+         }else {
+             return res.json({ status: 500, message: 'Update account failed!', error: error.message })
+         }
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Server error!', error: error.message })
     }
 }
 
@@ -223,5 +304,7 @@ module.exports = {
     removeConsumer,
     removeSeller,
     getAllConsumer,
-    getAllSeller
+    getAllSeller,
+    updateSellerAccount,
+    upload
 }
