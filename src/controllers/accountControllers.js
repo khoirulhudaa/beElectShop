@@ -289,7 +289,7 @@ const updateSellerAccount = async (req, res) => {
 
          const update = await Seller.updateOne(filter, set)
          if(update) {
-             return res.json({ status: 200, message: 'Successfully for update data account!' })
+             return res.json({ status: 200, message: 'Successfully for update data account!', data: set })
          }else {
              return res.json({ status: 500, message: 'Update account failed!', error: error.message })
          }
