@@ -266,7 +266,7 @@ const updateSellerAccount = async (req, res) => {
         const { seller_id } = req.params
         const { seller_name, email_seller, telephone_seller, gender, instagram, twitter, birthday } = req.params
         
-        const requiredFields = ['email_seller', 'seller_name', 'gender', 'telephone_seller'];
+        const requiredFields = ['email_seller', 'seller_name', 'gender', 'telephone_seller', 'birthday'];
         const missingFields = requiredFields.filter(field => !req.body[field]);
         
         if (missingFields.length > 0) {
