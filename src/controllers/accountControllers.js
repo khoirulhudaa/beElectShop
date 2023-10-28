@@ -283,7 +283,7 @@ const updateSellerAccount = async (req, res) => {
             gender, 
             instagram, 
             twitter, 
-            birthday: new Date(birthday),
+            birthday,
             seller_image
          } 
 
