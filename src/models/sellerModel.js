@@ -38,7 +38,7 @@ const SellerSchema = new mongoose.Schema({
     },
     seller_image: {
         type: String,
-        default: 'default.jpg'
+        default: 'default.png'
     },
     instagram: {
         type: String,
@@ -50,7 +50,7 @@ const SellerSchema = new mongoose.Schema({
     },
     birthday: {
         type: Date,
-        default: ''
+        default: new Date()
     }
 })
 
