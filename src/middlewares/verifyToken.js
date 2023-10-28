@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
 
     jwt.verify(token, 'ElectShop', function (error) {
         if (error) {
-            return res.status(401).json({
+            return res.status(403).json({
                 status: false,
                 message: error.message,
                 token: req.headers
