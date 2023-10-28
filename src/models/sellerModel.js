@@ -47,6 +47,10 @@ const SellerSchema = new mongoose.Schema({
     twitter: {
         type: String,
         default: ''
+    },
+    birthday: {
+        type: Date,
+        default: new Date()
     }
 })
 

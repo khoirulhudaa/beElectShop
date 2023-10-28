@@ -264,9 +264,9 @@ const getAllSeller = async (req, res) => {
 const updateSellerAccount = async (req, res) => {
     try {
         const { seller_id } = req.params
-        const { seller_name, email_seller, telephone_seller, gender, instagram, twitter } = req.params
+        const { seller_name, email_seller, telephone_seller, gender, instagram, twitter, birthday } = req.body
         
-        const requiredFields = ['email_seller', 'seller_name', 'gender', 'telephone_seller'];
+        const requiredFields = ['email_seller', 'seller_name', 'gender', 'telephone_seller', 'birthday'];
         const missingFields = requiredFields.filter(field => !req.body[field]);
         
         if (missingFields.length > 0) {
@@ -283,12 +283,13 @@ const updateSellerAccount = async (req, res) => {
             gender, 
             instagram, 
             twitter, 
+            birthday,
             seller_image
          } 
 
          const update = await Seller.updateOne(filter, set)
          if(update) {
-             return res.json({ status: 200, message: 'Successfully for update data account!' })
+             return res.json({ status: 200, message: 'Successfully for update data account!', data: set })
          }else {
              return res.json({ status: 500, message: 'Update account failed!', error: error.message })
          }
