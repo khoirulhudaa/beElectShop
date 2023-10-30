@@ -11,7 +11,7 @@ router.post('/signin/consumer', accountController.signInConsumer)
 
 // Get list users
 router.get('/list/consumer', accountController.getAllConsumer)
-router.get('/list/seller', accountController.getAllSeller)
+router.get('/list/seller/:seller_id?', accountController.getAllSeller)
 
 // Delete Account
 router.delete('/consumer/:consumer_id', accountController.removeConsumer)

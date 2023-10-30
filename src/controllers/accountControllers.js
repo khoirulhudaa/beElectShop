@@ -167,28 +167,48 @@ const signInSeller = async (req, res) => {
         const { email_seller, password } = req.body;
 
         if (!email_seller || !password) {
-            return res.status(400).json({ status: 400, message: 'Invalid input' });
+            return res.json({ status: 400, message: 'Invalid input' });
         }
 
         const seller = await Seller.findOne({ email_seller });
         if (!seller) {
-            return res.status(404).json({ status: 404, message: 'Seller not found!' });
+            return res.json({ status: 404, message: 'Seller not found!' });
         }
 
         const isMatch = await bcrypt.compare(password, seller.password);
         if (!isMatch) {
-            return res.status(401).json({ status: 401, message: 'Incorrect password' });
+            return res.json({ status: 401, message: 'Incorrect password' });
         }
 
         const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '1h' });
         if (!token) {
-            return res.status(500).json({ status: 500, message: 'Error in token' });
+            return res.json({ status: 500, message: 'Error in token' });
         }
 
-        return res.status(200).json({ status: 200, token, data: seller });
+        return res.json({ status: 200, token, data: seller });
 
     } catch (error) {
-        return res.status(500).json({ status: 500, message: 'Server error', error: error.message });
+        return res.json({ status: 500, message: 'Server error', error: error.message });
+    }
+}
+
+const getAccountById = async (req, res) => {
+    try {
+        const { email_seller } = req.params
+
+        if(!email_seller) {
+            return res.json({ status: 400, message: 'Invalid input!'});
+        }
+
+        const resultAccount = await Seller.findOne(email_seller)
+        if(!resultAccount) {
+            return res.json({ status: 404, message: 'Seller not found!' });
+        }
+        
+        return res.json({ status: 200, message: 'Successfully get data seller account', data: resultAccount });
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Server error', error: error.message });
     }
 }
 
