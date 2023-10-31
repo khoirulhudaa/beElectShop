@@ -68,7 +68,6 @@ const removeHistory = async (req, res) => {
 const getAllHistory = async (req, res) => {
     try {  
         const { sellerIdOrConsumerId } = req.params
-        if(!sellerIdOrConsumerId) return res,json({ status: 401, message: 'You need id!' })
 
         const data = await historyModel.find({
             $or: [
