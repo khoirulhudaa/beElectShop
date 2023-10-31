@@ -2,8 +2,10 @@
 
 const createHistory = async (req, res) => {
     try {
-        const { email_consumer, consumer_id, consumer_name, shop_name, product_id, shop_id, product_name, product_type, product_color, product_category, product_description, product_image, product_price, product_size, product_brand, quantity } = req.body  
+        const { email_consumer, consumer_id, consumer_name, shop_name, product_id, shop_id, product_name, product_type, product_color, product_category, product_description, product_price, product_size, product_brand, quantity } = req.body  
         
+        if(req.file)
+
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = '';
@@ -35,14 +37,13 @@ const createHistory = async (req, res) => {
             product_brand,
             product_category,
             quantity,
-            product_image
         })
 
         await createNewHistory.save()
-        return res.json({ status: 200, message: 'Successfully add history' })
+        return res.json({ status: 200, message: 'Successfully checkout' })
 
     } catch (error) {  
-        return res.json({ status: 500, message:'Failed to add history!', error })
+        return res.json({ status: 500, message:'Failed to checkout', error: error.message })
     }
 }
 

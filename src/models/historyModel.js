@@ -65,17 +65,13 @@ const HistorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    product_image: {
-        type: String,
-        required: true
-    },
     product_category: {
         type: String,
         required: true
     },
     date: {
         type: Date,
-        default: Date.now()
+        default: new Date()
     }
 })
 
