@@ -75,7 +75,7 @@ const getAllHistory = async (req, res) => {
                 {consumer_id: sellerIdOrConsumerId}
             ]
         })
-
+        
         if(data.length === 0) return res.json({ status: 404, message: 'Data history not found!' })
         
         return res.json({ status: 200, message: 'Successfully get data history!', data })
