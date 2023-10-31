@@ -72,7 +72,10 @@ const HistorySchema = new mongoose.Schema({
     date: {
         type: Date,
         default: new Date()
-    }
+    },
+    amount: {
+        type: Number,
+    },
 })
 
 module.exports = mongoose.model('history', HistorySchema)

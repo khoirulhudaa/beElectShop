@@ -2,7 +2,7 @@
 
 const createHistory = async (req, res) => {
     try {
-        const { email_consumer, consumer_id, consumer_name, shop_name, product_id, shop_id, product_name, product_type, product_color, product_category, product_description, product_price, product_size, product_brand, quantity } = req.body  
+        const { email_consumer, consumer_id, consumer_name, shop_name, product_id, shop_id, product_name, product_type, product_color, product_category, product_description, product_price, product_size, product_brand, quantity, amount } = req.body  
         
         if(req.file)
 
@@ -37,6 +37,7 @@ const createHistory = async (req, res) => {
             product_brand,
             product_category,
             quantity,
+            amount
         })
 
         await createNewHistory.save()
