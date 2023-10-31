@@ -67,17 +67,22 @@ const removeHistory = async (req, res) => {
 
 const getAllHistory = async (req, res) => {
     try {  
-        const { product_name, product_brand } = req.query
-        let filter = {}
+        const { sellerIdOrConsumerId } = req.params
+        if(!sellerIdOrConsumerId) return res,json({ status: 401, message: 'You need id!' })
 
-        if (product_name) filter.product_name = {$regex: new RegExp(product_name, 'i') }
-        if (product_brand) filter.product_brand = product_brand
+        const data = await historyModel.find({
+            $or: [
+                {seller_id: sellerIdOrConsumerId}, 
+                {consumer_id: sellerIdOrConsumerId}
+            ]
+        })
 
-        const data = await historyModel.find(filter)
+        if(!data) return res.json({ status: 404, message: 'Data history not found!' })
         
         return res.json({ status: 200, message: 'Successfully get data history!', data })
 
     } catch (error) {
+        console.error("Error in getAllHistory:", error);
         return res.json({ status: 500, message: 'Failed to get history!', error })
     }
 }
