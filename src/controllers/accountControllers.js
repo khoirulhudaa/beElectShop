@@ -334,7 +334,7 @@ const forgotPassword = async (req, res) => {
 
         const filter = { email_seller }
         const set = {
-            resetPasswordExpires,
+            resetPasswordExpires: resetPasswordExpires.toLocaleString(),
             resetTokenPassword: token
         }
 
@@ -401,7 +401,7 @@ const resetPassword = async (req, res) => {
           
         const equalEmail = await Seller.findOne({ 
             resetTokenPassword: token,
-            resetPasswordExpires: { $gt: Date.now() }
+            resetPasswordExpires: { $gt: Date.now().toLocaleString() }
         })
 
         if(!equalEmail) return res.json({ status: 404, message: 'Invalid or expired token!' })
