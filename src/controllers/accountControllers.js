@@ -7,6 +7,7 @@ const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
+onst { DateTime } = require('luxon');
 
 
 const uploadDir = path.join(__dirname, '../uploads');
@@ -329,25 +330,13 @@ const forgotPassword = async (req, res) => {
         if(!equalEmail) return res.json({ status: 404, message: 'Seller not found!' })
 
         const token = crypto.randomBytes(20).toString('hex')
-        const resetPasswordExpires = new Date();
-        resetPasswordExpires.setHours(resetPasswordExpires.getHours() + 1);
-        
-        const formattedDate = new Intl.DateTimeFormat('id-ID', {
-          timeZone: 'Asia/Jakarta',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        }).format(resetPasswordExpires);
-        
-        const resetPasswordExpiresDate = new Date(formattedDate);
-        
 
+        const now = DateTime.now().setZone('Asia/Jakarta');
+        const resetPasswordExpires = now.plus({ hours: 2 })
+        
         const filter = { email_seller }
         const set = {
-            resetPasswordExpires: resetPasswordExpiresDate,
+            resetPasswordExpires,
             resetTokenPassword: token
         }
 
