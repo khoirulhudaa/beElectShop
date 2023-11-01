@@ -409,7 +409,7 @@ const resetPassword = async (req, res) => {
 
         const updateResult = await Seller.updateOne(filter, set)
 
-        if (updateResult.nModified > 0) {
+        if (updateResult) {
             return res.status(200).json({ status: 200, message: 'Password successfully reset' });
         } else {
             return res.status(500).json({ status: 500, message: 'Failed to reset password' });
