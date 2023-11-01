@@ -329,12 +329,12 @@ const forgotPassword = async (req, res) => {
         if(!equalEmail) return res.json({ status: 404, message: 'Seller not found!' })
 
         const token = crypto.randomBytes(20).toString('hex')
-        const resetPasswordExpires = new Date()
+        const resetPasswordExpires = new Date().toLocaleString()
         resetPasswordExpires.setHours(resetPasswordExpires.getHours() + 1)
 
         const filter = { email_seller }
         const set = {
-            resetPasswordExpires: resetPasswordExpires.toLocaleString(),
+            resetPasswordExpires: resetPasswordExpires,
             resetTokenPassword: token
         }
 
