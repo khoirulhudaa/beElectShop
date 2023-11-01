@@ -401,10 +401,10 @@ const resetPassword = async (req, res) => {
 
         if(!equalEmail) return res.json({ status: 404, message: 'Invalid or expired token!' })
         
-        const filter = { token }
+        const filter = { resetTokenPassword: token }
         const set = {
             password,
-            resetTokenPassword: null,
+            resetTokenPassword: '',
         }
 
         const updateResult = await Seller.updateOne(filter, set)
