@@ -7,7 +7,7 @@ const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
-onst { DateTime } = require('luxon');
+const { DateTime } = require('luxon');
 
 
 const uploadDir = path.join(__dirname, '../uploads');
