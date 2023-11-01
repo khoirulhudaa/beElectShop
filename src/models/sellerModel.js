@@ -52,10 +52,6 @@ const SellerSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    resetPasswordExpires: {
-        type: Date,
-        default: new Date()
-    },
     resetTokenPassword: {
         type: String,
         default: ''

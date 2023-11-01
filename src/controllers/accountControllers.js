@@ -7,8 +7,6 @@ const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
-const { DateTime } = require('luxon');
-
 
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -329,15 +327,11 @@ const forgotPassword = async (req, res) => {
         const equalEmail = await Seller.findOne({email_seller})
         if(!equalEmail) return res.json({ status: 404, message: 'Seller not found!' })
 
-        const token = crypto.randomBytes(20).toString('hex')
+        const resetTokenPassword = crypto.randomBytes(20).toString('hex')
 
-        const now = DateTime.now().setZone('Asia/Jakarta');
-        const resetPasswordExpires = now.plus({ hours: 2 })
-        
         const filter = { email_seller }
         const set = {
-            resetPasswordExpires,
-            resetTokenPassword: token
+            resetTokenPassword
         }
 
         await Seller.updateOne(filter, set)
@@ -403,7 +397,6 @@ const resetPassword = async (req, res) => {
           
         const equalEmail = await Seller.findOne({ 
             resetTokenPassword: token,
-            resetPasswordExpires: { $gt: Date.now().toLocaleString() }
         })
 
         if(!equalEmail) return res.json({ status: 404, message: 'Invalid or expired token!' })
@@ -412,7 +405,6 @@ const resetPassword = async (req, res) => {
         const set = {
             password,
             resetTokenPassword: null,
-            resetPasswordExpires: null
         }
 
         const updateResult = await Seller.updateOne(filter, set)
