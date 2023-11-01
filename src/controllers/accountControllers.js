@@ -340,7 +340,7 @@ const forgotPassword = async (req, res) => {
             }
         })
 
-        const cssPath = path.join(__dirname, 'src/styles', 'resetPassword.css');
+        const cssPath = path.join(__dirname, '../styles/resetPassword.css');
         const cssStyles = fs.readFileSync(cssPath, 'utf8');
         
         const emailContent = `
