@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const path = require('path')
+const crypto = require('crypto')
+const nodemailer = require('nodemailer')
 
 
 const uploadDir = path.join(__dirname, '../uploads');
@@ -319,6 +321,110 @@ const updateSellerAccount = async (req, res) => {
     }
 }
 
+const forgotPassword = async (req, res) => {
+    try {
+        const { email_seller } = req.body
+
+        const equalEmail = await Seller.findOne({email_seller})
+        if(!equalEmail) return res.json({ status: 404, message: 'Seller not found!' })
+
+        const token = crypto.randomBytes(20).toString('hex')
+        const resetPasswordExpires = new Date()
+        resetPasswordExpires.setHours(resetPasswordExpires.getHours() + 1)
+
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                email: 'muhammadkhoirulhuda111@gmail.com',
+                password: 'yxhytbabmltgqoes'
+            }
+        })
+
+        const cssStyles = fs.readFileSync('../styles/resetPassword.css', 'utf8');
+        
+        const emailContent = `
+            <!DOCTYPE html>
+            <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        ${cssStyles}
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h2>Reset Your Password</h2>
+                        <p>You are receiving this email because you (or someone else) has requested to reset the password for your account. Please click the link below to reset your password:</p>
+                        <a href="http://localhost:5174/auth/reset-password/token=${token}">Reset Password</a>
+                        <p>If you didn't request this, please ignore this email, and your password will remain unchanged.</p>
+                    </div>
+                </body>
+            </html>
+        `;
+
+        const mailOptions = {
+            to: email_seller,
+            from: 'muhammadkhoirulhuda111@gmail.com',
+            subject: 'Reset password by ElectShop',
+            html: emailContent
+        }
+
+        transporter.sendMail(mailOptions, async (err) => {
+            if(err) return res.json({ status: 500, message: 'Email sending failed!', error: err.message })
+
+
+            const filter = { email_seller }
+            const set = {
+                resetPasswordExpires
+            }
+    
+            await Seller.updateOne(filter, set)
+            return res.json({ status: 200, message: 'Email sent successfully!' })
+        })
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Server error!', error: error.message })
+    }
+}
+
+const resetPassword = async (req, res) => {
+    try {   
+        const { password } = req.body
+        const { token } = req.params 
+
+        if (!password) {
+            return res.status(400).json({ status: 400, message: 'Password is required' });
+        }
+          
+        const equalEmail = await Seller.findOne({ 
+            resetTokenPassword: token,
+            resetPasswordExpires: { $gt: Date.now() }
+        })
+
+        if(!equalEmail) return res.json({ status: 404, message: 'Invalid or expired token!' })
+        
+        const filter = { token }
+        const set = {
+            password,
+            resetTokenPassword: null,
+            resetPasswordExpires: null
+        }
+
+        const updateResult = await Seller.updateOne(filter, set)
+
+        if (updateResult.nModified > 0) {
+            return res.status(200).json({ status: 200, message: 'Password successfully reset' });
+        } else {
+            return res.status(500).json({ status: 500, message: 'Failed to reset password' });
+        }
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Server failed!', error: error.message })
+    }
+}
+
 module.exports = {
     signUpConsumer,
     signInConsumer,
@@ -329,5 +435,7 @@ module.exports = {
     getAllConsumer,
     getAllSeller,
     updateSellerAccount,
+    forgotPassword,
+    resetPassword,
     upload
 }

@@ -51,6 +51,14 @@ const SellerSchema = new mongoose.Schema({
     birthday: {
         type: Date,
         default: new Date()
+    },
+    resetPasswordExpires: {
+        type: Date,
+        default: new Date()
+    },
+    resetTokenPassword: {
+        type: String,
+        default: ''
     }
 })
 

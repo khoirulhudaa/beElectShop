@@ -20,4 +20,8 @@ router.delete('/seller/:seller_id', accountController.removeSeller)
 // Update Account
 router.put('/seller/:seller_id', accountController.upload.single('seller_image'), accountController.updateSellerAccount)
 
+// Reset password
+router.post('/seller/forgot-password', accountController.forgotPassword)
+router.put('/seller/reset-password/:token', accountController.resetPassword)
+
 module.exports = router
