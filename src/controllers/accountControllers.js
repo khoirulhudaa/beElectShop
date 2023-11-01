@@ -398,12 +398,14 @@ const resetPassword = async (req, res) => {
         const equalEmail = await Seller.findOne({ 
             resetTokenPassword: token,
         })
-
         if(!equalEmail) return res.json({ status: 404, message: 'Invalid or expired token!' })
         
+        const salt = await bcrypt.genSalt(10)
+        const newPassword = await bcrypt.hash(password, salt)
+
         const filter = { resetTokenPassword: token }
         const set = {
-            password,
+            password: newPassword,
             resetTokenPassword: '',
         }
 
