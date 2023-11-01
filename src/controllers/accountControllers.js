@@ -378,7 +378,8 @@ const forgotPassword = async (req, res) => {
 
             const filter = { email_seller }
             const set = {
-                resetPasswordExpires
+                resetPasswordExpires,
+                resetTokenPassword: token
             }
     
             await Seller.updateOne(filter, set)
