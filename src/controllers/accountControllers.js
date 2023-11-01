@@ -342,12 +342,12 @@ const forgotPassword = async (req, res) => {
           second: '2-digit',
         }).format(resetPasswordExpires);
         
-        console.log(formattedDate);
+        const resetPasswordExpiresDate = new Date(formattedDate);
         
 
         const filter = { email_seller }
         const set = {
-            resetPasswordExpires: formattedDate,
+            resetPasswordExpires: resetPasswordExpiresDate,
             resetTokenPassword: token
         }
 
