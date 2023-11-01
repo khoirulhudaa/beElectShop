@@ -332,6 +332,14 @@ const forgotPassword = async (req, res) => {
         const resetPasswordExpires = new Date()
         resetPasswordExpires.setHours(resetPasswordExpires.getHours() + 1)
 
+        const filter = { email_seller }
+        const set = {
+            resetPasswordExpires,
+            resetTokenPassword: token
+        }
+
+        await Seller.updateOne(filter, set)
+
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
@@ -374,15 +382,6 @@ const forgotPassword = async (req, res) => {
 
         transporter.sendMail(mailOptions, async (err) => {
             if(err) return res.json({ status: 500, message: 'Email sending failed!', error: err.message })
-
-
-            const filter = { email_seller }
-            const set = {
-                resetPasswordExpires,
-                resetTokenPassword: token
-            }
-    
-            await Seller.updateOne(filter, set)
             return res.json({ status: 200, message: 'Email sent successfully!' })
         })
 
