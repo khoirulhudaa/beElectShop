@@ -321,6 +321,10 @@ const updateConsumerAccount = async (req, res) => {
             return res.json({ status: 401, message: 'Fields are missing'});
         }
         
+        const equalConsumer = await Consumer.findOne({email_consumer})
+        if(!equalConsumer) return res.json({ status: 404, message: 'User not found!' })
+
+        const oldImage = equalConsumer.consumer_image;
         const consumer_image = req.file ? req.file.filename : undefined;
 
         const filter = { consumer_id }
@@ -332,7 +336,16 @@ const updateConsumerAccount = async (req, res) => {
             post_code, 
             address, 
             consumer_image
-         } 
+        } 
+
+        if(oldImage !== 'default.png' && consumer_image) {
+            try {
+                const imagePath = path.join(__dirname, '..', 'uploads', oldImage);
+                await fs.promises.unlink(imagePath);
+            } catch(error) {
+                return res.json({ status: 500, message: 'Error removing old image!', error: error.message })
+            }
+        }
 
          const update = await Consumer.updateOne(filter, set)
          if(update) {
