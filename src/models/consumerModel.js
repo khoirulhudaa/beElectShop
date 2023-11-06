@@ -34,6 +34,14 @@ const ConsumerSchema = new mongoose.Schema({
     telephone_consumer: {
         type: String,
         required: true,
+    },
+    post_code: {
+        type: Number,
+        default: 0,
+    },
+    address: {
+        type: String,
+        default: '-'
     }
 })
 

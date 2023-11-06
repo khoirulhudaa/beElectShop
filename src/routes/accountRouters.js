@@ -18,6 +18,7 @@ router.delete('/consumer/:consumer_id', accountController.removeConsumer)
 router.delete('/seller/:seller_id', accountController.removeSeller)
 
 // Update Account
+router.put('/consumer/:consumer_id', accountController.upload.single('consumer_image'), accountController.updateConsumerAccount)
 router.put('/seller/:seller_id', accountController.upload.single('seller_image'), accountController.updateSellerAccount)
 
 // Reset password

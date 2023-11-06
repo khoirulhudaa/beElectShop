@@ -309,6 +309,43 @@ const updateSellerAccount = async (req, res) => {
     }
 }
 
+const updateConsumerAccount = async (req, res) => {
+    try {
+        const { consumer_id } = req.params
+        const { consumer_name, email_consumer, telephone_consumer, gender, post_code, address } = req.body
+        
+        const requiredFields = ['email_consumer', 'consumer_name', 'gender', 'telephone_consumer'];
+        const missingFields = requiredFields.filter(field => !req.body[field]);
+        
+        if (missingFields.length > 0) {
+            return res.json({ status: 401, message: 'Fields are missing'});
+        }
+        
+        const consumer_image = req.file ? req.file.filename : undefined;
+
+        const filter = { consumer_id }
+        const set = { 
+            consumer_name, 
+            email_consumer, 
+            telephone_consumer, 
+            gender, 
+            post_code, 
+            address, 
+            consumer_image
+         } 
+
+         const update = await Consumer.updateOne(filter, set)
+         if(update) {
+             return res.json({ status: 200, message: 'Successfully for update data account!', data: set })
+         }else {
+             return res.json({ status: 500, message: 'Update account failed!', error: error.message })
+         }
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Server error!', error: error.message })
+    }
+}
+
 const forgotPassword = async (req, res) => {
     try {
         const { email_seller } = req.body
@@ -421,6 +458,7 @@ module.exports = {
     getAllConsumer,
     getAllSeller,
     updateSellerAccount,
+    updateConsumerAccount,
     forgotPassword,
     resetPassword,
     upload
