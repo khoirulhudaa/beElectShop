@@ -42,6 +42,10 @@ const ConsumerSchema = new mongoose.Schema({
     address: {
         type: String,
         default: '-'
+    },
+    consumer_image: {
+        type: String,
+        default: 'default.png'
     }
 })
 
