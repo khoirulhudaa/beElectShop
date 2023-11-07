@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const requestSchema = new mongoose.Schema({
     request_id: {
-        type: string,
+        type: String,
         required: true
     },
     messageRequest: {
