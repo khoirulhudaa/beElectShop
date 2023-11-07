@@ -53,7 +53,6 @@ const createShop = async (req, res) => {
             shop_address
         } = req.body 
 
-        // Cek apakah email sudah ada
         const equalEmail = await shopModel.findOne({ email_seller });
 
         if (equalEmail) {

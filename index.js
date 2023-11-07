@@ -36,10 +36,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'src/uploads')));
 
 // Routers
 const checkToken = require('./src/middlewares/verifyToken')
+const requestRouter = require('./src/routes/requestRouters')
 const shopRouter = require('./src/routes/shopRouters')
 const productRouter = require('./src/routes/productRouters')
 const accountRouter = require('./src/routes/accountRouters')
-const requestRouter = require('./src/routes/requestRouters')
 const historyRouter = require('./src/routes/historyRouters')
 
 app.use('/account', accountRouter)
