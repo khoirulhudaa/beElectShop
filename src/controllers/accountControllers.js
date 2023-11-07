@@ -336,7 +336,7 @@ const updateConsumerAccount = async (req, res) => {
             post_code, 
             address, 
             consumer_image
-        } 
+         } 
 
         if(oldImage !== 'default.png' && consumer_image) {
             try {
