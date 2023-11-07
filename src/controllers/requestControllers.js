@@ -1,4 +1,5 @@
 const Consumer = require('../models/consumerModel')
+const Request = require('../models/requestModel')
 const crypto = require('crypto')
 
 const createRequest = async (req, res) => {
@@ -12,11 +13,11 @@ const createRequest = async (req, res) => {
 
         const request_id = crypto.randomBytes(20).toString('hex')
 
-        const createRequest = {
+        const createRequest = new Request({
             request_id,
             email_consumer,
             requestMessage
-        }
+        })
 
         await createRequest.save() 
         return res.json({ status: 200, message: 'Successfully send your request!' })
