@@ -6,7 +6,7 @@ const createRequest = async (req, res) => {
     try {
         const { email_consumer, requestMessage } = req.body
         
-        if(!email_consumer || !requestMessage) return res.json({ status: 401, message: 'Incomplete data provided' })
+        if(!email_consumer || !messageRequest) return res.json({ status: 401, message: 'Incomplete data provided' })
 
         const user = await Consumer.findOne({ email_consumer })
         if(!user) return res.json({ status: 404, message: 'User not found!' })
