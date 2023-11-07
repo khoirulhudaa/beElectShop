@@ -16,7 +16,7 @@ const createRequest = async (req, res) => {
         const createRequestMessage = new RequestModel({
             request_id,
             email_consumer,
-            requestMessage
+            messageRequest
         })
 
         await createRequestMessage.save() 
