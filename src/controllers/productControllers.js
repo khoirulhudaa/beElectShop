@@ -104,12 +104,10 @@ const createProduct = async (req, res) => {
             quantity 
         } = req.body  
 
-        // Validasi data
         if (!product_name || !shop_id || !product_type || !product_color || !product_description || !product_price || !product_size || !product_brand || !quantity) {
             return res.status(400).json({ status: 400, message: 'Incomplete data provided!' });
         }
 
-        // Periksa apakah sudah ada data dengan spesifikasi yang sama
         const equalProduct = await productModel.findOne({ product_name, shop_id, product_size });
         if(equalProduct) return res.json({ status: 401, message: 'Product already exist!' })
         
