@@ -4,7 +4,7 @@ const crypto = require('crypto')
 
 const createRequest = async (req, res) => {
     try {
-        const { email_consumer, requestMessage } = req.body
+        const { email_consumer, messageRequest } = req.body
         
         if(!email_consumer || !messageRequest) return res.json({ status: 401, message: 'Incomplete data provided' })
 
