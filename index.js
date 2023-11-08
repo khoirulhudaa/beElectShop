@@ -41,12 +41,14 @@ const shopRouter = require('./src/routes/shopRouters')
 const productRouter = require('./src/routes/productRouters')
 const accountRouter = require('./src/routes/accountRouters')
 const historyRouter = require('./src/routes/historyRouters')
+const subscribeRouter = require('./src/routes/subscribeRouters')
 
 app.use('/account', accountRouter)
 app.use('/request', checkToken, requestRouter)
 app.use('/shop', checkToken, shopRouter)
 app.use('/product', checkToken, productRouter)
 app.use('/history', checkToken, historyRouter)
+app.use('/subscribe', checkToken, subscribeRouter)
 
 app.get('/test', (req, res) => {
     res.send('test success!')   

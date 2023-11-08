@@ -1,5 +1,5 @@
 const express = require('express')
-const subscribeController = require('../controllers/subsribeControllers')
+const subscribeController = require('../controllers/subscribeControllers')
 const router = express.Router()
 
 router.post('/', subscribeController.subscribe)
