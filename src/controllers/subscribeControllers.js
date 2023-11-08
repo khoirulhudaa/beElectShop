@@ -9,9 +9,6 @@ const subscribe = async (req, res) => {
     try {
         const { email_consumer } = req.body
 
-        const equalEmail = await Consumer.findOne({ email_consumer })
-        if(!equalEmail) return res.json({ status: 404, message: 'User not found!' })
-
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
