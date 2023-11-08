@@ -38,6 +38,23 @@ const getProductById = async (req, res) => {
     }
 }
 
+const getProductByShopId = async (req, res) => {
+    try {
+        const { shop_id } = req.params    
+        let filter = {}
+
+        if (shop_id) filter.shop_id = shop_id
+
+        let productResult = await productModel.find(filter)
+        if(productResult.length === 0) return res.json({ status: 404, message: `Product with product id: ${product_id} not found!` })
+      
+        return res.json({ status: 200, data: productResult, message: `All data product by shop_id=${shop_id}` })
+
+    } catch (error) {
+        return res.json({ status: 500, message: error.message })
+    }
+}
+
 const removeProductById = async (req, res) => {
     try {
         const { product_id } = req.params
@@ -209,5 +226,6 @@ module.exports = {
     removeProductById,
     updateProduct,
     getProductById,
+    getProductByShopId,
     upload
 }

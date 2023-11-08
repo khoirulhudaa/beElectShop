@@ -11,6 +11,9 @@ router.get('/:shop_id?', productControllers.getAllProducts);
 // Get one products for a product_id
 router.get('/Oneproduct/:product_id?', productControllers.getProductById);
 
+// Get one products for a shop_id
+router.get('/shop/:shop_id?', productControllers.getProductByShopId);
+
 // Remove a product by its ID
 router.delete('/:product_id', productControllers.removeProductById);
 
