@@ -29,7 +29,7 @@ const getProductById = async (req, res) => {
         if (product_id) filter.product_id = product_id
 
         let productResult = await productModel.find(filter)
-        if(!productResult) return res.json({ status: 404, message: `Product with product id: ${product_id} not found!` })
+        if(productResult.length < 0) return res.json({ status: 404, message: `Product with product id: ${product_id} not found!` })
       
         return res.json({ status: 200, data: productResult, message: 'All data product' })
 
