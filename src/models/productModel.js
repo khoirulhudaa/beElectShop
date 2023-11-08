@@ -55,6 +55,14 @@ const productSchema = new mongoose.Schema({
         required: true,
         default: 1
     },
+    shop_name: {
+        type: String,
+        required: true
+    },
+    image_shop: {
+        type: String,
+        default: 'default.png'
+    }
 })
 
 module.exports = mongoose.model('product', productSchema)

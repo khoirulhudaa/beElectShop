@@ -88,7 +88,6 @@ const upload = multer({
     }
 })
 
-
 const createProduct = async (req, res) => {
     try {
         const { 
@@ -101,7 +100,9 @@ const createProduct = async (req, res) => {
             product_price, 
             product_size, 
             product_brand, 
-            quantity 
+            quantity,
+            shop_name,
+            image_shop 
         } = req.body  
 
         if (!product_name || !shop_id || !product_type || !product_color || !product_description || !product_price || !product_size || !product_brand || !quantity) {
@@ -143,6 +144,8 @@ const createProduct = async (req, res) => {
             product_category,
             product_brand,
             quantity,
+            shop_name,
+            image_shop 
         })
         
         await createNewProduct.save()
