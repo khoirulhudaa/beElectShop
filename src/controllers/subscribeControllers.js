@@ -1,4 +1,3 @@
-const Consumer = require('../models/consumerModel');
 const Subscriber = require('../models/subscribeModel');
 const nodemailer = require('nodemailer');
 const path = require('path');
