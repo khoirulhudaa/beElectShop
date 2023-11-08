@@ -46,7 +46,7 @@ const subscribe = async (req, res) => {
         const mailOptions = {
             to: email_seller,
             from: 'muhammadkhoirulhuda111@gmail.com',
-            subject: 'Subscriber now at ShopPay',
+            subject: 'Subscriber at ShopPay (You)',
             html: emailContent
         }
 
