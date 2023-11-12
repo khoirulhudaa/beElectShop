@@ -1,11 +1,11 @@
 const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
-const Xendit = require('xendit-node')
+const Xendit =  ('xendit-node')
 const dotenv = require('dotenv');
 dotenv.config();
 
 const x = new Xendit({
-  secretKey: process.env.XENDIT_API_KEY,
+  secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7',
 });
 
 const { Disbursement } = x
