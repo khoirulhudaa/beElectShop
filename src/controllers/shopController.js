@@ -40,7 +40,6 @@ const upload = multer({
 });
 
 const createShop = async (req, res) => {
-    console.log(req)
     try {
         const { 
             seller_name, 
@@ -63,23 +62,10 @@ const createShop = async (req, res) => {
             return res.json({ status: 401, message: 'File Not Found' });
         }
 
-        // Kirim data ke schema mongodb/database
-        function generateRandomString(length) {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let result = '';
-            
-            for (let i = 0; i < length; i++) {
-              const randomIndex = Math.floor(Math.random() * characters.length);
-              result += characters.charAt(randomIndex);
-            }
-          
-            return result;
-        }
-
-        const randomString = generateRandomString(5);
+        const shop_id = crypto.randomBytes(20).toString('hex')
 
         const data = {
-            shop_id: randomString,
+            shop_id,
             payments: [
                 { bank_code: 'BCA' },
                 { bank_code: 'BRI' },
