@@ -1,5 +1,5 @@
-const HistoryInConsumer = require('../models/historyInConsumerModel');
-const HistoryInSeller = require('../models/historyInSellerModel');
+const historyConsumeModel = require('../models/historyInConsumerModel');
+const historySellerModel = require('../models/historyInSellerModel');
 const Xendit = require('xendit-node')
 const dotenv = require('dotenv');
 dotenv.config();
@@ -14,46 +14,16 @@ const disbursement = new Disbursement({});
 const handlePaymentCallback = async (req, res) => {
     try {
         const callbackData = req.body;
+        console.log('callback:', callbackData)
 
         await updateDatabase(callbackData.external_id, callbackData)
     
-        console.log('callback:', callbackData)
-
         return res.json({ status: 200, data: callbackData });
 
     } catch (error) {
         return res.json({ status: 500, message: 'Payment failed!', error: error.message })    
     }
 }
-
-const disburseViaEWallet = async (req, res) => {
-    try {
-      const {
-        externalID,
-        amount,
-        description,
-        ewalletType,
-        ewalletPhone,
-        bankCode
-      } = req.body;
-  
-      const ewalletDisbursementData = {
-        externalID,
-        amount,
-        bankCode,
-        disbursementDescription: description,
-        ewalletType,
-        ewalletPhone
-      };
-  
-      const result = await disbursement.createDisbursement(ewalletDisbursementData);
-  
-      res.status(200).json(result);
-    } catch (error) {
-      console.error('Disbursement Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
   
 const disbursementPayment = async (req, res) => {
     try {
@@ -77,12 +47,41 @@ const disbursementPayment = async (req, res) => {
         items: products,
       };
     
+      function generateRandomString(length) {
+          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          let result = '';
+        
+          for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            result += characters.charAt(randomIndex);
+          }
+        
+          return result;
+      }
+      
+      const randomString = generateRandomString(5);
+
       const response = await disbursement.createDisbursement(createDisbursementParams);
-      return res.json({status: 200, message: 'Your payment is pending, complete it immediately!' , data: response});
-    
+      if(response) {
+        const dataHistory = {
+            history_id: randomString,
+            products
+        }
+
+        const consumerHistory = new historyConsumeModel(dataHistory)
+        const sellerHistory = new historySellerModel(dataHistory)
+
+        await consumerHistory.save()
+        await sellerHistory.save()
+
+        return res.json({status: 200, message: 'Your payment is pending, complete it immediately!' , data: response});
+      } else {
+        return res.json({ status: 500, error: 'Error payment!' });
+      }
+      
     } catch (error) {
       console.error('Disbursement Error:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      return res.json({ status: 500, error: 'Server Error', message: error.message });
     }
 };
   
@@ -116,8 +115,8 @@ const updateDatabase = async (external_id, data) => {
 
       return res.json({ status: 200, message: 'Success update database!',
           data: {
-          resultInConsumer,
-          resultInSeller,
+            resultInConsumer,
+            resultInSeller,
           },
       });
   } catch (error) {

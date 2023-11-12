@@ -2,9 +2,10 @@
 const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
-require('dotenv').config()
 const app = express()
 const path = require('path')
+const dotenv = require('dotenv')
+dotenv.config();
 
 // 3 on use start (cors, express.json(), bodyParser.urlencoded)
 app.use(cors())
@@ -13,7 +14,7 @@ app.use(cors())
 const portServer = process.env.PORT_SERVER_RUNNING
 
 // Connected on database ft mongodb
-mongoose.connect('mongodb+srv://muhammadkhoirulhuda111:2sGS966OIFyxC2tX@cluster0.vv8acqa.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.URL_MONGOOSE, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log('Successfully connect on database')
 })
