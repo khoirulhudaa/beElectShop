@@ -77,26 +77,23 @@ const createShop = async (req, res) => {
         }
 
         const randomString = generateRandomString(5);
-        const shop_id = randomString
 
-        const paymentMethods = [
-            { bank_code: 'BCA' },
-            { bank_code: 'BRI' },
-            { bank_code: 'MANDIRI' },
-            { bank_code: 'BNI' },
-            { bank_code: 'BSI' },
-            { bank_code: 'ID_DANA' },
-            { bank_code: 'ID_GOPAY' },
-            { bank_code: 'ID_LINKAJA' },
-            { bank_code: 'ID_OVO' },
-            { bank_code: 'ID_SHOPEEPAY' },
-        ];
-
-        const createPayment = new paymentMethodSchema({
-            shop_id,
-            payments: paymentMethods
-        })
-
+        const data = {
+            shop_id: randomString,
+            payments: [
+                { bank_code: 'BCA' },
+                { bank_code: 'BRI' },
+                { bank_code: 'MANDIRI' },
+                { bank_code: 'BNI' },
+                { bank_code: 'BSI' },
+                { bank_code: 'ID_DANA' },
+                { bank_code: 'ID_GOPAY' },
+                { bank_code: 'ID_LINKAJA' },
+                { bank_code: 'ID_OVO' },
+                { bank_code: 'ID_SHOPEEPAY' },
+            ]
+        }
+        
         const createShopData = {
             shop_id,
             seller_name,
@@ -111,8 +108,9 @@ const createShop = async (req, res) => {
             followers: 0,
         };
 
-        const createShopModel = new ShopModel(createShopData);
-        
+        const createPayment = new paymentMethodSchema(data)
+        const createShopModel = new shopModel(createShopData);
+
         const createPaymentMethod = await createPayment.save()
         const createShop = await createShopModel.save();
 

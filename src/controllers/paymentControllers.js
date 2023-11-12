@@ -4,11 +4,9 @@ const crypto = require('crypto')
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { Xendit, Payout: PayoutClient } = require('xendit-node');
+const { Payout: PayoutClient } = require('xendit-node');
 
-// const xenditClient = new Xendit({ secretKey: process.env.XENDIT_API_KEY });
 const xenditPayoutClient = new PayoutClient({ secretKey: process.env.XENDIT_API_KEY });
-
 
 const handlePaymentCallback = async (req, res) => {
     try {
