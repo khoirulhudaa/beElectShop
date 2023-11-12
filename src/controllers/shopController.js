@@ -3,7 +3,7 @@ const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
 const productModel = require('../models/productModel')
-const paymentMethodSchema = require('../models/methodPayment')
+const paymentMethodSchema = require('../models/methodePayment')
 const crypto = require('crypto')
 
 const uploadDir = path.join(__dirname, '../uploads');
