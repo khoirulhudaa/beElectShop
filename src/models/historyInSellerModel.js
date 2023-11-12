@@ -73,9 +73,10 @@ const HistorySchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    amount: {
+    total_amount: {
         type: Number,
+        required: true
     },
 })
 
-module.exports = mongoose.model('history', HistorySchema)
+module.exports = mongoose.model('historyInSeller', HistorySchema)

@@ -1,9 +1,9 @@
 const shopModel = require('../models/shopModel')
-const bcrypt = require('bcryptjs')
 const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
 const productModel = require('../models/productModel')
+const paymentMethodSchema = require('../models/methodePayment')
 
 const uploadDir = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadDir)) {
@@ -77,9 +77,28 @@ const createShop = async (req, res) => {
         }
 
         const randomString = generateRandomString(5);
+        const shop_id = randomString
 
-        const create = new shopModel({
-            shop_id: randomString,
+        const paymentMethods = [
+            { bank_code: 'BCA' },
+            { bank_code: 'BRI' },
+            { bank_code: 'MANDIRI' },
+            { bank_code: 'BNI' },
+            { bank_code: 'BSI' },
+            { bank_code: 'ID_DANA' },
+            { bank_code: 'ID_GOPAY' },
+            { bank_code: 'ID_LINKAJA' },
+            { bank_code: 'ID_OVO' },
+            { bank_code: 'ID_SHOPEEPAY' },
+        ];
+
+        const createPayment = new paymentMethodSchema({
+            shop_id,
+            payments: paymentMethods
+        })
+
+        const createShopData = {
+            shop_id,
             seller_name,
             shop_name,
             seller_id,
@@ -88,14 +107,21 @@ const createShop = async (req, res) => {
             motto_shop,
             description_shop,
             shop_address,
-            image_shop: req.file.filename, 
-            followers: 0
-        });
+            image_shop: req.file.filename,
+            followers: 0,
+        };
 
-        const created = await create.save();
+        const createShopModel = new ShopModel(createShopData);
+        
+        const createPaymentMethod = await createPayment.save()
+        const createShop = await createShopModel.save();
 
-        if (created) {
+        if (createPaymentMethod && createShop) {
             return res.json({ status: 200, message: 'Successfully create shop!' });
+        } else if(!createPaymentMethod) {
+            return res.json({ status: 200, message: 'Failed create payment!' });
+        } else if(!createShop) {
+            return res.json({ status: 200, message: 'Failed create shop!' });
         } else {
             return res.json({ status: 500, message: 'Failed to create shop!' });
         }
