@@ -1,6 +1,6 @@
 const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
-const Xendit =  ('xendit-node')
+const Xendit = require('xendit-node')
 const dotenv = require('dotenv');
 dotenv.config();
 
