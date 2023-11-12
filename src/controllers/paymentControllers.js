@@ -1,15 +1,14 @@
 const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
-const { Xendit } = require('xendit-node')
+const crypto = require('crypto')
 const dotenv = require('dotenv');
 dotenv.config();
 
-const x = new Xendit({
-  secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7',
-});
+const { Xendit, Payout: PayoutClient } = require('xendit-node');
 
-const { Disbursement } = x
-const disbursement = new Disbursement({});
+// const xenditClient = new Xendit({ secretKey: process.env.XENDIT_API_KEY });
+const xenditPayoutClient = new PayoutClient({ secretKey: process.env.XENDIT_API_KEY });
+
 
 const handlePaymentCallback = async (req, res) => {
     try {
@@ -28,43 +27,38 @@ const handlePaymentCallback = async (req, res) => {
 const disbursementPayment = async (req, res) => {
     try {
       const {
-        externalID,
         amount,
-        bankCode,
+        channelCode,
         accountHolderName,
         accountNumber,
-        disbursementDescription,
+        description,
         products, 
       } = req.body;
-    
-      const createDisbursementParams = {
-        externalID,
+
+      const referenceId = crypto.randomBytes(20).toString('hex')
+
+      const data = {
         amount,
-        bankCode,
-        accountHolderName,
-        accountNumber,
-        disbursementDescription,
-        items: products,
-      };
-    
-      function generateRandomString(length) {
-          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-          let result = '';
-        
-          for (let i = 0; i < length; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length);
-            result += characters.charAt(randomIndex);
-          }
-        
-          return result;
+        channelProperties: {
+          accountNumber,
+          accountHolderName,
+        },
+        description,
+        currency: "IDR",
+        type: "DIRECT_DISBURSEMENT",
+        referenceId,
+        channelCode
       }
       
-      const randomString = generateRandomString(5);
 
-      const response = await disbursement.createDisbursement(createDisbursementParams);
+      const response = await xenditPayoutClient.createPayout({
+          idempotencyKey: referenceId,
+          data
+      })
+
       if(response) {
         const dataHistory = {
-            history_id: randomString,
+            history_id: referenceId,
             products
         }
 
