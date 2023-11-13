@@ -1,5 +1,6 @@
 const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
+const paymentMethodModel = require('../models/methodePayment');
 const crypto = require('crypto')
 const dotenv = require('dotenv');
 dotenv.config();
@@ -113,11 +114,26 @@ const updateDatabase = async (external_id, data) => {
       });
   } catch (error) {
       return res.json({ status: 500, message: 'Error server!', error: error.message });
-  }
-};
+    }
+  };
+  
+const getAllPaymentByShop = async (req, res) => {
+    try {
+        const { shop_id } = req.params
+        
+        const getPayment = await paymentMethodModel.findOne({ shop_id })
+        if(getPayment) return res.json({ status: 404, message: 'Data payment not found!' })
+
+        return res.json({ status: 200, message: `All data payment method by shop_id: ${shop_id}`, data: getPayment })
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Error server!', error: error.message });
+    }
+}
 
 module.exports = {
     handlePaymentCallback,
     cancelOrder,
     disbursementPayment,
+    getAllPaymentByShop
 }
