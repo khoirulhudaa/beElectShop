@@ -122,7 +122,8 @@ const getAllPaymentByShop = async (req, res) => {
         const { shop_id } = req.params
         
         const getPayment = await paymentMethodModel.findOne({ shop_id })
-        if(getPayment) return res.json({ status: 404, message: 'Data payment not found!' })
+        
+        if(getPayment === 0) return res.json({ status: 404, message: 'Data payment not found!' })
 
         return res.json({ status: 200, message: `All data payment method by shop_id: ${shop_id}`, data: getPayment })
 
