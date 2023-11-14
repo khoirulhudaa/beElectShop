@@ -72,10 +72,8 @@ const createShop = async (req, res) => {
                 { bank_code: 'BRI' },
                 { bank_code: 'MANDIRI' },
                 { bank_code: 'BNI' },
-                { bank_code: 'BSI' },
                 { bank_code: 'ID_DANA' },
                 { bank_code: 'ID_GOPAY' },
-                { bank_code: 'ID_LINKAJA' },
                 { bank_code: 'ID_OVO' },
                 { bank_code: 'ID_SHOPEEPAY' },
             ]
