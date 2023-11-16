@@ -135,7 +135,7 @@ const getAllPaymentByShop = async (req, res) => {
 const updatePaymentMethod = async (req, res) => {
   try {
     const { shop_id } = req.params
-    const { updates } = req.body;
+    const updates = req.body;
 
     if(!updates) return res.json({ status: 200, message: 'Invalid parameter!', data: updates })
 
