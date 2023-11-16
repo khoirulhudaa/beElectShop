@@ -16,9 +16,7 @@ const getProvince = async (req,  res) => {
 
 const getCity = async (req, res) => {
     try {
-        const { id } = req.params
-
-        const response = await RajaOngkir.getCities({province_id: id})
+        const response = await RajaOngkir.getCities()
         const result = await response.filter(data => data.province_id === id)
         
         if(result === 0 || !result) return res.json({ status: 404, message: 'City not found!' })
