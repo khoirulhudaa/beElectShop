@@ -16,6 +16,8 @@ const getProvince = async (req,  res) => {
 
 const getCity = async (req, res) => {
     try {
+        const { id } = req.params
+
         const response = await RajaOngkir.getCities()
         const result = await response.filter(data => data.province_id === id)
         
