@@ -142,7 +142,7 @@ const updatePaymentMethod = async (req, res) => {
     const updatePromises = updates.map(async (update) => {
         const { bank_code, account_cumber } = update;
         
-        return PaymentMethod.findOneAndUpdate(
+        return paymentMethodModel.findOneAndUpdate(
             { shop_id: shop_id, 'payments.bank_code': bank_code },
             { $set: { 
               'payments.$.account_number': account_cumber 
