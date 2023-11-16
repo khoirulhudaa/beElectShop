@@ -142,16 +142,12 @@ const updatePaymentMethod = async (req, res) => {
     }
 
     const updatePromises = updates.map(async (update) => {
-        const { bank_code, account_number } = update;
-        console.log('update:', update)
-        console.log('bank_code:', bank_code)
-        console.log('shop_id:', shop_id)
-        console.log('number:', account_number)
-    
+        const { bank_code, account_number, isEnabled } = update;
         const result = await paymentMethodModel.updateOne(
             { shop_id: shop_id, 'payments.bank_code': bank_code },
             { $set: { 
-              'payments.$.account_number': account_number 
+              'payments.$.account_number': account_number ,
+              'payments.$.isEnabled': isEnabled ,
             } },
             { new: true }
         );
@@ -161,8 +157,7 @@ const updatePaymentMethod = async (req, res) => {
   
     const results = await Promise.all(updatePromises);    
       
-    if (!results) {
-        console.log(updates)
+    if (! results) {
         return res.json({ status: 404, message: 'No payment methods were updated.', data: updates });
     }
 
