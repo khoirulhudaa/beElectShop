@@ -18,7 +18,7 @@ const getCity = async (req, res) => {
     try {
         const { id } = req.params
 
-        const response = RajaOngkir.getCity(id)
+        const response = RajaOngkir.getCities(id)
         
         return res.json({ status: 200, message: 'Successfully get data all city', data: response })
     } catch (error) {
