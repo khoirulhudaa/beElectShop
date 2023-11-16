@@ -137,6 +137,8 @@ const updatePaymentMethod = async (req, res) => {
     const { shop_id } = req.params
     const { updates } = req.body;
 
+    if(update === 0 || !updates) return res.json({ status: 200, message: 'Invalid parameter!', data: updates })
+
     const updatePromises = updates.map(async (update) => {
         const { bank_code, account_cumber } = update;
         
