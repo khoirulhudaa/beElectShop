@@ -158,10 +158,11 @@ const updatePaymentMethod = async (req, res) => {
     const updatedMethodsCount = results.reduce((total, result) => total + (result.nModified || 0), 0);
 
     if (updatedMethodsCount === 0) {
-      return res.status(404).json({ status: 404, message: 'No payment methods were updated.' });
+      console.log(updates)
+      return res.json({ status: 404, message: 'No payment methods were updated.', data: updates });
     }
 
-    return res.json({ status: 200, message: 'Successfully updated payment methods!' });
+    return res.json({ status: 200, message: 'Successfully updated payment methods!'. data: updates });
 
   } catch (error) {
     return res.json({ status: 500, message: 'Error server!', error: error.message });
