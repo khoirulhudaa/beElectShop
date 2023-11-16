@@ -143,7 +143,9 @@ const updatePaymentMethod = async (req, res) => {
 
     const updatePromises = updates.map(async (update) => {
         const { bank_code, account_cumber } = update;
-        
+        console.log('update:', update)
+        console.log('bank_code:', bank_code)
+        console.log('number:', account_number)
         return paymentMethodModel.updateMany(
             { shop_id: shop_id, 'payments.bank_code': bank_code },
             { $set: { 
