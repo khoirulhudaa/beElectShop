@@ -44,6 +44,7 @@ const accountRouter = require('./src/routes/accountRouters')
 const historyRouter = require('./src/routes/historyRouters')
 const subscribeRouter = require('./src/routes/subscribeRouters')
 const paymentRouter = require('./src/routes/paymentRouters')
+const courierRouter = require('./src/routes/courierRouter')
 
 app.use('/account', accountRouter)
 app.use('/request', checkToken, requestRouter)
@@ -52,6 +53,7 @@ app.use('/product', checkToken, productRouter)
 app.use('/history', checkToken, historyRouter)
 app.use('/subscribe', checkToken, subscribeRouter)
 app.use('/payment', checkToken, paymentRouter)
+app.use('/cost', checkToken, courierRouter)
 
 app.get('/test', (req, res) => {
     res.send('test success!')   
