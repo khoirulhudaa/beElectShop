@@ -12,7 +12,7 @@ const paymentMethodSchema = new mongoose.Schema({
             required: true
         },
         account_number: {
-            type: String,
+            type: Number,
             required: true,
             default: 0
         },

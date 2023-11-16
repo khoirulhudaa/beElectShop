@@ -147,22 +147,25 @@ const updatePaymentMethod = async (req, res) => {
         console.log('bank_code:', bank_code)
         console.log('shop_id:', shop_id)
         console.log('number:', account_number)
-        return paymentMethodModel.updateOne(
+    
+        const result = await paymentMethodModel.updateOne(
             { shop_id: shop_id, 'payments.bank_code': bank_code },
             { $set: { 
               'payments.$.account_number': account_number 
             } },
             { new: true }
         );
-    });
-
-    const results = await Promise.all(updatePromises);    
     
-    const updatedMethodsCount = results.reduce((total, result) => total + (result.nModified || 0), 0);
+        return result;
+    });
+  
+    const results = await Promise.all(updatePromises);    
+      
+    const updatedMethodsCount = results.reduce((total, result) => total + (result.nModified > 0 ? 1 : 0), 0);
 
     if (updatedMethodsCount === 0) {
-      console.log(updates)
-      return res.json({ status: 404, message: 'No payment methods were updated.', data: updates });
+        console.log(updates)
+        return res.json({ status: 404, message: 'No payment methods were updated.', data: updates });
     }
 
     return res.json({ status: 200, message: 'Successfully updated payment methods!', data: updates });
