@@ -162,7 +162,7 @@ const updatePaymentMethod = async (req, res) => {
       return res.json({ status: 404, message: 'No payment methods were updated.', data: updates });
     }
 
-    return res.json({ status: 200, message: 'Successfully updated payment methods!'. data: updates });
+    return res.json({ status: 200, message: 'Successfully updated payment methods!', data: updates });
 
   } catch (error) {
     return res.json({ status: 500, message: 'Error server!', error: error.message });
