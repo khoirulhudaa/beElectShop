@@ -137,12 +137,14 @@ const updatePaymentMethod = async (req, res) => {
     const { shop_id } = req.params
     const updates = req.body;
 
-    if(!updates) return res.json({ status: 200, message: 'Invalid parameter!', data: updates })
+    if (!updates || !Array.isArray(updates)) {
+      return res.status(400).json({ status: 400, message: 'Invalid parameter! Expecting an array in the request body.', data: updates });
+    }
 
     const updatePromises = updates.map(async (update) => {
         const { bank_code, account_cumber } = update;
         
-        return paymentMethodModel.findOneAndUpdate(
+        return paymentMethodModel.manyUpdate(
             { shop_id: shop_id, 'payments.bank_code': bank_code },
             { $set: { 
               'payments.$.account_number': account_cumber 
@@ -151,8 +153,14 @@ const updatePaymentMethod = async (req, res) => {
         );
     });
 
-    await Promise.all(updatePromises);    
-    return res.json({ status: 200, message: 'Successfully update payment method!' })
+    const results = await Promise.all(updatePromises);    
+    const updatedMethodsCount = results.filter(result => result.nModified > 0).length;
+
+    if (updatedMethodsCount === 0) {
+      return res.status(404).json({ status: 404, message: 'No payment methods were updated.' });
+    }
+
+    return res.status(200).json({ status: 200, message: 'Successfully updated payment methods!' });
 
   } catch (error) {
     return res.json({ status: 500, message: 'Error server!', error: error.message });
