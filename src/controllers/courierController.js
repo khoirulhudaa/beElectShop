@@ -19,8 +19,11 @@ const getCity = async (req, res) => {
         const { id } = req.params
 
         const response = await RajaOngkir.getCities({province_id: id})
+        const result = await response.filter(data => data.province_id === id)
         
-        return res.json({ status: 200, message: 'Successfully get data all city', data: response })
+        if(result === 0 || !result) return res.json({ status: 404, message: 'City not found!' })
+
+        return res.json({ status: 200, message: 'Successfully get data all city', data: result })
     } catch (error) {
         return res.json({ status: 500, message: 'Server error!', error: error.message })
     }
