@@ -154,9 +154,11 @@ const updatePaymentMethod = async (req, res) => {
     });
 
     const results = await Promise.all(updatePromises);    
+    
+    const updatedMethodsCount = results.reduce((total, result) => total + (result.nModified || 0), 0);
 
-    if (!results) {
-      return res.json({ status: 404, message: 'No payment methods were updated.' });
+    if (updatedMethodsCount === 0) {
+      return res.status(404).json({ status: 404, message: 'No payment methods were updated.' });
     }
 
     return res.json({ status: 200, message: 'Successfully updated payment methods!' });
