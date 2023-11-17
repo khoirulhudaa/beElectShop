@@ -52,7 +52,18 @@ const disbursementPayment = async (req, res) => {
       //   currency: "IDR",
       // }
 
-      // console.log('data body:', data)
+      console.log('data body:', {
+          idempotencyKey: referenceId,
+          reference_id: referenceId,
+          channel_code: channelCode,
+          channel_properties: {
+              account_number: accountNumber,
+              account_holder_name: accountHolderName,
+          },
+          amount: amount,
+          currency: "IDR",
+          description: description,
+      })
       
       const response = await xenditPayoutClient.createPayout({
           idempotencyKey: referenceId,
