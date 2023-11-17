@@ -41,30 +41,21 @@ const disbursementPayment = async (req, res) => {
       const referenceId = crypto.randomBytes(20).toString('hex')
 
       const data = {
-        "reference_id": "lotto-1482928194",
-        "channel_code": "ID_BCA",
-        "channel_properties": {
-          "account_number": "000000000099",
-          "account_holder_name": "Michael Chen"
+        "amount" : 90000,
+        "channelProperties" : {
+          "accountNumber" : "000000",
+          "accountHolderName" : "John Doe"
         },
-        "amount": 1000,
-        "description": "Lotto Winner #12",
-        "currency": "IDR",
+        "description" : "Test Bank Payout",
+        "currency" : "PHP",
+        "type" : "DIRECT_DISBURSEMENT",
+        "referenceId" : "DISB-001",
+        "channelCode" : "PH_BDO"
       }
-
-      console.log('data body:', data)
       
       const response = await xenditPayoutClient.createPayout({
-        idempotencyKey: "lotto-1111111111",
-        "reference_id": "lotto-1482928194",
-        "channel_code": "ID_BCA",
-        "channel_properties": {
-          "account_number": "000000000099",
-          "account_holder_name": "Michael Chen"
-        },
-        "amount": 1000,
-        "description": "Lotto Winner #12",
-        "currency": "IDR",
+          idempotencyKey: "DISB-1234",
+          data
       })
       
       console.log('response body:', response)
