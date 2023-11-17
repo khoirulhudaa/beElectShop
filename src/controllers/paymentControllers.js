@@ -32,6 +32,8 @@ const disbursementPayment = async (req, res) => {
         accountNumber,
         description,
         products, 
+        post_code,
+        address,
       } = req.body;
 
       const referenceId = crypto.randomBytes(20).toString('hex')
@@ -58,7 +60,10 @@ const disbursementPayment = async (req, res) => {
       if(response) {
         const dataHistory = {
             history_id: referenceId,
-            products
+            products,
+            post_code,
+            address,
+            accountHolderName
         }
 
         const consumerHistory = new historyConsumeModel(dataHistory)
