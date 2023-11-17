@@ -59,13 +59,12 @@ const disbursementPayment = async (req, res) => {
           reference_id: referenceId,
           channel_code: channelCode,
           channel_properties: {
-            account_number: accountNumber,
-            account_holder_name: accountHolderName,
+              account_number: accountNumber,
+              account_holder_name: accountHolderName,
           },
-
-          amount,
-          description,
+          amount: amount,
           currency: "IDR",
+          description: description,
       })
 
       if(response) {
