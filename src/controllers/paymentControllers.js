@@ -42,9 +42,9 @@ const disbursementPayment = async (req, res) => {
       const referenceId = crypto.randomBytes(20).toString('hex')
 
       const data = {
-        referenceId,
+        reference_id: referenceId,
         channel_code: channelCode,
-        channelProperties: {
+        channel_properties: {
           account_number: accountNumber,
           account_holder_name: accountHolderName,
         },
