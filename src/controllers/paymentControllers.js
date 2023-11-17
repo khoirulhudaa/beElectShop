@@ -38,8 +38,7 @@ const disbursementPayment = async (req, res) => {
         address,
       } = req.body;
 
-      console.log('data body:', req.body)
-
+      
       const referenceId = crypto.randomBytes(20).toString('hex')
 
       const data = {
@@ -53,8 +52,8 @@ const disbursementPayment = async (req, res) => {
         description,
         currency: "IDR",
       }
+      console.log('data body:', data)
       
-
       const response = await xenditPayoutClient.createPayout({
           idempotencyKey: referenceId,
           data
