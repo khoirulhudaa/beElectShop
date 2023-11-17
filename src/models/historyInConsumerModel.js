@@ -21,10 +21,6 @@ const HistorySchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    accountHolderName: {
-        type: String,
-        require: true
-    },
     address: {
         type: String,
         require: true
@@ -34,6 +30,10 @@ const HistorySchema = new mongoose.Schema({
         default: new Date()
     },
     status: {
+        type: String,
+        required: true
+    },
+    description: {
         type: String,
         required: true
     },

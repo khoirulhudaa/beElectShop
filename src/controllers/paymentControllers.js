@@ -28,11 +28,13 @@ const disbursementPayment = async (req, res) => {
       const {
         amount,
         channelCode,
-        accountHolderName,
         accountNumber,
-        description,
         products, 
+        accountHolderName,
+        telephone_consumer,
+        consumer_id,
         post_code,
+        description,
         address,
       } = req.body;
 
@@ -62,8 +64,12 @@ const disbursementPayment = async (req, res) => {
             history_id: referenceId,
             products,
             post_code,
+            email_consumer,
+            status: 'PENDING',
             address,
-            accountHolderName
+            consumer_name: accountHolderName,
+            telephone_consumer,
+            consumer_id
         }
 
         const consumerHistory = new historyConsumeModel(dataHistory)
