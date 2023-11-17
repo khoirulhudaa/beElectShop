@@ -7,7 +7,7 @@ dotenv.config();
 
 const { Payout: PayoutClient } = require('xendit-node');
 
-const xenditPayoutClient = new PayoutClient({ secretKey: process.env.XENDIT_API_KEY });
+const xenditPayoutClient = new PayoutClient({ secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7' });
 
 const handlePaymentCallback = async (req, res) => {
     try {
@@ -38,7 +38,6 @@ const disbursementPayment = async (req, res) => {
         address,
       } = req.body;
 
-      
       const referenceId = crypto.randomBytes(20).toString('hex')
 
       const data = {
@@ -52,11 +51,13 @@ const disbursementPayment = async (req, res) => {
         description,
         currency: "IDR",
       }
-      console.log('data body:', data.body)
+
+      console.log('data body:', data)
       
       const response = await xenditPayoutClient.createPayout({
           idempotencyKey: referenceId,
           data
+
       })
 
       if(response) {
