@@ -55,10 +55,19 @@ const disbursementPayment = async (req, res) => {
       console.log('data body:', data)
       
       const response = await xenditPayoutClient.createPayout({
-          idempotencyKey: referenceId,
-          data
+        "reference_id": "lotto-1482928194",
+        "channel_code": "ID_BCA",
+        "channel_properties": {
+          "account_number": "000000000099",
+          "account_holder_name": "Michael Chen"
+        },
+        "amount": 1000,
+        "description": "Lotto Winner #12",
+        "currency": "IDR",
       })
-
+      
+      console.log('response body:', response)
+      
       if(response) {
         const dataHistory = {
             history_id: referenceId,
