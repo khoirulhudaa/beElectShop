@@ -41,16 +41,16 @@ const disbursementPayment = async (req, res) => {
       const referenceId = crypto.randomBytes(20).toString('hex')
 
       const data = {
-          "amount" : 90000,
-          "channelProperties" : {
-            "accountNumber" : "000000",
-            "accountHolderName" : "John Doe"
+          "amount": 90000,
+          "channel_properties": {
+              "account_number": "000000",
+              "account_holder_name": "John Doe"
           },
-          "description" : "Test Bank Payout",
-          "currency" : "IDR",
-          "type" : "DIRECT_DISBURSEMENT",
-          "referenceId" : "DISB-001",
-          "channelCode" : "BRI"
+          "description": "Test Bank Payout",
+          "currency": "IDR",
+          "type": "DIRECT_DISBURSEMENT",
+          "reference_id": "DISB-001",
+          "channel_code": "BRI"
       }
 
       console.log('data body:', data)
