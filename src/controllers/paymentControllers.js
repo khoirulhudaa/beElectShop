@@ -40,24 +40,32 @@ const disbursementPayment = async (req, res) => {
 
       const referenceId = crypto.randomBytes(20).toString('hex')
 
-      const data = {
-        reference_id: referenceId,
-        channel_code: channelCode,
-        channel_properties: {
-          account_number: accountNumber,
-          account_holder_name: accountHolderName,
-        },
-        amount,
-        description,
-        currency: "IDR",
-      }
+      // const data = {
+      //   reference_id: referenceId,
+      //   channel_code: channelCode,
+      //   channel_properties: {
+      //     account_number: accountNumber,
+      //     account_holder_name: accountHolderName,
+      //   },
+      //   amount,
+      //   description,
+      //   currency: "IDR",
+      // }
 
-      console.log('data body:', data)
+      // console.log('data body:', data)
       
       const response = await xenditPayoutClient.createPayout({
           idempotencyKey: referenceId,
-          data
+          reference_id: referenceId,
+          channel_code: channelCode,
+          channel_properties: {
+            account_number: accountNumber,
+            account_holder_name: accountHolderName,
+          },
 
+          amount,
+          description,
+          currency: "IDR",
       })
 
       if(response) {
