@@ -38,6 +38,8 @@ const disbursementPayment = async (req, res) => {
         address,
       } = req.body;
 
+      console.log('data body:', req.body)
+
       const referenceId = crypto.randomBytes(20).toString('hex')
 
       const data = {
