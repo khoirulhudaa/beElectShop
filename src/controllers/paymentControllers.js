@@ -52,11 +52,11 @@ const disbursementPayment = async (req, res) => {
         description,
         currency: "IDR",
       }
-      console.log('data body:', data)
+      console.log('data body:', data.body)
       
       const response = await xenditPayoutClient.createPayout({
           idempotencyKey: referenceId,
-          data
+          data.body
       })
 
       if(response) {
