@@ -56,7 +56,7 @@ const disbursementPayment = async (req, res) => {
       
       const response = await xenditPayoutClient.createPayout({
           idempotencyKey: referenceId,
-          data.body
+          data
       })
 
       if(response) {
