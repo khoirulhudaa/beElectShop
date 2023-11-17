@@ -55,6 +55,7 @@ const disbursementPayment = async (req, res) => {
       console.log('data body:', data)
       
       const response = await xenditPayoutClient.createPayout({
+        idempotencyKey: "lotto-1111111111",
         "reference_id": "lotto-1482928194",
         "channel_code": "ID_BCA",
         "channel_properties": {
