@@ -2,12 +2,11 @@ const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
 const paymentMethodModel = require('../models/methodePayment');
 const crypto = require('crypto')
+const { Payout: PayoutClient } = require('xendit-node');
+const xenditPayoutClient = new PayoutClient({ secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7' });
+
 const dotenv = require('dotenv');
 dotenv.config();
-
-const { Payout: PayoutClient } = require('xendit-node');
-
-const xenditPayoutClient = new PayoutClient({ secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7' });
 
 const handlePaymentCallback = async (req, res) => {
     try {
@@ -58,26 +57,26 @@ const disbursementPayment = async (req, res) => {
           data
       })
       
-      console.log('response body:', response)
+      console.log('response:', response)
       
       if(response) {
-        const dataHistory = {
-            history_id: referenceId,
-            products,
-            post_code,
-            email_consumer,
-            status: 'PENDING',
-            address,
-            consumer_name: accountHolderName,
-            telephone_consumer,
-            consumer_id
-        }
+        // const dataHistory = {
+        //     history_id: referenceId,
+        //     products,
+        //     post_code,
+        //     email_consumer,
+        //     status: 'PENDING',
+        //     address,
+        //     consumer_name: accountHolderName,
+        //     telephone_consumer,
+        //     consumer_id
+        // }
 
-        const consumerHistory = new historyConsumeModel(dataHistory)
-        const sellerHistory = new historySellerModel(dataHistory)
+        // const consumerHistory = new historyConsumeModel(dataHistory)
+        // const sellerHistory = new historySellerModel(dataHistory)
 
-        await consumerHistory.save()
-        await sellerHistory.save()
+        // await consumerHistory.save()
+        // await sellerHistory.save()
 
         return res.json({status: 200, message: 'Your payment is pending, complete it immediately!' , data: response});
       } else {
