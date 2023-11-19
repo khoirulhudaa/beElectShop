@@ -49,7 +49,7 @@ const disbursementPayment = async (req, res) => {
           "accountHolderName" : accountHolderName.toString()
         },
         "description" : description.toString(),
-        "currency" : "PHP",
+        "currency" : "IDR",
         "type" : "DIRECT_DISBURSEMENT",
         "referenceId" : referenceId.toString(),
         "channelCode" : "ID_BRI"
