@@ -68,10 +68,10 @@ const createShop = async (req, res) => {
         const data = {
             shop_id,
             payments: [
-                { bank_code: 'BCA' },
-                { bank_code: 'BRI' },
-                { bank_code: 'MANDIRI' },
-                { bank_code: 'BNI' },
+                { bank_code: 'ID_BCA' },
+                { bank_code: 'ID_BRI' },
+                { bank_code: 'ID_MANDIRI' },
+                { bank_code: 'ID_BNI' },
                 { bank_code: 'ID_DANA' },
                 { bank_code: 'ID_GOPAY' },
                 { bank_code: 'ID_OVO' },
