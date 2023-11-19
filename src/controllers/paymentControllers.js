@@ -52,7 +52,7 @@ const disbursementPayment = async (req, res) => {
         "currency" : "PHP",
         "type" : "DIRECT_DISBURSEMENT",
         "referenceId" : referenceId.toString(),
-        "channelCode" : channelCode.toString()
+        "channelCode" : "ID_BRI"
       }
       
       const response = await xenditPayoutClient.createPayout({
