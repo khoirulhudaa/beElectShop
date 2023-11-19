@@ -74,7 +74,8 @@ const disbursementPayment = async (req, res) => {
             address,
             consumer_name: accountHolderName,
             telephone_consumer,
-            consumer_id
+            consumer_id,
+            description
         }
 
         const consumerHistory = new historyConsumeModel(dataHistory)
