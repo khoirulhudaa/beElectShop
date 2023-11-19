@@ -104,31 +104,31 @@ const createPayment = async (req, res) => {
         data
     })
 
-    if(response) {
-      const dataHistory = {
-          history_id: referenceId,
-          products,
-          post_code,
-          email_consumer,
-          status: 'PENDING',
-          address,
-          description,
-          consumer_name: accountHolderName,
-          telephone_consumer,
-          consumer_id
-      }
+    // if(response) {
+    //   const dataHistory = {
+    //       history_id: referenceId,
+    //       products,
+    //       post_code,
+    //       email_consumer,
+    //       status: 'PENDING',
+    //       address,
+    //       description,
+    //       consumer_name: accountHolderName,
+    //       telephone_consumer,
+    //       consumer_id
+    //   }
 
-      const consumerHistory = new historyConsumeModel(dataHistory)
-      const sellerHistory = new historySellerModel(dataHistory)
+    //   const consumerHistory = new historyConsumeModel(dataHistory)
+    //   const sellerHistory = new historySellerModel(dataHistory)
 
-      await consumerHistory.save()
-      await sellerHistory.save()
+    //   await consumerHistory.save()
+    //   await sellerHistory.save()
 
-      return res.json({ status: 200, message: 'Your payment is pending at this time!', data: response})
-  } else {
-      return res.json({ status: 500, message: 'Failed create payment!!', data: response})
-  }
-
+    // } else {
+    //   return res.json({ status: 500, message: 'Failed create payment!!', data: response})
+    // }
+    return res.json({ status: 200, message: 'Your payment is pending at this time!', data: response})
+    
   } catch (error) {
     return res.json({ status: 500, message: 'Server error!', error: error.message})
   }
