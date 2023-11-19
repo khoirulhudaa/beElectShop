@@ -2,13 +2,13 @@ const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
 const paymentMethodModel = require('../models/methodePayment');
 const crypto = require('crypto')
-
-const { Payout: PayoutClient, PaymentRequest : PaymentRequestClient } = require('xendit-node');
-const xenditPayoutClient = new PayoutClient({ secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7' });
-const xenditPaymentRequestClient = new PaymentRequestClient({secretKey: YOUR_SECRET_KEY})
-
 const dotenv = require('dotenv');
 dotenv.config();
+
+const { Payout: PayoutClient, PaymentRequest : PaymentRequestClient } = require('xendit-node');
+const xenditPayoutClient = new PayoutClient({ secretKey: process.env.XENDIT_API_KEY });
+const xenditPaymentRequestClient = new PaymentRequestClient({secretKey: process.env.XENDIT_API_KEY})
+
 
 const handlePaymentCallback = async (req, res) => {
     try {
