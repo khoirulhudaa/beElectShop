@@ -30,6 +30,7 @@ const disbursementPayment = async (req, res) => {
         accountNumber,
         products, 
         accountHolderName,
+        email_consumer,
         telephone_consumer,
         consumer_id,
         post_code,
@@ -46,13 +47,13 @@ const disbursementPayment = async (req, res) => {
         "amount" : amount,
         "channelProperties" : {
           "accountNumber" : accountNumber.toString(),
-          "accountHolderName" : accountHolderName.toString()
+          "accountHolderName" : accountHolderName
         },
-        "description" : description.toString(),
+        "description" : description,
         "currency" : "IDR",
         "type" : "DIRECT_DISBURSEMENT",
         "referenceId" : referenceId.toString(),
-        "channelCode" : "ID_BRI"
+        "channelCode" : channelCode
       }
       
       const response = await xenditPayoutClient.createPayout({
@@ -67,6 +68,7 @@ const disbursementPayment = async (req, res) => {
             history_id: referenceId,
             products,
             post_code,
+            email_consumer,
             email_consumer,
             status: response.data.status,
             address,
