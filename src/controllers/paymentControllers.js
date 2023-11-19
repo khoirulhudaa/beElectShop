@@ -70,7 +70,7 @@ const disbursementPayment = async (req, res) => {
             post_code,
             email_consumer,
             email_consumer,
-            status: response.data.status,
+            status: "ACCEPTED",
             address,
             consumer_name: accountHolderName,
             telephone_consumer,
