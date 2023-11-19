@@ -2,8 +2,10 @@ const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
 const paymentMethodModel = require('../models/methodePayment');
 const crypto = require('crypto')
-const { Payout: PayoutClient } = require('xendit-node');
+
+const { Payout: PayoutClient, PaymentRequest : PaymentRequestClient } = require('xendit-node');
 const xenditPayoutClient = new PayoutClient({ secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7' });
+const xenditPaymentRequestClient = new PaymentRequestClient({secretKey: YOUR_SECRET_KEY})
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -30,7 +32,6 @@ const disbursementPayment = async (req, res) => {
         accountNumber,
         products, 
         accountHolderName,
-        email_consumer,
         telephone_consumer,
         consumer_id,
         post_code,
@@ -39,61 +40,99 @@ const disbursementPayment = async (req, res) => {
       } = req.body;
 
       const referenceId = crypto.randomBytes(20).toString('hex')
-      const currentDate = new Date();
-      const formattedDate = currentDate.toISOString().replace(/[-T:.Z]/g, ""); // Menghapus karakter -T:.Z
-      const idempotencyKey = referenceId + formattedDate;
 
       const data = {
-        "amount" : amount,
+        "amount" : 90000,
         "channelProperties" : {
-          "accountNumber" : accountNumber.toString(),
-          "accountHolderName" : accountHolderName
+          "accountNumber" : "000000",
+          "accountHolderName" : "John Doe"
         },
-        "description" : description,
-        "currency" : "IDR",
+        "description" : "Test Bank Payout",
+        "currency" : "PHP",
         "type" : "DIRECT_DISBURSEMENT",
-        "referenceId" : referenceId.toString(),
-        "channelCode" : channelCode
+        "referenceId" : "DISB-001",
+        "channelCode" : "PH_BDO"
       }
       
       const response = await xenditPayoutClient.createPayout({
-          idempotencyKey,
+          idempotencyKey: "DISB-1234",
           data
       })
       
-      console.log('response:', response)
-      
-      if(response) {
-        const dataHistory = {
-            history_id: referenceId,
-            products,
-            post_code,
-            email_consumer,
-            email_consumer,
-            status: "ACCEPTED",
-            address,
-            consumer_name: accountHolderName,
-            telephone_consumer,
-            consumer_id,
-            description
-        }
-
-        const consumerHistory = new historyConsumeModel(dataHistory)
-        const sellerHistory = new historySellerModel(dataHistory)
-
-        await consumerHistory.save()
-        await sellerHistory.save()
-
-        return res.json({status: 200, message: 'Your payment is pending, complete it immediately!' , data: response});
-      } else {
-        return res.json({ status: 500, error: 'Error payment!' });
-      }
+      return res.json({status: 200, message: 'Withdraw successfully!!' , data: response});
       
     } catch (error) {
       console.error('Disbursement Error:', error);
       return res.json({ status: 500, error: 'Server Error', message: error.message });
     }
 };
+
+const createPayment = async (req, res) => {
+  try {
+
+    const {
+      amount,
+      channelCode,
+      products, 
+      accountHolderName,
+      telephone_consumer,
+      consumer_id,
+      post_code,
+      description,
+      address,
+    } = req.body;
+
+    const referenceId = crypto.randomBytes(20).toString('hex')
+    
+    const data = {
+      "country" : "ID",
+      "amount" : amount,
+      "paymentMethod" : {
+        "ewallet" : {
+          "channelProperties" : {
+            "successReturnUrl" : "https://elect-shop.vercel.app/success"
+          },
+          "channelCode" : channelCode
+        },
+        "reusability" : "ONE_TIME_USE",
+      },
+      "currency" : "IDR",
+      "referenceId" : referenceId
+    }
+
+    const response = await xenditPaymentRequestClient.createPaymentRequest({
+        data
+    })
+
+    if(response) {
+      const dataHistory = {
+          history_id: referenceId,
+          products,
+          post_code,
+          email_consumer,
+          status: 'PENDING',
+          address,
+          description,
+          consumer_name: accountHolderName,
+          telephone_consumer,
+          consumer_id
+      }
+
+      const consumerHistory = new historyConsumeModel(dataHistory)
+      const sellerHistory = new historySellerModel(dataHistory)
+
+      await consumerHistory.save()
+      await sellerHistory.save()
+
+      return res.json({ status: 200, message: 'Your payment is pending at this time!', data: response})
+  } else {
+      return res.json({ status: 500, message: 'Failed create payment!!', data: response})
+  }
+
+  } catch (error) {
+    return res.json({ status: 500, message: 'Server error!', error: error.message})
+  }
+}
   
 
 const cancelOrder = async (req, res) => {
@@ -188,6 +227,7 @@ const updatePaymentMethod = async (req, res) => {
 module.exports = {
     handlePaymentCallback,
     cancelOrder,
+    createPayment,
     disbursementPayment,
     getAllPaymentByShop,
     updatePaymentMethod
