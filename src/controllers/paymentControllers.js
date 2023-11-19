@@ -61,9 +61,9 @@ const disbursementPayment = async (req, res) => {
           data
       })
       
-      console.log('response:', response)
+      console.log('response:', response.data.status)
       
-      if(response.status === 'ACCEPTED') {
+      if(response.data.status === 'ACCEPTED') {
         const dataHistory = {
             history_id: referenceId,
             products,
