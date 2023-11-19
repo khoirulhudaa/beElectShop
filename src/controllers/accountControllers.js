@@ -42,8 +42,6 @@ const upload = multer({
     },
 });
 
-// Consumer Authentication
-
 const signUpConsumer = async (req, res) => {
     try {
         const { email_consumer, consumer_name, gender, telephone_consumer, password } = req.body
@@ -378,8 +376,8 @@ const forgotPassword = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
             auth: {
-                user: 'muhammadkhoirulhuda111@gmail.com',
-                pass: 'cbnq jjqg cggu jpxx'
+                user: '',
+                pass: ''
             }
         })
 

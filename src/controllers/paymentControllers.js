@@ -38,45 +38,48 @@ const disbursementPayment = async (req, res) => {
       } = req.body;
 
       const referenceId = crypto.randomBytes(20).toString('hex')
+      const currentDate = new Date();
+      const formattedDate = currentDate.toISOString().replace(/[-T:.Z]/g, ""); // Menghapus karakter -T:.Z
+      const idempotencyKey = referenceId + formattedDate;
 
       const data = {
-        "amount" : 90000,
+        "amount" : amount,
         "channelProperties" : {
-          "accountNumber" : "000000",
-          "accountHolderName" : "John Doe"
+          "accountNumber" : accountNumber.toString(),
+          "accountHolderName" : accountHolderName.toString()
         },
-        "description" : "Test Bank Payout",
+        "description" : description.toString(),
         "currency" : "PHP",
         "type" : "DIRECT_DISBURSEMENT",
-        "referenceId" : "DISB-001",
-        "channelCode" : "PH_BDO"
+        "referenceId" : referenceId.toString(),
+        "channelCode" : channelCode.toString()
       }
       
       const response = await xenditPayoutClient.createPayout({
-          idempotencyKey: "DISB-1234",
+          idempotencyKey,
           data
       })
       
       console.log('response:', response)
       
-      if(response) {
-        // const dataHistory = {
-        //     history_id: referenceId,
-        //     products,
-        //     post_code,
-        //     email_consumer,
-        //     status: 'PENDING',
-        //     address,
-        //     consumer_name: accountHolderName,
-        //     telephone_consumer,
-        //     consumer_id
-        // }
+      if(response.status === 'ACCEPTED') {
+        const dataHistory = {
+            history_id: referenceId,
+            products,
+            post_code,
+            email_consumer,
+            status: response.data.status,
+            address,
+            consumer_name: accountHolderName,
+            telephone_consumer,
+            consumer_id
+        }
 
-        // const consumerHistory = new historyConsumeModel(dataHistory)
-        // const sellerHistory = new historySellerModel(dataHistory)
+        const consumerHistory = new historyConsumeModel(dataHistory)
+        const sellerHistory = new historySellerModel(dataHistory)
 
-        // await consumerHistory.save()
-        // await sellerHistory.save()
+        await consumerHistory.save()
+        await sellerHistory.save()
 
         return res.json({status: 200, message: 'Your payment is pending, complete it immediately!' , data: response});
       } else {
