@@ -52,7 +52,7 @@ app.use('/shop', checkToken, shopRouter)
 app.use('/product', checkToken, productRouter)
 app.use('/history', checkToken, historyRouter)
 app.use('/subscribe', checkToken, subscribeRouter)
-app.use('/payment', checkToken, paymentRouter)
+app.use('/payment', paymentRouter)
 app.use('/cost', checkToken, courierRouter)
 
 app.get('/test', (req, res) => {
