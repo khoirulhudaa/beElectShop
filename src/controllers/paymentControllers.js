@@ -5,9 +5,9 @@ const crypto = require('crypto')
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { Payout: PayoutClient, PaymentRequest : PaymentRequestClient } = require('xendit-node');
+const { Payout: PayoutClient, Invoice: InvoiceClient  } = require('xendit-node');
 const xenditPayoutClient = new PayoutClient({ secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7' });
-const xenditPaymentRequestClient = new PaymentRequestClient({secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7'})
+const xenditInvoice = new InvoiceClient({secretKey: 'xnd_development_LHt55GITF5Fri0xE3vF5Akd28vtDkpLNs2Y1Xcz4gOLOCPJe4hmTmujzagqY4O7'})
 
 
 const handlePaymentCallback = async (req, res) => {
@@ -77,6 +77,7 @@ const createPayment = async (req, res) => {
       accountHolderName,
       telephone_consumer,
       consumer_id,
+      email_consumer,
       post_code,
       description,
       address,
@@ -85,23 +86,65 @@ const createPayment = async (req, res) => {
     const referenceId = crypto.randomBytes(20).toString('hex')
     
     const data = {
-      "country" : "ID",
-      "amount" : 15000,
-      "paymentMethod" : {
-        "ewallet" : {
-          "channelProperties" : {
-            "successReturnUrl" : "https://redirect.me/success"
-          },
-          "channelCode" : "SHOPEEPAY"
-        },
-        "reusability" : "ONE_TIME_USE",
-        "type" : "EWALLET"
+      "external_id": referenceId,
+      "amount": amount,
+      "description": description,
+      "invoice_duration":86400,
+      "customer": {
+          "given_names": accountHolderName,
+          "surname": accountHolderName,
+          "email": email_consumer,
+          "mobile_number": telephone_consumer.toString(),
+          "addresses": [
+              {
+                  "city": address,
+                  "country": "Indonesia",
+                  "postal_code": post_code,
+                  "state": "Daerah Khusus Ibukota Jakarta",
+                  "street_line1": "Jalan Makan",
+                  "street_line2": "Kecamatan Kebayoran Baru"
+              }
+          ]
       },
-      "currency" : "IDR",
-      "referenceId" : "example-ref-1234"
+      "customer_notification_preference": {
+          "invoice_created": [
+              "whatsapp",
+              "sms",
+              "email",
+              "viber"
+          ],
+          "invoice_reminder": [
+              "whatsapp",
+              "sms",
+              "email",
+              "viber"
+          ],
+          "invoice_paid": [
+              "whatsapp",
+              "sms",
+              "email",
+              "viber"
+          ],
+          "invoice_expired": [
+              "whatsapp",
+              "sms",
+              "email",
+              "viber"
+          ]
+      },
+      "success_redirect_url": "https://www.google.com",
+      "failure_redirect_url": "https://www.google.com",
+      "currency": "IDR",
+      "items": products,
+      "fees": [
+          {
+              "type": "ADMIN",
+              "value": 2000
+          }
+      ]
     }
 
-    const response = await xenditPaymentRequestClient.createPaymentRequest({
+    const response = await xenditInvoice.createInvoice({
         data
     })
 
@@ -128,7 +171,7 @@ const createPayment = async (req, res) => {
     // } else {
     //   return res.json({ status: 500, message: 'Failed create payment!!', data: response})
     // }
-    return res.json({ status: 200, message: 'Your payment is pending at this time!', data: response})
+    return res.json({ status: 200, message: 'Success create your invoice!', data: response})
     
   } catch (error) {
     return res.json({ status: 500, message: 'Server error!', error: error.message})
