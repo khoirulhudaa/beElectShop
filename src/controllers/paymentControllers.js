@@ -150,13 +150,15 @@ const updateDatabase = async (external_id, data) => {
       const filter = { external_id };
       const updateData = {
           status: data.status,
-          date: new Date(),
+          date: data.created,
       };
 
       const [resultInConsumer, resultInSeller] = await Promise.all([
           HistoryInConsumer.updateOne(filter, updateData),
           HistoryInSeller.updateOne(filter, updateData),
       ]);
+
+      console.log('updatae database:', resultInConsumer)
 
       return res.json({ status: 200, message: 'Success update database!',
           data: {
