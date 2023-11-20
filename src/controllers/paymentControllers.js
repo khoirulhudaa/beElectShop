@@ -86,62 +86,12 @@ const createPayment = async (req, res) => {
     const referenceId = crypto.randomBytes(20).toString('hex')
     
     const data = {
-      "external_id": referenceId,
-      "amount": amount,
-      "description": description,
-      "invoice_duration":86400,
-      "customer": {
-          "given_names": accountHolderName,
-          "surname": accountHolderName,
-          "email": email_consumer,
-          "mobile_number": telephone_consumer.toString(),
-          "addresses": [
-              {
-                  "city": address,
-                  "country": "Indonesia",
-                  "postal_code": post_code,
-                  "state": "Daerah Khusus Ibukota Jakarta",
-                  "street_line1": "Jalan Makan",
-                  "street_line2": "Kecamatan Kebayoran Baru"
-              }
-          ]
-      },
-      "customer_notification_preference": {
-          "invoice_created": [
-              "whatsapp",
-              "sms",
-              "email",
-              "viber"
-          ],
-          "invoice_reminder": [
-              "whatsapp",
-              "sms",
-              "email",
-              "viber"
-          ],
-          "invoice_paid": [
-              "whatsapp",
-              "sms",
-              "email",
-              "viber"
-          ],
-          "invoice_expired": [
-              "whatsapp",
-              "sms",
-              "email",
-              "viber"
-          ]
-      },
-      "success_redirect_url": "https://www.google.com",
-      "failure_redirect_url": "https://www.google.com",
-      "currency": "IDR",
-      "items": products,
-      "fees": [
-          {
-              "type": "ADMIN",
-              "value": 2000
-          }
-      ]
+      "amount" : amount,
+      "invoiceDuration" : 172800,
+      "externalId" : "test1234",
+      "description" : "Test Invoice",
+      "currency" : "IDR",
+      "reminderTime" : 1
     }
 
     const response = await xenditInvoice.createInvoice({
