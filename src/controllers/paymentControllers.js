@@ -147,7 +147,7 @@ const cancelOrder = async (req, res) => {
 
 const updateDatabase = async (external_id, data) => {
   try {
-      const filter = { external_id };
+      const filter = { history_id: external_id };
       const updateData = {
           status: data.status,
           date: data.created,
