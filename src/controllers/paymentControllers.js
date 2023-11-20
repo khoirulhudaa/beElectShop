@@ -17,7 +17,8 @@ const handlePaymentCallback = async (req, res) => {
 
         await updateDatabase(callbackData.external_id, callbackData)
 
-        console.log('callback payment:', callbackData)
+        console.log('callback payment:', callbackData.status)
+        console.log('callback payment data:', callbackData.data.status)
         return res.json({ status: 200, data: callbackData });
 
     } catch (error) {
