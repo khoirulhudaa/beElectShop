@@ -13,12 +13,11 @@ const xenditInvoice = new InvoiceClient({secretKey: 'xnd_development_LHt55GITF5F
 const handlePaymentCallback = async (req, res) => {
     try {
         const callbackData = req.body;
+        console.log('callback payment:', callbackData.status)
         console.log('callback:', callbackData)
 
         await updateDatabase(callbackData.external_id, callbackData)
 
-        console.log('callback payment:', callbackData.status)
-        console.log('callback payment data:', callbackData.data.status)
         return res.json({ status: 200, data: callbackData });
 
     } catch (error) {
