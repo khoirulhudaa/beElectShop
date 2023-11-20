@@ -153,15 +153,11 @@ const updateDatabase = async (external_id, data) => {
           status: data.status,
       };
 
-      await HistoryInConsumer.updateOne(filter, updateData)
-      await HistoryInSeller.updateOne(filter, updateData)
+      await historyConsumeModel.updateOne(filter, updateData)
+      await historySellerModel.updateOne(filter, updateData)
 
-      return res.json({ status: 200, message: 'Success update database!',
-          data: {
-            resultInConsumer,
-            resultInSeller,
-          },
-      })
+      return res.json({ status: 200, message: 'Success update status payment!' })
+
   } catch (error) {
       return res.json({ status: 500, message: 'Error server!', error: error.message });
     }
