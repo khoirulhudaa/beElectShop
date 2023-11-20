@@ -12,12 +12,13 @@ const xenditInvoice = new InvoiceClient({secretKey: 'xnd_development_LHt55GITF5F
 
 const handlePaymentCallback = async (req, res) => {
     try {
-        const callbackData = req.body;
-        console.log('callback:', callbackData)
+        const { body } = req.body;
+        console.log('callback:', body)
 
-        await updateDatabase(callbackData.external_id, callbackData)
-    
-        return res.json({ status: 200, data: callbackData });
+        // await updateDatabase(body.external_id, callbackData)
+
+        console.log('callback payment:', body)
+        return res.json({ status: 200, data: body });
 
     } catch (error) {
         return res.json({ status: 500, message: 'Payment failed!', error: error.message })    
@@ -72,7 +73,6 @@ const createPayment = async (req, res) => {
 
     const {
       amount,
-      channelCode,
       products, 
       accountHolderName,
       telephone_consumer,
@@ -88,8 +88,8 @@ const createPayment = async (req, res) => {
     const data = {
       "amount" : amount,
       "invoiceDuration" : 172800,
-      "externalId" : "test1234",
-      "description" : "Test Invoice",
+      "externalId" : referenceId,
+      "description" : description,
       "currency" : "IDR",
       "reminderTime" : 1,
       "successRedirectUrl": "https://elect-shop.vercel.app/successPayment",
@@ -99,30 +99,31 @@ const createPayment = async (req, res) => {
         data
     })
 
-    // if(response) {
-    //   const dataHistory = {
-    //       history_id: referenceId,
-    //       products,
-    //       post_code,
-    //       email_consumer,
-    //       status: 'PENDING',
-    //       address,
-    //       description,
-    //       consumer_name: accountHolderName,
-    //       telephone_consumer,
-    //       consumer_id
-    //   }
+    if(response) {
+      const dataHistory = {
+          history_id: referenceId,
+          products,
+          post_code,
+          email_consumer,
+          status: 'PENDING',
+          address,
+          description,
+          consumer_name: accountHolderName,
+          telephone_consumer,
+          consumer_id
+      }
 
-    //   const consumerHistory = new historyConsumeModel(dataHistory)
-    //   const sellerHistory = new historySellerModel(dataHistory)
+      const consumerHistory = new historyConsumeModel(dataHistory)
+      const sellerHistory = new historySellerModel(dataHistory)
 
-    //   await consumerHistory.save()
-    //   await sellerHistory.save()
+      await consumerHistory.save()
+      await sellerHistory.save()
+      
+      return res.json({ status: 200, message: 'Your payment is still pending!', data: response})
 
-    // } else {
-    //   return res.json({ status: 500, message: 'Failed create payment!!', data: response})
-    // }
-    return res.json({ status: 200, message: 'Success create your invoice!', data: response})
+    } else {
+      return res.json({ status: 500, message: 'Failed create payment!!', data: response})
+    }
     
   } catch (error) {
     return res.json({ status: 500, message: 'Server error!', error: error.message})
