@@ -91,7 +91,8 @@ const createPayment = async (req, res) => {
       "externalId" : "test1234",
       "description" : "Test Invoice",
       "currency" : "IDR",
-      "reminderTime" : 1
+      "reminderTime" : 1,
+      "successRedirectUrl": "https://elect-shop/successPayment",
     }
 
     const response = await xenditInvoice.createInvoice({
