@@ -147,25 +147,23 @@ const cancelOrder = async (req, res) => {
 
 const updateDatabase = async (external_id, data) => {
   try {
+      console.log('external:', external_id)
       const filter = { history_id: external_id };
+
       const updateData = {
           status: data.status,
           date: data.created,
       };
 
-      const [resultInConsumer, resultInSeller] = await Promise.all([
-          HistoryInConsumer.updateOne(filter, updateData),
-          HistoryInSeller.updateOne(filter, updateData),
-      ]);
-
-      console.log('updatae database:', resultInConsumer)
+      await HistoryInConsumer.updateOne(filter, updateData),
+      await HistoryInSeller.updateOne(filter, updateData),
 
       return res.json({ status: 200, message: 'Success update database!',
           data: {
             resultInConsumer,
             resultInSeller,
           },
-      });
+      })
   } catch (error) {
       return res.json({ status: 500, message: 'Error server!', error: error.message });
     }
