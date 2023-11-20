@@ -155,8 +155,8 @@ const updateDatabase = async (external_id, data) => {
           date: data.created,
       };
 
-      await HistoryInConsumer.updateOne(filter, updateData),
-      await HistoryInSeller.updateOne(filter, updateData),
+      await HistoryInConsumer.updateOne(filter, updateData)
+      await HistoryInSeller.updateOne(filter, updateData)
 
       return res.json({ status: 200, message: 'Success update database!',
           data: {
