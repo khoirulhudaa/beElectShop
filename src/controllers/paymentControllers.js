@@ -86,18 +86,19 @@ const createPayment = async (req, res) => {
     
     const data = {
       "country" : "ID",
-      "amount" : amount,
+      "amount" : 15000,
       "paymentMethod" : {
         "ewallet" : {
           "channelProperties" : {
-            "successReturnUrl" : "https://elect-shop.vercel.app/success"
+            "successReturnUrl" : "https://redirect.me/success"
           },
-          "channelCode" : channelCode
+          "channelCode" : "SHOPEEPAY"
         },
         "reusability" : "ONE_TIME_USE",
+        "type" : "EWALLET"
       },
       "currency" : "IDR",
-      "referenceId" : referenceId
+      "referenceId" : "example-ref-1234"
     }
 
     const response = await xenditPaymentRequestClient.createPaymentRequest({
