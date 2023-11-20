@@ -148,6 +148,8 @@ const cancelOrder = async (req, res) => {
 const updateDatabase = async (external_id, data) => {
   try {
       console.log('external:', external_id)
+      console.log('status:', data.status)
+      console.log('created:', data.create)
       const filter = { history_id: external_id };
 
       const updateData = {
