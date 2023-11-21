@@ -37,6 +37,10 @@ const HistorySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    shop_id: {
+        type: String,
+        required: true
+    },
     products: [
         {
             idCart: {

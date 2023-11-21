@@ -3,6 +3,7 @@ const historyController = require('../controllers/historyControllers')
 const router = express.Router()
 
 router.get('/:id?', historyController.getAllHistory)
-router.delete('/:history_id', historyController.removeHistory)
+router.delete('/consumer/:id', historyController.removeHistoryConsumer)
+router.delete('/seller/:id', historyController.removeHistorySeller)
 
 module.exports = router

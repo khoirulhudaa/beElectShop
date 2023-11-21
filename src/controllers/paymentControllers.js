@@ -81,6 +81,7 @@ const createPayment = async (req, res) => {
       post_code,
       description,
       address,
+      shop_id
     } = req.body;
 
     const referenceId = crypto.randomBytes(20).toString('hex')
@@ -108,6 +109,7 @@ const createPayment = async (req, res) => {
           status: 'PENDING',
           address,
           description,
+          shop_id,
           consumer_name: accountHolderName,
           telephone_consumer,
           consumer_id
