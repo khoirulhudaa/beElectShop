@@ -1,6 +1,7 @@
 const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
 const paymentMethodModel = require('../models/methodePayment');
+const revenueModel = require('../models/requestModel')
 const crypto = require('crypto')
 const dotenv = require('dotenv');
 dotenv.config();
@@ -147,13 +148,36 @@ const cancelOrder = async (req, res) => {
 const updateDatabase = async (external_id, data) => {
   try {
       const filter = { history_id: external_id };
+      const filterRevenue = { revenue_id: external_id };
 
       const updateData = {
           status: data.status,
       };
 
-      await historyConsumeModel.updateOne(filter, updateData)
-      await historySellerModel.updateOne(filter, updateData)
+      const updateDataRevenue = {
+          $inc: {revenue: data.amount}
+      };
+
+      let revenue
+      
+      if(data.status === 'PAID') {
+        const result = await revenueModel.updateOne(filterRevenue, updateDataRevenue);
+        revenue = result.nModified; 
+      }
+
+      const [consumer, seller] = await Promise.all([
+        historyConsumeModel.updateOne(filter, updateData),
+        historySellerModel.updateOne(filter, updateData),
+      ])
+      
+
+      if(!consumer.nModified) {
+        return res.json({ status: 500, message: 'Failed update history consumer!' })
+      }else if(!seller.nModified) {
+        return res.json({ status: 500, message: 'Failed update history seller!' })
+      }else if(revenue === 0) {
+        return res.json({ status: 500, message: 'Failed update revenue!' })
+      }
 
       return res.json({ status: 200, message: 'Success update status payment!' })
 
