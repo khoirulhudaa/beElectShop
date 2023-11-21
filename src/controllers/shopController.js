@@ -1,4 +1,5 @@
 const shopModel = require('../models/shopModel')
+const revenueModel = require('../models/requestModel')
 const multer = require('multer')
 const fs = require('fs')
 const path = require('path')
@@ -99,22 +100,24 @@ const createShop = async (req, res) => {
 
         const createPayment = new paymentMethodSchema(data)
         const createShopModel = new shopModel(createShopData);
+        const createRevenueModel = new revenueModel(dataRAS);
 
         const [paymentMethod, shop, ras] = await Promise.all([
-            createPaymentMethod.save(),
+            createPayment.save(),
             createShopModel.save(),
+            createRevenueModel.save(),
         ]);
 
-        // Check if all documents were saved successfully
         if (paymentMethod && shop && ras) {
             return res.json({ status: 200, message: 'Successfully create shop!' });
         } else {
-            // Identify which document failed to be created
             if (!paymentMethod) {
                 return res.json({ status: 200, message: 'Failed to create payment!' });
             } else if (!shop) {
                 return res.json({ status: 200, message: 'Failed to create shop!' });
-            } 
+            } else if (!ras) {
+                return res.json({ status: 200, message: 'Failed to create revenue!' });
+            }
         }
         
     } catch (error) {
