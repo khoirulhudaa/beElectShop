@@ -6,7 +6,7 @@ const removeHistoryConsumer = async (req, res) => {
         const { history_id, idCart } = req.params
         console.log('history_id:', history_id)
         console.log('idCart:', idCart)
-        
+
         const history = await historyModelConsumer.findOne({ history_id })
         if(history === 0) return res.json({ status: 404, message: 'History not found!' })
 
@@ -33,7 +33,7 @@ const removeHistorySeller = async (req, res) => {
         if(history === 0) return res.json({ status: 404, message: 'History not found!' })
 
         const indexProducts = history.products.findIndex(data => data.idCart === idCart)
-        if (productIndex === -1) {
+        if (indexProducts === -1) {
             return res.json({ status: 404, message: 'Product not found in history!' });
         }
 
