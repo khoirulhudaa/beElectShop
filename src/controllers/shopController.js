@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const productModel = require('../models/productModel')
 const paymentMethodSchema = require('../models/methodePayment')
+const revenueAndSold = require('../models/revenueAndSoldModel');
 const crypto = require('crypto')
 
 const uploadDir = path.join(__dirname, '../uploads');
@@ -93,20 +94,32 @@ const createShop = async (req, res) => {
             followers: 0,
         };
 
+        const dataRAS = {
+            shop_id,
+        }
+
         const createPayment = new paymentMethodSchema(data)
         const createShopModel = new shopModel(createShopData);
+        const createRevenueAndSold = new revenueAndSold(dataRAS);
 
-        const createPaymentMethod = await createPayment.save()
-        const createShop = await createShopModel.save();
+        const [paymentMethod, shop, ras] = await Promise.all([
+            createPayment.save(),
+            createShopModel.save(),
+            createRevenueAndSold.save()
+        ]);
 
-        if (createPaymentMethod && createShop) {
+        // Check if all documents were saved successfully
+        if (paymentMethod && shop && ras) {
             return res.json({ status: 200, message: 'Successfully create shop!' });
-        } else if(!createPaymentMethod) {
-            return res.json({ status: 200, message: 'Failed create payment!' });
-        } else if(!createShop) {
-            return res.json({ status: 200, message: 'Failed create shop!' });
         } else {
-            return res.json({ status: 500, message: 'Failed to create shop!' });
+            // Identify which document failed to be created
+            if (!paymentMethod) {
+                return res.json({ status: 200, message: 'Failed to create payment!' });
+            } else if (!shop) {
+                return res.json({ status: 200, message: 'Failed to create shop!' });
+            } else if (!ras) {
+                return res.json({ status: 200, message: 'Failed to create RAS!' });
+            }
         }
         
     } catch (error) {

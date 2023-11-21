@@ -1,3 +1,4 @@
+const revenueAndSold = require('../models/revenueAndSoldModel');
 const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
 const paymentMethodModel = require('../models/methodePayment');
@@ -94,6 +95,7 @@ const createPayment = async (req, res) => {
       "currency" : "IDR",
       "reminderTime" : 1,
       "successRedirectUrl": "https://elect-shop.vercel.app/successPayment",
+      "products": products
     }
 
     const response = await xenditInvoice.createInvoice({
