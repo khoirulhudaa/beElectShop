@@ -31,39 +31,36 @@ const disbursementPayment = async (req, res) => {
         amount,
         channelCode,
         accountNumber,
-        products, 
         accountHolderName,
-        telephone_consumer,
-        consumer_id,
-        post_code,
         description,
-        address,
       } = req.body;
 
       const referenceId = crypto.randomBytes(20).toString('hex')
 
       const data = {
-        "amount" : 90000,
+        "amount" : amount,
         "channelProperties" : {
-          "accountNumber" : "000000",
-          "accountHolderName" : "John Doe"
+          "accountNumber" : accountNumber.oString(),
+          "accountHolderName" : accountHolderName
         },
-        "description" : "Test Bank Payout",
-        "currency" : "PHP",
+        "description" : "Withdraw",
+        "currency" : "IDR",
         "type" : "DIRECT_DISBURSEMENT",
-        "referenceId" : "DISB-001",
-        "channelCode" : "PH_BDO"
+        "referenceId" : referenceId,
+        "channelCode" : channelCode
       }
       
       const response = await xenditPayoutClient.createPayout({
-          idempotencyKey: "DISB-1234",
+          idempotencyKey: referenceId,
           data
       })
+
+      console.log('response withdraw:', response)
       
       return res.json({status: 200, message: 'Withdraw successfully!!' , data: response});
       
     } catch (error) {
-      console.error('Disbursement Error:', error);
+      console.error('Withdraw Error:', error.message);
       return res.json({ status: 500, error: 'Server Error', message: error.message });
     }
 };
