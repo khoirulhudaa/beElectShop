@@ -4,7 +4,9 @@ const historyModelSeller = require('../models/historyInSellerModel')
 const removeHistoryConsumer = async (req, res) => {
     try {
         const { history_id, idCart } = req.params
-
+        console.log('history_id:', history_id)
+        console.log('idCart:', idCart)
+        
         const history = await historyModelConsumer.findOne({ history_id })
         if(history === 0) return res.json({ status: 404, message: 'History not found!' })
 
