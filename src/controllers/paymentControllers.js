@@ -86,12 +86,11 @@ const createPayment = async (req, res) => {
     const data = {
       "amount" : amount,
       "invoiceDuration" : 172800,
-      "externalId" : referenceId,
+      "externalId" : shop_id,
       "description" : description,
       "currency" : "IDR",
       "reminderTime" : 1,
       "successRedirectUrl": "https://elect-shop.vercel.app/successPayment",
-      "products": products
     }
 
     const response = await xenditInvoice.createInvoice({
