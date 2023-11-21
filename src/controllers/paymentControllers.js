@@ -29,11 +29,11 @@ const handlePaymentCallback = async (req, res) => {
 const disbursementPayment = async (req, res) => {
     try {
       const {
+        revenue_id,
         amount,
         channelCode,
         accountNumber,
         accountHolderName,
-        description,
       } = req.body;
 
       const referenceId = crypto.randomBytes(20).toString('hex')
@@ -56,9 +56,23 @@ const disbursementPayment = async (req, res) => {
           data
       })
 
-      console.log('response withdraw:', response)
-      
-      return res.json({status: 200, message: 'Withdraw successfully!!' , data: response});
+      if(response) {
+        const filter = { revenue_id }
+        const existingData = await revenueModel.findOne(filter);
+        
+        if (existingData) {
+          const balanceMinus = existingData.balance - 5000
+          const balanceNow = existingData.balance - balanceMinus
+
+          const set = { 
+            $inc: { balance: balanceNow }
+          }
+        }
+
+        console.log('response withdraw:', response)
+        await revenueModel.updateOne(filter, set)
+        return res.json({status: 200, message: 'Withdraw successfully!!' , data: response});
+      }
       
     } catch (error) {
       console.error('Withdraw Error:', error.message);
@@ -155,7 +169,8 @@ const updateDatabase = async (external_id, data) => {
       };
 
       const updateDataRevenue = {
-          $inc: {revenue: data.amount}
+          $inc: {revenue: data.amount},
+          $inc: {balance: data.amount}
       };
 
       let revenue
