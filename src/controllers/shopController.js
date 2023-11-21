@@ -4,7 +4,6 @@ const fs = require('fs')
 const path = require('path')
 const productModel = require('../models/productModel')
 const paymentMethodSchema = require('../models/methodePayment')
-const revenueAndSold = require('../models/revenueAndSoldModel');
 const crypto = require('crypto')
 
 const uploadDir = path.join(__dirname, '../uploads');
@@ -100,12 +99,10 @@ const createShop = async (req, res) => {
 
         const createPayment = new paymentMethodSchema(data)
         const createShopModel = new shopModel(createShopData);
-        const createRevenueAndSold = new revenueAndSold(dataRAS);
 
         const [paymentMethod, shop, ras] = await Promise.all([
-            createPayment.save(),
+            createPaymentMethod.save(),
             createShopModel.save(),
-            createRevenueAndSold.save()
         ]);
 
         // Check if all documents were saved successfully
@@ -117,9 +114,7 @@ const createShop = async (req, res) => {
                 return res.json({ status: 200, message: 'Failed to create payment!' });
             } else if (!shop) {
                 return res.json({ status: 200, message: 'Failed to create shop!' });
-            } else if (!ras) {
-                return res.json({ status: 200, message: 'Failed to create RAS!' });
-            }
+            } 
         }
         
     } catch (error) {

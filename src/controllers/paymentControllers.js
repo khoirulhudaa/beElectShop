@@ -1,4 +1,3 @@
-const revenueAndSold = require('../models/revenueAndSoldModel');
 const historyConsumeModel = require('../models/historyInConsumerModel');
 const historySellerModel = require('../models/historyInSellerModel');
 const paymentMethodModel = require('../models/methodePayment');
