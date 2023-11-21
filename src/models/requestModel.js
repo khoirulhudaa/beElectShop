@@ -1,22 +1,14 @@
 const mongoose = require('mongoose')
 
-const requestSchema = new mongoose.Schema({
-    request_id: {
+const revenueSchema = new mongoose.Schema({
+    revenue_id: {
         type: String,
         required: true
     },
-    messageRequest: {
-        type: String,
-        required: true
+    revenue: {
+        type: Number,
+        default: 0
     },
-    email_consumer: {
-        type: String,
-        required: true
-    },
-    created_at: {
-        type: Date,
-        default: new Date()
-    }
 })
 
-module.exports = mongoose.model('request', requestSchema)
+module.exports = mongoose.model('revenue', revenueSchema)
