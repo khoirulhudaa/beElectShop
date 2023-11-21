@@ -3,35 +3,45 @@ const historyModelSeller = require('../models/historyInSellerModel')
 
 const removeHistoryConsumer = async (req, res) => {
     try {
-        const { id } = req.params
+        const { history_id, idCart } = req.params
 
-        const equalHistory = await historyModelConsumer.findOne({ history_id: id })
-        if(equalHistory === 0) return res.json({ status: 404, message: 'History not found!' })
+        const history = await historyModelConsumer.findOne({ history_id })
+        if(history === 0) return res.json({ status: 404, message: 'History not found!' })
 
-        const deleteHistory = await historyModelConsumer.deleteOne({ history_id })
-        if(!deleteHistory) return res.json({ status: 404, message: 'Failed for delete history!' })
+        const indexProducts = history.products.findIndex(data => data.idCart === idCart)
+        if (productIndex === -1) {
+            return res.json({ status: 404, message: 'Product not found in history!' });
+        }
 
-        return res.json({ status: 200, message: 'Successfully remove history!' })
+        history.products.splice(indexProducts, 1)
+        await history.save();
+
+        return res.json({ status: 200, message: `Successfully remove history by idCart: ${idCart}!` })
 
     } catch (error) {
-        return res.json({ status: 500, message:'Failed to remove history!', error: error.mesage })
+        return res.json({ status: 500, message:'Failed to remove history!', error: error.message })
     }
 }
 
 const removeHistorySeller = async (req, res) => {
     try {
-        const { id } = req.params
+        const { history_id, idCart } = req.params
 
-        const equalHistory = await historyModelSeller.findOne({ history_id: id })
-        if(equalHistory === 0) return res.json({ status: 404, message: 'History not found!' })
+        const history = await historyModelSeller.findOne({ history_id })
+        if(history === 0) return res.json({ status: 404, message: 'History not found!' })
 
-        const deleteHistory = await historyModelSeller.deleteOne({ history_id })
-        if(!deleteHistory) return res.json({ status: 404, message: 'Failed for delete history!' })
+        const indexProducts = history.products.findIndex(data => data.idCart === idCart)
+        if (productIndex === -1) {
+            return res.json({ status: 404, message: 'Product not found in history!' });
+        }
 
-        return res.json({ status: 200, message: 'Successfully remove history!' })
+        history.products.splice(indexProducts, 1)
+        await history.save();
+
+        return res.json({ status: 200, message: `Successfully remove history by idCart: ${idCart}!` })
 
     } catch (error) {
-        return res.json({ status: 500, message:'Failed to remove history!', error: error.mesage })
+        return res.json({ status: 500, message:'Failed to remove history!', error: error.message })
     }
 }
 
