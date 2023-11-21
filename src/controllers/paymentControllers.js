@@ -14,7 +14,7 @@ const handlePaymentCallback = async (req, res) => {
     try {
         const callbackData = req.body;
         console.log('callback payment:', callbackData.status)
-        console.log('callback:', callbackData.products)
+        console.log('callback:', callbackData)
 
         await updateDatabase(callbackData.external_id, callbackData)
 
