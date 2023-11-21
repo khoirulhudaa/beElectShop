@@ -64,10 +64,10 @@ const createShop = async (req, res) => {
             return res.json({ status: 401, message: 'File Not Found' });
         }
 
-        const shop_id = crypto.randomBytes(20).toString('hex')
+        const id = crypto.randomBytes(20).toString('hex')
 
         const data = {
-            shop_id,
+            shop_id: id,
             payments: [
                 { bank_code: 'ID_BCA' },
                 { bank_code: 'ID_BRI' },
@@ -81,7 +81,7 @@ const createShop = async (req, res) => {
         }
         
         const createShopData = {
-            shop_id,
+            shop_id: id,
             seller_name,
             shop_name,
             seller_id,
@@ -95,7 +95,7 @@ const createShop = async (req, res) => {
         };
 
         const dataRAS = {
-            shop_id,
+            revenue_id: id,
         }
 
         const createPayment = new paymentMethodSchema(data)
