@@ -11,7 +11,7 @@ const removeHistoryConsumer = async (req, res) => {
         if(history === 0) return res.json({ status: 404, message: 'History not found!' })
 
         const indexProducts = history.products.findIndex(data => data.idCart === idCart)
-        if (productIndex === -1) {
+        if (indexProducts === -1) {
             return res.json({ status: 404, message: 'Product not found in history!' });
         }
 
