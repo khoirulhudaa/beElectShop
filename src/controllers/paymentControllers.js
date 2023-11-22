@@ -48,7 +48,6 @@ const disbursementPayment = async (req, res) => {
         "referenceId" : referenceId,
         "channelCode" : channelCode
       }
-      console.log('Withdraw :', data);
       
       const response = await xenditPayoutClient.createPayout({
           idempotencyKey: referenceId,
@@ -61,14 +60,12 @@ const disbursementPayment = async (req, res) => {
         
         if (existingData) {
           const set = { balance: existingData.balance - (amount - 3000) };
-          console.log('response withdraw:', response)
           await revenueModel.updateOne(filter, set)
           return res.json({status: 200, message: 'Withdraw successfully!!' , data: response});
         }
       }
       
     } catch (error) {
-      console.log('Withdraw Error:', error.message);
       return res.json({ status: 500, error: 'Server Error', message: error.message });
     }
 };
@@ -157,6 +154,9 @@ const updateDatabase = async (external_id, data) => {
       const filter = { history_id: external_id };
       const filterRevenue = { revenue_id: external_id };
 
+      console.log('history_id', external_id)
+      console.log('status', data.status)
+
       const updateData = {
           status: data.status,
       };
@@ -176,22 +176,12 @@ const updateDatabase = async (external_id, data) => {
       if(data.status === 'PAID') {
         const result = await revenueModel.updateOne(filterRevenue, updateDataRevenue);
         revenue = result.nModified; 
+
+        await historyConsumeModel.updateOne(filter, updateData)
+        await historySellerModel.updateOne(filter, updateData)
+        return res.json({ status: 200, message: 'Success update status payment!' })
+
       }
-
-      const [consumer, seller] = await Promise.all([
-        historyConsumeModel.updateOne(filter, updateData),
-        historySellerModel.updateOne(filter, updateData),
-      ])
-
-      if(!consumer.nModified) {
-        return res.json({ status: 500, message: 'Failed update history consumer!' })
-      }else if(!seller.nModified) {
-        return res.json({ status: 500, message: 'Failed update history seller!' })
-      }else if(revenue === 0) {
-        return res.json({ status: 500, message: 'Failed update revenue!' })
-      }
-
-      return res.json({ status: 200, message: 'Success update status payment!' })
 
   } catch (error) {
       return res.json({ status: 500, message: 'Error server!', error: error.message });
