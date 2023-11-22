@@ -163,20 +163,23 @@ const updateDatabase = async (external_id, data) => {
       const filter = { history_id: external_id };
       const filterRevenue = { revenue_id: external_id };
 
+      const data = await revenueModel.findOne({ revenue_id: external_id })
+      if(data === 0) return res.json({ status: 404, message: 'Revenue not found!' })
+
       const updateData = {
           status: data.status,
       };
 
       const updateDataRevenue = {
-          $inc: {revenue: data.amount},
-          $inc: {balance: data.amount}
+          revenue: data.revenue + data.amount,
+          balance: data.balance + data.amount
       };
 
-      let revenue
+      let revenueVariable
       
       if(data.status === 'PAID') {
         const result = await revenueModel.updateOne(filterRevenue, updateDataRevenue);
-        revenue = result.nModified; 
+        revenueVariable = result.nModified; 
       }
 
       const [consumer, seller] = await Promise.all([
@@ -189,7 +192,7 @@ const updateDatabase = async (external_id, data) => {
         return res.json({ status: 500, message: 'Failed update history consumer!' })
       }else if(!seller.nModified) {
         return res.json({ status: 500, message: 'Failed update history seller!' })
-      }else if(revenue === 0) {
+      }else if(revenueVariable === 0) {
         return res.json({ status: 500, message: 'Failed update revenue!' })
       }
 
