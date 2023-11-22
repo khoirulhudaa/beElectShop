@@ -60,12 +60,7 @@ const disbursementPayment = async (req, res) => {
         const existingData = await revenueModel.findOne(filter);
         
         if (existingData) {
-          const balanceMinus = amount - 3000
-          const balanceNow = existingData.balance - balanceMinus
-
-          const set = { 
-            $inc: { balance: balanceNow }
-          }
+          const set = { balance: existingData.balance - (amount - 3000) };
           console.log('response withdraw:', response)
           await revenueModel.updateOne(filter, set)
           return res.json({status: 200, message: 'Withdraw successfully!!' , data: response});
