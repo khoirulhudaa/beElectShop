@@ -53,7 +53,8 @@ const disbursementPayment = async (req, res) => {
           idempotencyKey: referenceId,
           data
       })
-
+      console.error('Withdraw response:', response);
+        
       if(response) {
         const filter = { revenue_id }
         const existingData = await revenueModel.findOne(filter);
