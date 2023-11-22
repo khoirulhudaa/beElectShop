@@ -151,7 +151,7 @@ const cancelOrder = async (req, res) => {
 
 const updateDatabase = async (external_id, data) => {
   try {
-      const filter = { history_id: external_id };
+      const filter = { shop_id: external_id };
       const filterRevenue = { revenue_id: external_id };
 
       console.log('history_id', external_id)
