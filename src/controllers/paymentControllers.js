@@ -39,7 +39,7 @@ const disbursementPayment = async (req, res) => {
       const data = {
         "amount" : amount,
         "channelProperties" : {
-          "accountNumber" : accountNumber.toString(),
+          "accountNumber" : String(accountNumber),
           "accountHolderName" : accountHolderName
         },
         "description" : "Withdraw",
