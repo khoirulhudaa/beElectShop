@@ -14,8 +14,6 @@ const xenditInvoice = new InvoiceClient({secretKey: 'xnd_development_LHt55GITF5F
 const handlePaymentCallback = async (req, res) => {
     try {
         const callbackData = req.body;
-        console.log('callback payment:', callbackData.status)
-        console.log('callback:', callbackData)
 
         await updateDatabase(callbackData.external_id, callbackData)
 
@@ -169,11 +167,14 @@ const updateDatabase = async (external_id, data) => {
 
       const data = await revenueModel.findOne({ revenue_id: external_id })
       if(!data) return res.json({ status: 404, message: 'Revenue not found!' })
+      console.log('data', data)
 
       const updateDataRevenue = {
         $inc: {revenue: data.amount},
         balance: data.balance + data.amount,
       };
+
+      console.log('updateDataRevenue', updateDataRevenue)
 
       let revenue
       
@@ -186,6 +187,8 @@ const updateDatabase = async (external_id, data) => {
         historyConsumeModel.updateOne(filter, updateData),
         historySellerModel.updateOne(filter, updateData),
       ])
+
+      console.log('revenue:', revenue)
       
 
       if(!consumer.nModified) {
