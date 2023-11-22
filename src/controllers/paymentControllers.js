@@ -48,12 +48,12 @@ const disbursementPayment = async (req, res) => {
         "referenceId" : referenceId,
         "channelCode" : channelCode
       }
+      console.log('Withdraw :', data);
       
       const response = await xenditPayoutClient.createPayout({
           idempotencyKey: referenceId,
           data
       })
-      console.error('Withdraw response:', response);
         
       if(response) {
         const filter = { revenue_id }
@@ -73,7 +73,7 @@ const disbursementPayment = async (req, res) => {
       }
       
     } catch (error) {
-      console.error('Withdraw Error:', error.message);
+      console.log('Withdraw Error:', error.message);
       return res.json({ status: 500, error: 'Server Error', message: error.message });
     }
 };
