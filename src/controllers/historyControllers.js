@@ -98,7 +98,7 @@ const getAllHistoryBySeller = async (req, res) => {
 const updateStatusHistory = async (req, res) => {
     try {
         
-        const { history_id } = req.params
+        const { history_id, status } = req.params
 
         const historyConsumer = await historyModelConsumer.findOne({ history_id })
         const historySeller = await historyModelSeller.findOne({ history_id })
@@ -106,12 +106,12 @@ const updateStatusHistory = async (req, res) => {
 
         const filter = {history_id}
         const set = {
-            status: 'PACK'
+            status
         }
 
         await historyModelConsumer.updateOne(filter, set)
         await historyModelSeller.updateOne(filter, set)
-        return res.json({ status: 200, message: 'Successfully pack!' })
+        return res.json({ status: 200, message: 'Successfully update status!' })
 
     } catch (error) {
         return res.json({ status: 500, message: 'Failed to get history!', error: error.message })
