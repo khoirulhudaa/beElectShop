@@ -180,7 +180,8 @@ const updateDatabase = async (external_id, data) => {
         await historyConsumeModel.updateOne(filter, updateData)
         await historySellerModel.updateOne(filter, updateData)
         return res.json({ status: 200, message: 'Success update status payment!' })
-
+      }else {
+        return res.json({ status: 200, message: `Status payment is ${data.status}!` })
       }
 
   } catch (error) {
