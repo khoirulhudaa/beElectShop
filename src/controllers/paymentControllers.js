@@ -61,7 +61,7 @@ const disbursementPayment = async (req, res) => {
         const existingData = await revenueModel.findOne(filter);
         
         if (existingData) {
-          const balanceMinus = existingData.balance - 5000
+          const balanceMinus = amount - 3000
           const balanceNow = existingData.balance - balanceMinus
 
           const set = { 
