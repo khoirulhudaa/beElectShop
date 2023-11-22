@@ -156,6 +156,7 @@ const removeShopById = async (req, res) => {
         
         await productModel.deleteMany({ shop_id });
         await paymentMethodSchema.deleteOne({ shop_id });
+        await revenueModel.deleteOne({ revenue_id: shop_id });
 
         return res.json({ status: 200, message: 'Successfully delete shop', data: equalShopId })
     
