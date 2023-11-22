@@ -41,7 +41,7 @@ const disbursementPayment = async (req, res) => {
       const data = {
         "amount" : amount,
         "channelProperties" : {
-          "accountNumber" : accountNumber.oString(),
+          "accountNumber" : accountNumber.toString(),
           "accountHolderName" : accountHolderName
         },
         "description" : "Withdraw",
@@ -67,11 +67,10 @@ const disbursementPayment = async (req, res) => {
           const set = { 
             $inc: { balance: balanceNow }
           }
+          console.log('response withdraw:', response)
+          await revenueModel.updateOne(filter, set)
+          return res.json({status: 200, message: 'Withdraw successfully!!' , data: response});
         }
-
-        console.log('response withdraw:', response)
-        await revenueModel.updateOne(filter, set)
-        return res.json({status: 200, message: 'Withdraw successfully!!' , data: response});
       }
       
     } catch (error) {
