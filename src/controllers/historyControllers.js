@@ -54,7 +54,7 @@ const getAllHistory = async (req, res) => {
         const { id } = req.params
         const filter = {
             $or: [
-                { seller_id: id },
+                { shop_id: id },
                 { consumer_id: id }
             ]
         };
