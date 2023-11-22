@@ -167,9 +167,12 @@ const updateDatabase = async (external_id, data) => {
           status: data.status,
       };
 
+      const data = await revenueModel.findOne({ revenue_id: external_id })
+      if(!data) return res.json({ status: 404, message: 'Revenue not found!' })
+
       const updateDataRevenue = {
-          $inc: {balance: data.amount},
-          $inc: {revenue: data.amount}
+        $inc: {revenue: data.amount},
+        balance: data.balance + data.amount,
       };
 
       let revenue
