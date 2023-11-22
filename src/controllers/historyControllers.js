@@ -95,9 +95,33 @@ const getAllHistoryBySeller = async (req, res) => {
     }
 }
 
+const updateStatusHistory = async (req, res) => {
+    try {
+        
+        const { history_id } = req.params
+
+        const historyConsumer = await historyModelConsumer.findOne({ history_id })
+        const historySeller = await historyModelSeller.findOne({ history_id })
+        if(historyConsumer === 0 || historySeller === 0) return res.json({ status: 404, message: 'History not found!' })
+
+        const filter = {history_id}
+        const set = {
+            status: 'PACK'
+        }
+
+        await historyModelConsumer.updateOne(filter, set)
+        await historyModelSeller.updateOne(filter, set)
+        return res.json({ status: 200, message: 'Successfully pack!' })
+
+    } catch (error) {
+        return res.json({ status: 500, message: 'Failed to get history!', error: error.message })
+    }
+}
+
 module.exports = {
     removeHistoryConsumer,
     removeHistorySeller,
     getAllHistory,
-    getAllHistoryBySeller
+    getAllHistoryBySeller,
+    updateStatusHistory
 }
