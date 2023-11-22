@@ -39,10 +39,14 @@ const removeHistorySeller = async (req, res) => {
             return res.json({ status: 404, message: 'Product not found in history!' });
         }
 
-        history.products.splice(indexProducts, 1)
-        await history.save();
-
-        return res.json({ status: 200, message: `Successfully remove history by idCart: ${idCart}!` })
+        if (history.products.length === 1) {
+            await historyModelSeller.deleteOne({ history_id });
+            return res.json({ status: 200, message: 'Successfully removed history document!' });
+        } else {
+            history.products.splice(indexProducts, 1)
+            await history.save();
+            return res.json({ status: 200, message: `Successfully removed product with idCart: ${idCart} from history!` });
+        }
 
     } catch (error) {
         return res.json({ status: 500, message:'Failed to remove history!', error: error.message })
