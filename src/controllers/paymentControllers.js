@@ -165,13 +165,12 @@ const updateDatabase = async (external_id, data) => {
           status: data.status,
       };
 
-      const data = await revenueModel.findOne({ revenue_id: external_id })
+      const dataRevenue = await revenueModel.findOne({ revenue_id: external_id })
       if(!data) return res.json({ status: 404, message: 'Revenue not found!' })
-      console.log('data', data)
 
       const updateDataRevenue = {
-        $inc: {revenue: data.amount},
-        balance: data.balance + data.amount,
+        revenue: dataRevenue.revenue + data.amount,
+        balance: dataRevenue.balance + data.amount,
       };
 
       console.log('updateDataRevenue', updateDataRevenue)
@@ -187,9 +186,6 @@ const updateDatabase = async (external_id, data) => {
         historyConsumeModel.updateOne(filter, updateData),
         historySellerModel.updateOne(filter, updateData),
       ])
-
-      console.log('revenue:', revenue)
-      
 
       if(!consumer.nModified) {
         return res.json({ status: 500, message: 'Failed update history consumer!' })
