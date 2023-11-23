@@ -151,7 +151,10 @@ const updateDatabase = async (external_id, data) => {
       };
 
       const dataRevenue = await revenueModel.findOne({ revenue_id: external_id })
-      if(!data) return res.json({ status: 404, message: 'Revenue not found!' })
+      if(!dataRevenue) {
+        console.log(dataRevenue)
+        return res.json({ status: 404, message: 'Revenue not found!' })
+      }
 
       const updateDataRevenue = {
         revenue: dataRevenue.revenue + data.amount,
@@ -162,12 +165,12 @@ const updateDatabase = async (external_id, data) => {
       
       if(data.status === 'PAID') {
         const result = await revenueModel.updateOne(filterRevenue, updateDataRevenue);
+        console.log('revenue', result)
         revenue = result.nModified; 
-        console.log('revenue', revenue)
         await historyConsumeModel.updateOne(filter, updateData)
         await historySellerModel.updateOne(filter, updateData)
-        return res.json({ status: 200, message: 'Success update status payment!' })
         console.log('revenue success')
+        return res.json({ status: 200, message: 'Success update status payment!' })
       }else {
         return res.json({ status: 200, message: `Status payment is ${data.status}!` })
       }
