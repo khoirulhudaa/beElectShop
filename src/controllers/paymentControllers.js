@@ -152,7 +152,6 @@ const updateDatabase = async (external_id, data) => {
 
       const dataRevenue = await revenueModel.findOne(filterRevenue)
       if(!dataRevenue) {
-        console.log('tak ada', dataRevenvar19ue)
         return res.json({ status: 404, message: 'Revenue not found!' })
       }
 
