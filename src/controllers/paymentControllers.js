@@ -139,20 +139,20 @@ const updateDatabase = async (external_id, data) => {
       const filter = { history_id: external_id };
 
       const filterCharacter = external_id.split('__')
-      const resultFilterCharacer = filterCharacter[1]
-      const filterRevenue = { revenue_id: resultFilterCharacer };
+      const resultFilterCharacters = filterCharacter[1]
+      const filterRevenue = { revenue_id: resultFilterCharacters };
 
       console.log('history_id', external_id)
-      console.log('revenue_id', resultFilterCharacer)
+      console.log('revenue_id', resultFilterCharacters)
       console.log('status', data.status)
 
       const updateData = {
           status: data.status,
       };
 
-      const dataRevenue = await revenueModel.findOne({ revenue_id: external_id })
+      const dataRevenue = await revenueModel.findOne(filterRevenue)
       if(!dataRevenue) {
-        console.log(dataRevenue)
+        console.log('tak ada', dataRevenvar19ue)
         return res.json({ status: 404, message: 'Revenue not found!' })
       }
 
