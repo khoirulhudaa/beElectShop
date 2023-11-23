@@ -15,7 +15,7 @@ const handlePaymentCallback = async (req, res) => {
     try {
         const callbackData = req.body;
 
-        await updateDatabase(callbackData.external_id, callbackData)
+        await updateDatabase(callbackData.external_id, callbackData, res)
 
         return res.json({ status: 200, data: callbackData });
 
@@ -134,7 +134,7 @@ const createPayment = async (req, res) => {
   }
 }
   
-const updateDatabase = async (external_id, data) => {
+const updateDatabase = async (external_id, data, res) => {
   try {
       const filter = { history_id: external_id };
 
@@ -146,10 +146,6 @@ const updateDatabase = async (external_id, data) => {
       console.log('revenue_id', resultFilterCharacters)
       console.log('status', data.status)
 
-      const updateData = {
-          status: data.status,
-      };
-
       const dataRevenue = await revenueModel.findOne(filterRevenue)
       if(!dataRevenue) {
         return res.json({ status: 404, message: 'Revenue not found!' })
@@ -160,18 +156,15 @@ const updateDatabase = async (external_id, data) => {
         balance: dataRevenue.balance + data.amount,
       };
 
-      let revenue
       
       if(data.status === 'PAID') {
-        const result = await revenueModel.updateOne(filterRevenue, updateDataRevenue);
+        await revenueModel.updateOne(filterRevenue, updateDataRevenue);
+        await historyConsumeModel.updateOne(filter, { status: 'PAID' })
+        await historySellerModel.updateOne(filter, { status: 'PAID' })
         console.log('revenue', result)
-        revenue = result.nModified; 
-        await historyConsumeModel.updateOne(filter, updateData)
-        await historySellerModel.updateOne(filter, updateData)
-        console.log('revenue success')
         return res.json({ status: 200, message: 'Success update status payment!' })
       }else {
-        console.log('BUKAN PAID')
+        console.log('NOT PAID!')
         return res.json({ status: 200, message: `Status payment is ${data.status}!` })
       }
 
