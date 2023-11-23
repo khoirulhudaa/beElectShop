@@ -91,7 +91,7 @@ const createPayment = async (req, res) => {
     const data = {
       "amount" : amount,
       "invoiceDuration" : 172800,
-      "externalId" : shop_id,
+      "externalId" : referenceId,
       "description" : description,
       "currency" : "IDR",
       "reminderTime" : 1,
@@ -151,7 +151,7 @@ const cancelOrder = async (req, res) => {
 
 const updateDatabase = async (external_id, data) => {
   try {
-      const filter = { shop_id: external_id };
+      const filter = { history_id: external_id };
       const filterRevenue = { revenue_id: external_id };
 
       console.log('history_id', external_id)
