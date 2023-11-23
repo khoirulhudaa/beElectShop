@@ -116,6 +116,7 @@ const updateStatusHistory = async (req, res) => {
         } else {
             await historyModelConsumer.deleteOne({ history_id })
             await historyModelSeller.deleteOne({ history_id })
+            return res.json({ status: 200, message: 'Successfully canceled!' })
         }
 
     } catch (error) {
