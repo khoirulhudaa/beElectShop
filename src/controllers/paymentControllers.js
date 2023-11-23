@@ -163,10 +163,11 @@ const updateDatabase = async (external_id, data) => {
       if(data.status === 'PAID') {
         const result = await revenueModel.updateOne(filterRevenue, updateDataRevenue);
         revenue = result.nModified; 
-
+        console.log('revenue', revenue)
         await historyConsumeModel.updateOne(filter, updateData)
         await historySellerModel.updateOne(filter, updateData)
         return res.json({ status: 200, message: 'Success update status payment!' })
+        console.log('revenue success')
       }else {
         return res.json({ status: 200, message: `Status payment is ${data.status}!` })
       }
