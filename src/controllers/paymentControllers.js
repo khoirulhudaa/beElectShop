@@ -91,7 +91,7 @@ const createPayment = async (req, res) => {
     const data = {
       "amount" : amount,
       "invoiceDuration" : 172800,
-      "externalId" : referenceId,
+      "externalId" : referenceId+'__'+shop_id,
       "description" : description,
       "currency" : "IDR",
       "reminderTime" : 1,
@@ -153,8 +153,6 @@ const updateDatabase = async (external_id, data) => {
         revenue: dataRevenue.revenue + data.amount,
         balance: dataRevenue.balance + data.amount,
       };
-
-      console.log('updateDataRevenue', updateDataRevenue)
 
       let revenue
       
