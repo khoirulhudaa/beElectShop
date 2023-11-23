@@ -172,6 +172,7 @@ const updateDatabase = async (external_id, data) => {
         console.log('revenue success')
         return res.json({ status: 200, message: 'Success update status payment!' })
       }else {
+        console.log('BUKAN PAID')
         return res.json({ status: 200, message: `Status payment is ${data.status}!` })
       }
 
