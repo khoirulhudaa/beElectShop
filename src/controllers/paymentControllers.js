@@ -136,10 +136,12 @@ const createPayment = async (req, res) => {
   
 const updateDatabase = async (external_id, data) => {
   try {
-      const filter = { history_id: external_id };
-
+    
       const filterCharacter = external_id.split('__')
       const resultFilterCharacters = filterCharacter[1]
+      const resultFilterCharacters2 = filterCharacter[0]
+      
+      const filter = { history_id: resultFilterCharacters2 };
       const filterRevenue = { revenue_id: resultFilterCharacters };
 
       console.log('history_id', external_id)
