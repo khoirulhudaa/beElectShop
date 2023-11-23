@@ -109,9 +109,14 @@ const updateStatusHistory = async (req, res) => {
             status
         }
 
-        await historyModelConsumer.updateOne(filter, set)
-        await historyModelSeller.updateOne(filter, set)
-        return res.json({ status: 200, message: 'Successfully update status!' })
+        if(status !== 'CANCELED') {
+            await historyModelConsumer.updateOne(filter, set)
+            await historyModelSeller.updateOne(filter, set)
+            return res.json({ status: 200, message: 'Successfully update status!' })
+        } else {
+            await historyModelConsumer.deleteOne({ history_id })
+            await historyModelSeller.deleteOne({ history_id })
+        }
 
     } catch (error) {
         return res.json({ status: 500, message: 'Failed to get history!', error: error.message })

@@ -134,21 +134,6 @@ const createPayment = async (req, res) => {
   }
 }
   
-
-const cancelOrder = async (req, res) => {
-  try {
-    const { external_id } = req.params;
-    const status = 'CANCEL'
-
-    updateDatabase(external_id, status)
-
-    res.status(200).json({ message: 'Order canceled successfully' });
-  } catch (error) {
-    console.error('Cancellation Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
 const updateDatabase = async (external_id, data) => {
   try {
       const filter = { history_id: external_id };
