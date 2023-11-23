@@ -227,7 +227,6 @@ const updatePaymentMethod = async (req, res) => {
 
 module.exports = {
     handlePaymentCallback,
-    cancelOrder,
     createPayment,
     disbursementPayment,
     getAllPaymentByShop,
