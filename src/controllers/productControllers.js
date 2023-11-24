@@ -8,6 +8,10 @@ const getAllProducts = async (req, res) => {
         const { shop_id, product_id } = req.params    
         const { brand, size, color, name } = req.query;
 
+        console.log('brand', brand)
+        console.log('size', size)
+        console.log('color', color)
+
         let filter = {}
 
         if (shop_id) filter.shop_id = shop_id
@@ -16,7 +20,7 @@ const getAllProducts = async (req, res) => {
         if (brand) filter.product_brand = brand;
         if (size) filter.product_size = size;
         if (color) filter.product_color = color;
-
+        
         let productResult = await productModel.find(filter)
         if(productResult.length === 0) return res.json({ status: 404, message: 'Product not found!' })
       
