@@ -146,10 +146,10 @@ const getAllShop = async (req, res) => {
 
 const getAllShopByShopID = async (req, res) => {
     try {
-        const { shop_id } = req.params
-        
-        const dataShop = await shopModel.findOne({ shop_id })
-        if(dataShop === 0) return res.json({ status: 404, message: 'Shop not found!' })
+        const { id } = req.params
+        console.log(id)
+        const dataShop = await shopModel.findOne({ shop_id: id })
+        if(!dataShop) return res.json({ status: 404, message: 'Shop not found!' })
         console.log(dataShop)
         return res.json({ status: 200, data: dataShop })
 
@@ -232,6 +232,6 @@ module.exports = {
     removeShopById,
     createShop,
     updateShop,
-    upload,
-    getAllShopByShopID
+    getAllShopByShopID,
+    upload
 }
