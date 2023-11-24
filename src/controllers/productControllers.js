@@ -8,18 +8,19 @@ const getAllProducts = async (req, res) => {
         const { shop_id, product_id } = req.params    
         const { brand, size, color, name } = req.query;
 
-        console.log('brand', brand)
-        console.log('size', size)
-        console.log('color', color)
-
         let filter = {}
 
         if (shop_id) filter.shop_id = shop_id
         if (product_id) filter.product_id = product_id
-        if (name) filter.product_name = name;
         if (brand) filter.product_brand = brand;
         if (size) filter.product_size = size;
         if (color) filter.product_color = color;
+        if (name) {
+            // Membuat ekspresi reguler dari nama yang diberikan
+            const regex = new RegExp(name, 'i');
+            // Menambahkan ekspresi reguler ke filter
+            filter.product_name = regex;
+        }
         
         let productResult = await productModel.find(filter)
         if(productResult.length === 0) return res.json({ status: 404, message: 'Product not found!' })
