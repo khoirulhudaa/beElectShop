@@ -149,8 +149,8 @@ const getAllShopByShopID = async (req, res) => {
         const { shop_id } = req.params
         
         const dataShop = await shopModel.findOne({ shop_id })
-        if(!dataShop) return res.json({ status: 404, message: 'Shop not found!' })
-
+        if(dataShop === 0) return res.json({ status: 404, message: 'Shop not found!' })
+        console.log(dataShop)
         return res.json({ status: 200, data: dataShop })
 
     } catch (error) {
