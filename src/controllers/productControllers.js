@@ -12,18 +12,18 @@ const getAllProducts = async (req, res) => {
 
         if (shop_id) filter.shop_id = shop_id
         if (product_id) filter.product_id = product_id
-        if (product_name) filter.product_name = name;
-        if (product_brand) filter.product_brand = brand;
-        if (product_size) filter.product_size = size;
-        if (product_color) filter.product_color = color;
+        if (name) filter.product_name = name;
+        if (brand) filter.product_brand = brand;
+        if (size) filter.product_size = size;
+        if (color) filter.product_color = color;
 
         let productResult = await productModel.find(filter)
-        if(!productResult) return res.json({ status: 404, message: 'Product not found!' })
+        if(productResult.length === 0) return res.json({ status: 404, message: 'Product not found!' })
       
         return res.json({ status: 200, data: productResult, message: 'All data product' })
 
     } catch (error) {
-        return res.json({ status: 500, message: error.message })
+        return res.json({ status: 500, message: 'Faild get all products!', error: error.message })
     }
 }
 
