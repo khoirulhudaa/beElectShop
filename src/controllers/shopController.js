@@ -64,7 +64,7 @@ const createShop = async (req, res) => {
             return res.json({ status: 401, message: 'File Not Found' });
         }
 
-        const id = crypto.randomBytes(20).toString('hex')
+        const id = crypto.randomBytes(5).toString('hex')
 
         const data = {
             shop_id: id,
