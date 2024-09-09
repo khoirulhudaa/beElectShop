@@ -95,7 +95,7 @@ const signInConsumer = async (req, res) => {
             return res.json({ status: 401, message: 'Incorrect password' });
         }
 
-        const token = jwt.sign({ consumer_id: consumer.consumer_id }, 'ElectShop', { expiresIn: '2h' });
+        const token = jwt.sign({ consumer_id: consumer.consumer_id }, 'ElectShop', { expiresIn: '12h' });
         return res.json({ status: 200, token, data: consumer });
         
     } catch (error) {
@@ -168,7 +168,7 @@ const signInSeller = async (req, res) => {
             return res.json({ status: 401, message: 'Incorrect password' });
         }
 
-        const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '1h' });
+        const token = jwt.sign({ seller_id: seller.seller_id }, 'ElectShop', { expiresIn: '12h' });
         if (!token) {
             return res.json({ status: 500, message: 'Error in token' });
         }
