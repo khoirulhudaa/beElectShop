@@ -214,7 +214,7 @@ const updatePaymentMethod = async (req, res) => {
   
     const results = await Promise.all(updatePromises);    
       
-    if (! results) {
+    if (!results) {
         return res.json({ status: 404, message: 'No payment methods were updated.', data: updates });
     }
 
