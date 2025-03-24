@@ -374,10 +374,12 @@ const forgotPassword = async (req, res) => {
         await Seller.updateOne(filter, set)
 
         const transporter = nodemailer.createTransport({
-            service: 'Gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
-                user: '',
-                pass: ''
+                user: 'developervalclass@gmail.com',
+                pass: 'zprtcezkbqqihwpz'
             }
         })
 
